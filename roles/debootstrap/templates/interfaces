@@ -1,0 +1,9 @@
+auto eth0
+{%if  ip is defined %}
+iface eth0 inet static
+  address {{ ip }}
+  {%if  gateway is defined %}gateway {{ gateway }}{% endif %}
+{% else %}
+iface eth0 inet dhcp
+{% endif %}
+

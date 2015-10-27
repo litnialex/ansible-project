@@ -1,0 +1,10 @@
+---
+- apt: name=proftpd-basic
+
+- template: src=proftpd.conf dest=/etc/proftpd/
+  notify: restart proftpd
+- template: src=conf.d/mod_ban.conf dest=/etc/proftpd/conf.d/
+  notify: restart proftpd
+
+- service: name=proftpd state=started enabled=yes
+

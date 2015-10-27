@@ -1,0 +1,4 @@
+---
+- get_url: url='http://hwraid.le-vert.net/debian/pool-wheezy/megactl_0.4.1+svn20090725.r6-5_amd64.deb' dest=./
+- apt: pkg=libc6-i386
+- apt: deb="./megactl_0.4.1+svn20090725.r6-5_amd64.deb" 

@@ -1,0 +1,14 @@
+---
+- name: Creating directory for host backup
+  file: dest='{{ dest }}/{{ domain }}/{{ inventory_hostname }}' state=directory
+  delegate_to: localhost
+
+- synchronize:
+    src: '{{ item }}'
+    dest: '{{ dest }}/{{ domain }}/{{ inventory_hostname }}'
+    set_remote_user: False
+    delete: yes
+    mode: pull
+    copy_links: yes
+  with_items: '{{ src }}'
+  ignore_errors: True

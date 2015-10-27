@@ -1,0 +1,37 @@
+---
+- apt: pkg={{ item }} update_cache=yes cache_valid_time=180
+  with_items: 
+    - bacula-fd
+
+- service: name=bacula-fd state=stopped
+
+- template: src=bacula-fd.conf.jinja2 dest=/etc/bacula/bacula-fd.conf backup=yes
+
+- template: src=client.conf.jinja2 dest=/etc/bacula/clients/{{ client_name }}-client.conf
+  delegate_to: "{{ groups['director'][0] }}"
+
+- service: state=restarted name=bacula-director
+  delegate_to: "{{ groups['director'][0] }}"
+
+- file: dest=/etc/bacula/cert state=directory
+
+- local_action: command ls ./cert/master.cert
+  sudo: no
+  register: result
+
+#- local_action: script make_key_pair.sh
+  #sudo: no
+  #when: result|failed
+
+- debug: "Key pair generated."
+  when: result|failed
+  tags:
+    - debug
+
+#- local_action: script make_fd_pair.sh {{ client_name }}
+  #sudo: no
+
+- copy: src=./cert/master.cert dest=/etc/bacula/cert/
+- copy: src=./cert/{{ client_name }}.pem dest=/etc/bacula/cert/
+
+- service: name=bacula-fd state=started

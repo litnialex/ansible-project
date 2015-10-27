@@ -1,0 +1,5 @@
+---
+debootstrap_specific_pkgs:
+- linux-generic
+
+debootstrap_pkgs: '{{ debootstrap_common_pkgs + debootstrap_specific_pkgs }}'

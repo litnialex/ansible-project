@@ -1,0 +1,60 @@
+---
+lang: en_US.UTF-8
+timezone: Europe/Moscow
+install_pkgs:
+  - cryptsetup
+  - dosfstools
+  - e2fsprogs
+  - ecryptfs-utils
+  - ethtool
+  - file
+  - findutils
+  - ftp
+  - gzip
+  - iftop
+  - iproute
+  - iptables
+  - iputils-arping
+  - iputils-ping
+  - lsof
+  - lvm2
+  - makedev
+  - mdadm
+  - mc
+  - mount
+  - nano
+  - ngrep
+  - ntpdate
+  - openssh-server
+  - pciutils
+  - rsync
+  - screen
+  - sdparm
+  - sed
+  - sshfs
+  - strace
+  - sudo
+  - sysstat
+  - tar
+  - tcpdump
+  - telnet
+  - traceroute
+  - unzip
+  - vim
+  - wget
+  - whois
+  - less
+  - locales
+  - aptitude
+  - python-apt
+  - python-simplejson
+  - iputils-tracepath
+  - isc-dhcp-client
+  - iotop
+  - lsb-release
+  - p7zip
+  - procps
+  - psmisc
+  - dnsutils
+  - bsd-mailx
+

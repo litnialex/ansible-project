@@ -1,0 +1,5 @@
+---
+- mysql_db: name={{ trac_db_name }} encoding=utf8 collation=utf8_bin
+- mysql_user: name={{ trac_db_user }} password={{ trac_db_password }} priv='{{ trac_db_name }}.*:ALL'
+
+

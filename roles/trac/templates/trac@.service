@@ -1,0 +1,17 @@
+[Unit]
+Description=Trac project %I
+After=network.target auditd.service
+Documentation=http://trac.edgewall.org/
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/tracd -p 54080 /srv/trac/%I --user=trac --group=trac
+Restart=always
+RestartSec=2
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

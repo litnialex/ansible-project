@@ -1,0 +1,10 @@
+---
+proftpd_port: 21
+proftpd_maxinstances: 5
+
+#set to NONE to disable
+proftpd_transferlog: /var/log/proftpd/xferlog
+proftpd_bantable: /var/log/proftpd/bantable
+
+timezone: Europe/Moscow
+

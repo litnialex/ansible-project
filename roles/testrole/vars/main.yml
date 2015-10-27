@@ -1,0 +1,16 @@
+---
+somelist:
+- d
+- e
+testlist2: "{{ testlist + somelist }}"
+
+testvar: "defined in main.yml"
+
+custom_env:
+ test_env2: asdfasdf 
+
+#why this fucken shit doesn't work?
+#vars_files:
+#  - "../testuser.yml"
+
+#include: "testset.yml"

@@ -1,0 +1,6 @@
+install_pkgs:
+ - atftpd
+ - syslinux-common
+
+pxelinux_path: /usr/lib/syslinux/pxelinux.0
+

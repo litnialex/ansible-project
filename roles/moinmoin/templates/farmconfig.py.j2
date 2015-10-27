@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+
+wikis = [
+{% for wiki in moinmoin_farm %}
+  ("{{wiki.module}}", r"{{ wiki.regexp }}"),
+{% endfor %}
+]
+
+import os
+from MoinMoin.config import multiconfig, url_prefix_static
+  
+class FarmConfig(multiconfig.DefaultConfig):
+  wikiconfig_dir = os.path.abspath(os.path.dirname(__file__))
+  data_underlay_dir = os.path.join('{{ data_dir }}', 'underlay', '')
+
+  superuser = [u'LitniAlex']
+  acl_rights_before = u"LitniAlex:read,write,delete,revert,admin"
+  acl_rights_default = u'Known:read,write,delete,revert,admin All:none'
+
+  mail_smarthost = 'mx.niisa.ru'
+  mail_from = u'Wiki <wiki@niisa.ru>'
+  mail_login = 'wiki@niisa.ru redeathmokOnHys'
+
+  page_front_page = u'Главная'
+  navi_bar = [
+    u'%(page_front_page)s',
+    u'RecentChanges',
+    u'TitleIndex',
+    u'FindPage',
+    u'HelpContents',
+    u'НенаписанныеСтраницы',
+  ]
+  theme_default = 'modern'
+  language_default = 'ru'
+
+  page_category_regex = ur'(?P<all>Категория(?P<key>\S+))'
+  page_dict_regex = ur'(?P<all>(?P<key>\S+)Dict)'
+  page_group_regex = ur'(?P<all>(?P<key>\S+)Group)'
+  page_template_regex = ur'(?P<all>Шаблон(?P<key>\S+))'
+
+  show_hosts = 1
+
+  logo_string = u'<img src="http://niisa.ru/content/img/bg.gif" alt="MoinMoin Logo" height=100>'
+  show_interwiki = 1

@@ -1,0 +1,8 @@
+Host *
+  SendEnv LANG LC_*
+  HashKnownHosts yes
+  GSSAPIAuthentication yes
+  GSSAPIDelegateCredentials no
+  Port {{ ssh_listen_port }}
+  Compression yes
+  StrictHostKeyChecking no

@@ -1,0 +1,5 @@
+install_pkgs:
+ - atftpd
+ - pxelinux
+
+pxelinux_path: /usr/lib/PXELINUX/pxelinux.0

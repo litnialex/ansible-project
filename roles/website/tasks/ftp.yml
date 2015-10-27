@@ -1,0 +1,6 @@
+- apt: state=installed pkg=proftpd-basic
+
+- template: dest=/etc/proftpd/proftpd.conf src=proftpd.conf.j2
+  notify: reload proftpd
+
+- user: name='{{ owner }}' uid='{{ uid }}' home='{{ document_root }}/{{ owner }}' group='{{ apache2_user }}' password='{{ password }}' shell=/bin/false

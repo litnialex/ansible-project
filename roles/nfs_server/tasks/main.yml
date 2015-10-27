@@ -1,0 +1,4 @@
+- apt: state=installed name=nfs-kernel-server
+- copy: dest=/etc/exports content="/srv/nfs *(ro,async,no_subtree_check,no_root_squash,fsid=101)"
+  notify: restart nfs-kernel-server
+- service: state=started name=nfs-kernel-server

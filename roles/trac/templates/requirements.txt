@@ -1,0 +1,14 @@
+Genshi
+Pillow
+Pygments
+Trac
+TracAccountManager
+argparse
+graphviz
+html5lib
+pisa
+#psycopg2
+pyPdf
+reportlab
+six
+wsgiref

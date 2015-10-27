@@ -1,0 +1,13 @@
+---
+dhcp_common_default_lease_time: 600
+dhcp_common_max_lease_time: 7200
+dhcp_common_ddns_update_style: none
+dhcp_common_authoritative: true
+dhcp_common_log_facility: daemon
+configure_apparmor: false
+dhcp_common_enable_pxe_boot: false
+dhcp_interfaces:
+dhcp_subnets: []
+dhcp_hosts: []
+dhcp_classes: []
+dhcp_shared_networks: []

@@ -1,0 +1,16 @@
+{% if first_run is defined %}
+Port 22
+{% endif %}
+Port {{ ssh_listen_port|default('22') }}
+Protocol 2
+AddressFamily inet
+AuthorizedKeysFile /etc/ssh/keys/%u
+ChallengeResponseAuthentication no
+PasswordAuthentication {{ first_run | default('no') }}
+UsePAM yes
+Subsystem sftp internal-sftp
+GatewayPorts clientspecified
+PermitTunnel yes
+X11Forwarding yes
+ClientAliveInterval 40
+LogLevel ERROR

@@ -1,0 +1,22 @@
+---
+debootstrap_hostname: debootstrapped
+debootstrap_path: /srv/nfs
+debootstrap_os: debian
+debootstrap_os_version: jessie
+debootstrap_common_pkgs:
+- locales
+- iproute
+- isc-dhcp-client
+- openssh-server
+- python-apt
+- python-simplejson
+- grub-pc
+- vim
+- screen
+- rsync
+- sudo
+- mdadm
+- lvm2
+- pciutils
+- vlan
+- ifenslave

@@ -1,0 +1,5 @@
+---
+debootstrap_specific_pkgs:
+- linux-image-amd64
+
+debootstrap_pkgs: '{{ debootstrap_common_pkgs + debootstrap_specific_pkgs }}'

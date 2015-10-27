@@ -1,0 +1,7 @@
+---
+- apt: pkg=postfix
+- lineinfile: "dest=/etc/aliases regexp='^root.*' line='root:  root@{{ mail_domain | default(domain) }}'"
+  notify: newaliases
+  when: mail_domain is defined or domain != 'private'
+- template: dest=/etc/postfix/main.cf src=postfix/main.cf
+  notify: restart postfix

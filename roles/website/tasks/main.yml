@@ -1,0 +1,19 @@
+---
+- apt: state=installed pkg=apache2-mpm-prefork
+- apt: state=installed pkg=libapache2-mod-php5
+
+- mysql_user: name='{{ owner }}' password='{{ db_password }}' priv='{{ owner }}.*:ALL'
+  when: db_password is defined
+
+- shell: mysql < '/var/www/{{ owner }}/mysql.dump'
+  when: restore is defined
+
+- include: ftp.yml
+  when: uid is defined
+
+- template: src='{{ item }}' dest='/etc/apache2/sites-enabled/{{ name }}.conf'
+  with_first_found:
+    - '{{ name }}.conf'
+    - apache2.conf.j2
+  notify: reload apache2
+  when: name is defined

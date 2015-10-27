@@ -1,0 +1,2 @@
+- name: restart atftpd
+  service: state=restarted name=atftpd

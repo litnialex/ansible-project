@@ -1,0 +1,31 @@
+- name: install debootstrap
+  apt: state=installed name=debootstrap
+
+- name: include os specific variables
+  include_vars: 'os_{{ debootstrap_os }}.yml'
+
+- stat: path="{{ debootstrap_path }}/etc"
+  register: debootstrap_etc
+
+- shell: "debootstrap --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ http://mirror.yandex.ru/{{ debootstrap_os }}"
+  when: not debootstrap_etc.stat.exists
+
+- name: setting hostname
+  copy: dest="{{ debootstrap_path }}/etc/hostname" content="{{ debootstrap_hostname }}.{{ domain }}"
+
+- name: generating network/interfaces
+  template: src="interfaces" dest="{{ debootstrap_path }}/etc/network/interfaces"
+
+- name: setting root password
+  lineinfile:
+    dest: "{{ debootstrap_path }}/etc/shadow"
+    state: present
+    regexp: '^root.*'
+    line: 'root:{{ root_password }}:16570:0:99999:7:::'
+
+- name: set ssh PermitRootLogin yes
+  lineinfile:
+    dest: "{{ debootstrap_path }}/etc/ssh/sshd_config"
+    state: present
+    regexp: '^PermitRootLogin.*'
+    line: 'PermitRootLogin yes'

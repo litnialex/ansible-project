@@ -1,0 +1,40 @@
+---
+#- hosts: trac_servers
+#  roles:
+#  - mysql
+
+- include: mysql.yml
+  when: trac_db_engine == 'mysql'
+
+- apt: state=installed pkg='{{ item }}'
+  with_items:
+  - python-pip
+#  - python-virtualenv 
+  - libjpeg-dev
+  - zlib1g-dev
+  - python-dev
+  - python-babel #localization doesn't work with latest babel installed with pip
+  - subversion
+  - python-subversion
+
+- user: name=trac uid=1033 shell=/bin/bash home='{{ trac_install_path }}'
+
+- template: dest=/etc/profile.d/ src=trac_env.sh
+- template: dest={{ trac_install_path }}/ src=requirements.txt
+- template: dest={{ trac_install_path }}/ src=trac_inherit.ini
+
+# didn't work within virtualenv. I don't like it anyway
+#- pip: requirements='{{ trac_install_path }}/requirements.txt' virtualenv='{{ trac_install_path }}' virtualenv_site_packages=yes
+- pip: requirements='{{ trac_install_path }}/requirements.txt'
+
+# trac-admin it initenv IT {{ trac_db_engine }}://{{ trac_db_user }}:{{ trac_db_password }}@localhost/{{ trac_db_name }}
+# trac-admin /path/to/myproject permission add admin TRAC_ADMIN
+#
+# # Created repository "ansible" in Trac
+# svnadmin create /srv/trac/svn/ansible/
+# trac@guru2:~$ svnadmin create /srv/trac/svn/ansible/
+# trac@guru2:~$ mkdir -p ansible/roles
+# trac@guru2:~$ svn import ansible/ file:///srv/trac/svn/ansible/ -m "initial import"
+# trac@guru2:~$ trac-admin /srv/trac/it repository resync "ansible"
+#
+#

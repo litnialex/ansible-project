@@ -1,0 +1,43 @@
+http_port 63128
+
+auth_param digest program /usr/lib64/squid/digest_pw_auth -c /etc/squid/passwd
+auth_param digest realm Proxy
+auth_param digest children 1
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+acl authenticated proxy_auth REQUIRED
+
+{% for ip in ip_aliases %}
+acl dst_{{ ip }} myip {{ ip }}/32
+tcp_outgoing_address {{ ip }} dst_{{ ip }}
+{% endfor %}
+
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access deny !authenticated
+http_access allow all
+
+# We recommend you to use at least the following line.
+hierarchy_stoplist cgi-bin ?
+
+# Add any of your own refresh_pattern entries above these.
+refresh_pattern ^ftp:           1440    20%     10080
+refresh_pattern ^gopher:        1440    0%      1440
+refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
+refresh_pattern .               0       20%     4320
+
+request_header_access Cache-Control deny all
+request_header_access X-Forwarded-For deny all
+via off
+cache deny all

@@ -1,0 +1,30 @@
+<VirtualHost {{ virtualhost }}>
+  ServerName {{ name }}
+  ServerAlias *.{{ name }}
+  ServerAdmin webmaster@{{ name }}
+
+  DocumentRoot {{ document_root }}/{{ owner }}/{{ name }}/html/
+
+  <Directory />
+    AllowOverride None
+  </Directory>
+
+  <Directory {{ document_root }}/{{ owner }}/{{ name }}/html/>
+    Options Indexes MultiViews
+    AllowOverride Limit AuthConfig
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  <IfModule mod_php5.c>
+    AddType application/x-httpd-php .php
+    php_flag safe_mode On
+    php_flag safe_mode_gid Off
+    php_flag log_errors On
+    php_flag register_globals Off
+  </IfModule>           
+
+  ErrorLog {{ document_root }}/{{ owner }}/{{ name }}/logs/error.log
+  CustomLog {{ document_root }}/{{ owner }}/{{ name }}/logs/access.log combined
+
+</VirtualHost>

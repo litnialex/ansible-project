@@ -1,0 +1,6 @@
+- name: reload apache2
+  service: name=apache2 state=reloaded
+
+- name: reload proftpd
+  service: name=proftpd state=reloaded
+

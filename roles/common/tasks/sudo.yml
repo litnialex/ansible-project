@@ -1,0 +1,16 @@
+- name: Set NOPASSWD For Sudo Group
+  lineinfile: dest=/etc/sudoers state=present regexp='^%sudo.*ALL\=' line='%sudo ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
+
+- name: copy sudoers.d/admin 
+  template: src=sudoers.d/admin mode=0440 dest=/etc/sudoers.d/
+
+- name: include sudoers.d in sudoers
+  lineinfile: dest=/etc/sudoers state=present regexp='^#include .*' line='#include /etc/sudoers.d/admin' validate='visudo -cf %s'
+
+# only since sudo 1.8
+#- lineinfile: dest=/etc/sudoers state=present regexp='^#includedir.*' line='#includedir /etc/sudoers.d' validate='visudo -cf %s'
+
+- name: Disable mail_always
+  lineinfile: dest=/etc/sudoers state=absent regexp='.*mail_always.*' validate='visudo -cf %s'
+
+

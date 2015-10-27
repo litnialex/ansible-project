@@ -1,0 +1,35 @@
+- name: Set Hostname
+  hostname: name='{{inventory_hostname}}.{{domain}}'
+
+- name: Set Timezone
+  file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
+
+- name: Install Locales
+  apt: pkg=locales 
+
+# some more chesk without this dirty hacks
+#- name: create locale gen file
+#  copy: dest=/etc/locale.gen content="en_US.UTF-8 UTF-8\n"
+
+- name: Set Lang
+  template: dest=/etc/default/locale src=default/locale
+
+- name: Generate Locale
+  locale_gen: name={{ lang }}
+
+- name: Set Root Password
+  user: name=root password="{{ root_password }}" update_password=always
+
+- name: Setup Environment
+  lineinfile: dest='/etc/environment' line='{{ item.key }}={{ item.value }}' regexp='{{ item.key }}=.*' create=yes
+  with_dict: "{{ custom_env | default('{}') }}"
+
+- name: Set screenrc
+  template: dest=/etc/screenrc src=screenrc
+
+- name: Copy Vim Config
+  template: src=vim/vimrc.local dest=/etc/vim/
+
+- name: Copy Rsync Config
+  template: src=rsyncd.conf dest=/etc/
+

@@ -1,0 +1,5 @@
+---
+document_root: /var/www
+apache2_user: www-data
+#virtualhost: '{{ ansible_default_ipv4.address }}:80'
+virtualhost: '*:80'

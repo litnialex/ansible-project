@@ -1,0 +1,68 @@
+// {{ ansible_managed }}
+
+acl "private_nets" {
+  127.0.0.0/8;
+  10.0.0.0/8;
+  172.16.0.0/12;
+  192.168.0.0/16;
+  };
+
+options {
+  directory "{{ bind_base_zones_path }}";
+  version "Guess";
+  listen-on-v6 { none; };
+  auth-nxdomain no;    // conform to RFC1035
+  edns-udp-size 512;
+  //query-source address * port 53;
+  query-source address * port *;
+  transfer-source *;
+  notify-source *;
+  notify yes;
+  zone-statistics yes;
+  allow-query { any; };   // This is the default
+  recursion {{ bind_config_recursion }};
+
+  allow-recursion {
+    private_nets;
+{% for allowed_server in bind_config_allow_recursion %}
+    {{ allowed_server }};
+{% endfor %}
+  };
+
+  allow-transfer {
+{% for allow_transfer in bind_config_master_allow_transfer %}
+    {{ allow_transfer }};
+{% endfor %}
+  };
+
+{% if bind_config_master_also_notify %}
+  also-notify {
+{% for notify_server in bind_config_master_also_notify %}
+    {{ notify_server }};
+{% endfor %}
+  };
+{% endif %}
+
+{% if bind_config_master_forwarders %}
+  forwarders {
+{% for forwarders in bind_config_master_forwarders %}
+    {{ forwarders }};
+{% endfor %}
+  };
+{% endif %}
+
+};
+
+server 0.0.0.0/0 { edns-udp-size 512;};
+
+logging {
+  category "lame-servers" {null; };
+  category default { default_log; };
+  category general { default_log; };
+  channel default_log {
+    file "{{ bind_log_path }}/named.log" versions 5 size 10M;
+    print-time yes;
+    print-severity yes;
+    print-category yes;
+  };
+};

@@ -1,0 +1,3 @@
+---
+cacti_db_password: 'default-U7Viqb!nx'
+cacti_db_dump_path: '/var/lib/cacti/mysql.dump'

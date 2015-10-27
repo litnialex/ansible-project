@@ -1,0 +1,5 @@
+check process asterisk with pidfile /var/run/asterisk/asterisk.pid
+  start program = "/etc/init.d/asterisk start"
+  stop  program = "/etc/init.d/asterisk stop"
+  if failed host 127.0.0.1 port 5061 with timeout 5 seconds then restart
+

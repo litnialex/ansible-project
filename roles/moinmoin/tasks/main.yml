@@ -1,0 +1,35 @@
+---
+#ToDo: restart moinmoin on farmconfig changes
+
+- apt: pkg={{ item }} state=installed
+  with_items:
+    - python-moinmoin
+
+- user: name=moinmoin uid=1115
+
+# USE APACHE ROLE
+#- file: src=/etc/apache2/mods-available/'{{ item }}' dest=/etc/apache2/mods-enabled/'{{ item }}' state=link
+#  with_items:
+#    - proxy.load
+#    - proxy_http.load
+#  notify: reload apache2
+#- template: src='apache2.conf.j2' dest='/etc/apache2/sites-enabled/{{ item.name }}.conf'
+#  with_items: wikis
+#  notify: reload apache2
+
+- name: copy farmconfig template
+  template: src=farmconfig.py.j2 dest=/etc/moin/farmconfig.py
+
+- name: copy wikiconfig template
+  template: src=wikiconfig.py.j2 dest='/etc/moin/{{ item.module }}.py'
+  with_items: moinmoin_farm
+
+#- name: add bacula job for backup
+#  template: src=bacula.conf.j2 dest=/etc/bacula/conf.d/jobs/moinmoin 
+#  delegate_to: '{{ bacula_director }}'
+#  notify: reload bacula_director
+
+- lineinfile: dest=/etc/rc.local line='moin server standalone --port=1080  --pidfile=/var/run/moinmoin.pid --user=moinmoin --group=moinmoin --start' regexp='^moin.*' insertbefore='^exit.*'
+
+# http://localhost:1080/LanguageSetup?action=language_setup&target=Russian--all_pages.zip&language=Russian
+# then restart moin

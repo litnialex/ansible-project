@@ -1,0 +1,21 @@
+---
+- name: Gather Facts
+  setup:
+
+- include_vars: '{{ item }}'
+  with_first_found:
+    - 'os_{{ ansible_os_family }}.yml'
+    - os_default.yml
+
+- name: Create SSH Keys Dir
+  file: dest=/etc/ssh/keys/ state=directory
+
+- name: SSH Copy Root Key
+  template: dest=/etc/ssh/keys/root src=ssh/keys/root
+
+- name: SSH Server Config File
+  template: src=ssh/sshd_config dest=/etc/ssh/sshd_config validate='sshd -t -f %s'
+  notify: restart ssh
+
+- name: SSH Client Config File
+  template: src=ssh/ssh_config dest=/etc/ssh/ssh_config

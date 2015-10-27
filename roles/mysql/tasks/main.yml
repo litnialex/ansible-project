@@ -1,0 +1,13 @@
+---
+- apt: pkg={{ item }} state=installed
+  with_items:
+    - mysql-server
+    - python-mysqldb
+    - php5-mysql
+
+- template: dest=/etc/mysql/my.cnf src=my.cnf backup=yes
+  notify: restart mysql
+
+- template: dest=/etc/cron.d/mysqldump src=cronfile
+
+- file: dest=/root/.my.cnf src=/etc/mysql/debian.cnf state=link

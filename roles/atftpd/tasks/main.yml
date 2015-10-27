@@ -1,0 +1,44 @@
+---
+- setup:
+  when: ansible_distribution is not defined
+
+- include_vars: '{{ item }}'
+  with_first_found:
+    - 'os_{{ ansible_distribution }}.yml'
+    - os_default.yml
+
+- apt: state=installed name='{{ item }}'
+  with_items: '{{ install_pkgs }}'
+
+- template: dest=/etc/default/atftpd src=atftpd
+  notify: restart atftpd
+
+- file: dest=/srv/nfs/boot/pxelinux.cfg state=directory
+
+- file: dest=/srv/nfs/boot/pxelinux.0 src='{{ pxelinux_path }}' state=link force=yes
+
+- template: dest=/srv/nfs/boot/pxelinux.cfg/default src=pxelinux.cfg force=yes
+
+- file: mode=a+rX dest=/srv/nfs/boot/ recurse=yes
+
+- name: Stop inetutils-inetd service
+  service: name=inetutils-inetd state=stopped
+
+- name: Disable inetutils-inetd service
+  service: name=inetutils-inetd enabled=no
+
+- name: Start the atftpd service
+  service: name=atftpd state=started
+
+- name: Enable the atftpd service
+  service: name=atftpd enabled=yes
+
+
+#- lineinfile: line='MODULES=netboot' regexp='^MODULES.*'
+#- shell: update-initramfs -b /srv/nfs/boot/ -c -k "{{ ansible_kernel }}" -v
+#  register: result
+#- debug: var=result
+#- synchronize: dest='/srv/nfs/boot/vmlinuz-{{ ansible_kernel }}' src='/boot/vmlinuz-{{ ansible_kernel }}'
+#- lineinfile: line='MODULES=most' regexp='^MODULES.*'
+#- shell: update-initramfs -b /srv/nfs/boot/ -c -k "{{ ansible_kernel }}" -v
+

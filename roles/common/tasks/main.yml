@@ -1,0 +1,22 @@
+---
+- include: basic.yml
+  tags: basic
+
+- include: install.yml
+  tags: install
+
+- include: sudo.yml
+  tags: sudo
+
+- include: ssh.yml
+  tags: ssh
+
+- include: snmp.yml
+  when: snmp_community is defined
+  tags: snmp
+
+- include: postfix.yml
+  when:
+  - '"mail_servers" not in {{ group_names }}'
+  - domain != 'private'
+  tags: postfix

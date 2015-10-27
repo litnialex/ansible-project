@@ -1,0 +1,4 @@
+---
+dependencies:
+- role: mysql
+  when: trac_db_engine == 'mysql'

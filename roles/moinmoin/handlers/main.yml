@@ -1,0 +1,7 @@
+- name: reload apache2
+  service: name=apache2 state=reloaded
+
+- name: reload bacula_director
+  service: name=bacula-director state=reloaded
+  delegate_to: '{{ bacula_director }}'
+

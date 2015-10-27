@@ -1,0 +1,6 @@
+trac_install_path: /srv/trac
+trac_db_engine: mysql
+trac_db_name: trac
+trac_db_user: trac
+trac_db_password: ChangeMe-Vikjedyeb2
+

@@ -1,0 +1,23 @@
+---
+- name: create destination directory
+  file:
+    dest: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}"
+    state: directory
+
+- name: download CentOS vmlinuz
+  uri:
+    url: "{{ centos.mirror_url }}/{{ centos.ver }}/os/{{ centos.arch }}/images/pxeboot/vmlinuz" 
+    dest: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}/"
+    creates: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}/vmlinuz"
+
+- name: download CentOS initrd.img 
+  uri:
+    url: "{{ centos.mirror_url }}/{{ centos.ver }}/os/{{ centos.arch }}/images/pxeboot/initrd.img"
+    dest: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}"
+    creates: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}/initrd.img"
+
+- name: copy kickstart.conf
+  template:
+    dest: "{{ tftp_root }}/centos/{{ centos.ver }}/{{ centos.arch }}/kickstart.conf"
+    src: centos-kickstart.conf
+    force: yes

@@ -13,13 +13,14 @@
 - template: dest=/etc/default/atftpd src=atftpd
   notify: restart atftpd
 
-- file: dest=/srv/nfs/boot/pxelinux.cfg state=directory
+- file: dest={{ tftp_root }}/pxelinux.cfg state=directory
 
-- file: dest=/srv/nfs/boot/pxelinux.0 src='{{ pxelinux_path }}' state=link force=yes
+- file: dest={{ tftp_root }}/{{ item | basename }} src='{{ item }}' state=link force=yes
+  with_items: '{{ pxe_files }}'
 
-- template: dest=/srv/nfs/boot/pxelinux.cfg/default src=pxelinux.cfg force=yes
+- template: dest={{ tftp_root }}/pxelinux.cfg/default src=pxelinux.cfg force=yes backup=yes
 
-- file: mode=a+rX dest=/srv/nfs/boot/ recurse=yes
+- file: mode=a+rX dest={{ tftp_root }}/ recurse=yes
 
 - name: Stop inetutils-inetd service
   service: name=inetutils-inetd state=stopped
@@ -33,12 +34,15 @@
 - name: Enable the atftpd service
   service: name=atftpd enabled=yes
 
+- include: centos-install.yml
+  when: centos.ver is defined
+  tags: centosinstall
 
 #- lineinfile: line='MODULES=netboot' regexp='^MODULES.*'
-#- shell: update-initramfs -b /srv/nfs/boot/ -c -k "{{ ansible_kernel }}" -v
+#- shell: update-initramfs -b {{ tftp_root }}/ -c -k "{{ ansible_kernel }}" -v
 #  register: result
 #- debug: var=result
-#- synchronize: dest='/srv/nfs/boot/vmlinuz-{{ ansible_kernel }}' src='/boot/vmlinuz-{{ ansible_kernel }}'
+#- synchronize: dest='{{ tftp_root }}/vmlinuz-{{ ansible_kernel }}' src='/boot/vmlinuz-{{ ansible_kernel }}'
 #- lineinfile: line='MODULES=most' regexp='^MODULES.*'
-#- shell: update-initramfs -b /srv/nfs/boot/ -c -k "{{ ansible_kernel }}" -v
+#- shell: update-initramfs -b {{ tftp_root }}/ -c -k "{{ ansible_kernel }}" -v
 

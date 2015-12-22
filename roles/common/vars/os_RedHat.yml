@@ -1,2 +1,3 @@
 ---
 ssh_service_name: sshd
+lang_file: /etc/sysconfig/i18n

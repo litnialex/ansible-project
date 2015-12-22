@@ -6,3 +6,6 @@ Host *
   Port {{ ssh_listen_port }}
   Compression yes
   StrictHostKeyChecking no
+  ServerAliveInterval 15
+  ServerAliveCountMax 2
+

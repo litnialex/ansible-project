@@ -1,5 +1,12 @@
 install_pkgs:
  - atftpd
  - pxelinux
+ - syslinux-common
+ - memtest86+
 
-pxelinux_path: /usr/lib/PXELINUX/pxelinux.0
+pxe_files:
+- /usr/lib/PXELINUX/pxelinux.0
+- /usr/lib/syslinux/modules/bios/ldlinux.c32
+- /usr/lib/syslinux/modules/bios/menu.c32
+- /usr/lib/syslinux/modules/bios/libutil.c32
+- /boot/memtest86+.bin

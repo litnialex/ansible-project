@@ -20,10 +20,10 @@
   - apt: pkg=open-vm-tools
     tags: vm
 
-- hosts: atftp_servers
+- hosts: tftp_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:
-  - { role: atftpd, tags: atftp }
+  - { role: atftpd, tags: tftp }
 
 - hosts: nfs_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -40,26 +40,6 @@
   roles:
   - { role: trac, tags: trac }
 
-- hosts: quagga_servers
-  environment: '{{ custom_env | default("{}") }}'
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/etc/quagga] }
-
-- hosts: fw_servers
-  environment: '{{ custom_env | default("{}") }}'
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/etc/network/fw] }
-
-- hosts: asterisk_servers
-  environment: '{{ custom_env | default("{}") }}'
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/etc/asterisk] }
-
-- hosts: libvirt_servers
-  environment: '{{ custom_env | default("{}") }}'
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/etc/libvirt] }
-
 - hosts: ftp_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:
@@ -69,6 +49,12 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: mysql, tags: mysql }
+
+- hosts: cacti_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: cacti, tags: cacti }
+
 
 - hosts: megaraid_servers
   environment: '{{ custom_env | default("{}") }}'

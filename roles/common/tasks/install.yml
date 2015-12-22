@@ -1,19 +1,9 @@
 ---
-- name: Install LSB-Release
-  apt: pkg=lsb-release state=installed
-
-- name: Gather Facts
-  setup:
-
-- name: Configure sources.list
-  template: src='apt/sources.list.{{ ansible_distribution }}' dest=/etc/apt/sources.list
-
-- name: Debian Desktop Specific sources.list.d
-  template: dest=/etc/apt/sources.list.d/ src=apt/sources.list.d/deb-multimedia.org.list
-  when: '"desktops" in {{ group_names }} and ansible_distribution =="Debian" '
-
 - name: APT Cache Update
   apt: update_cache=yes
+
+- name: Configure sources.list
+  template: src='apt/sources.list.{{ ansible_distribution }}' dest=/etc/apt/sources.list backup=yes
 
 - name: Install Server Basics
   apt: pkg={{ item }} state=installed

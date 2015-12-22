@@ -15,5 +15,3 @@ galaxy_info:
   categories:
   - system
 
-dependencies:
-- { role: backup, ansible_sudo: no, tags: backup, src: [/etc/bind/named.conf.local] }

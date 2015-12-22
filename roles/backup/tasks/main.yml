@@ -10,5 +10,6 @@
     delete: yes
     mode: pull
     copy_links: yes
+    rsync_path: "sudo rsync"
   with_items: '{{ src }}'
   ignore_errors: True

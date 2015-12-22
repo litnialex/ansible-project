@@ -24,6 +24,7 @@ install_pkgs:
   - mount
   - nano
   - ngrep
+  - ntp
   - ntpdate
   - openssh-server
   - pciutils

@@ -25,13 +25,8 @@
   notify: reload bind
   tags: bindconf
 
-- name: configure bind
-  copy: src=named.conf dest={{ bind_config_basepath }}/named.conf owner={{ bind_user }} group={{ bind_group }} mode=0600 validate='named-checkconf %s'
-  notify: restart bind
-  tags: bindconf
-
 - name: configure bind options
-  template: src=named.conf.options.j2 dest={{ bind_config_basepath }}/named.conf.options owner={{ bind_user }} group={{ bind_group }} mode=0600 validate='named-checkconf %s'
+  template: src=named.conf.options.j2 dest={{ bind_config_basepath }}/named.conf.options owner={{ bind_user }} group={{ bind_group }} mode=0600
   notify: restart bind
   tags: bindconf
 
@@ -40,6 +35,11 @@
   with_items: bind_config_master_zones
   notify: reload bind
   tags: bindzones
+
+- name: configure bind
+  copy: src=named.conf dest={{ bind_config_basepath }}/named.conf owner={{ bind_user }} group={{ bind_group }} mode=0600 validate='named-checkconf %s'
+  notify: restart bind
+  tags: bindconf
 
 - name: start/stop bind service
   service: name={{ bind_service_name }} state={{ bind_service_state }} enabled={{ bind_service_enabled }}

@@ -4,28 +4,28 @@
 - name: Set Timezone
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
 
-- name: Install Locales
-  apt: pkg=locales 
-
-# some more chesk without this dirty hacks
-#- name: create locale gen file
-#  copy: dest=/etc/locale.gen content="en_US.UTF-8 UTF-8\n"
-
-- name: Set Lang
-  template: dest=/etc/default/locale src=default/locale
+- name: create locale gen file (bugfix)
+  copy: dest=/etc/locale.gen content="{{ lang }} {{ lang.split('.')[1] }}\n"
 
 - name: Generate Locale
   locale_gen: name={{ lang }}
 
+- name: Set Lang
+  lineinfile: dest='{{ lang_file }}' regexp='LANG=.*' line='LANG="{{ lang }}"'
+
 - name: Set Root Password
   user: name=root password="{{ root_password }}" update_password=always
 
-- name: Setup Environment
+- name: Setup Server Environment
   lineinfile: dest='/etc/environment' line='{{ item.key }}={{ item.value }}' regexp='{{ item.key }}=.*' create=yes
   with_dict: "{{ custom_env | default('{}') }}"
+  when: item.value != None
 
 - name: Set screenrc
   template: dest=/etc/screenrc src=screenrc
+
+- name: Vim Config Directory
+  file: dest=/etc/vim/ state=directory
 
 - name: Copy Vim Config
   template: src=vim/vimrc.local dest=/etc/vim/

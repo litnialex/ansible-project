@@ -21,7 +21,7 @@
 
 - template: dest=/etc/profile.d/ src=trac_env.sh
 - template: dest={{ trac_install_path }}/ src=requirements.txt
-- template: dest={{ trac_install_path }}/ src=trac_inherit.ini
+- template: dest={{ trac_install_path }}/ src=trac_inherit.ini backup=yes
 
 # didn't work within virtualenv. I don't like it anyway
 #- pip: requirements='{{ trac_install_path }}/requirements.txt' virtualenv='{{ trac_install_path }}' virtualenv_site_packages=yes

@@ -1,7 +1,7 @@
 ---
 - apt: pkg=postfix
-- lineinfile: "dest=/etc/aliases regexp='^root.*' line='root:  root@{{ mail_domain | default(domain) }}'"
+- lineinfile: "dest=/etc/aliases regexp='^root.*' line='root:  {{ common_root_alias }}'"
   notify: newaliases
-  when: mail_domain is defined or domain != 'private'
+  when: common_root_alias != 'none'
 - template: dest=/etc/postfix/main.cf src=postfix/main.cf backup=yes
   notify: restart postfix

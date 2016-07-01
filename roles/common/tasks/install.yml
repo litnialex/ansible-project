@@ -1,9 +1,9 @@
 ---
-- name: APT Cache Update
-  apt: update_cache=yes
-
 - name: Configure sources.list
   template: src='apt/sources.list.{{ ansible_distribution }}' dest=/etc/apt/sources.list backup=yes
+
+- name: APT Cache Update
+  apt: update_cache=yes
 
 - name: Install Server Basics
   apt: pkg={{ item }} state=installed

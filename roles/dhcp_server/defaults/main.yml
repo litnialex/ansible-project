@@ -1,4 +1,6 @@
 ---
+dhcp_service_state: started
+dhcp_service_enabled: yes
 dhcp_common_default_lease_time: 600
 dhcp_common_max_lease_time: 7200
 dhcp_common_ddns_update_style: none

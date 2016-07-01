@@ -29,3 +29,16 @@
     state: present
     regexp: '^PermitRootLogin.*'
     line: 'PermitRootLogin yes'
+
+- name: set ssh Port
+  lineinfile:
+    dest: "{{ debootstrap_path }}/etc/ssh/sshd_config"
+    state: present
+    regexp: '^Port.*'
+    line: 'Port {{ ssh_listen_port | default("22") }}'
+
+- name: Create SSH Keys Dir
+  file: dest=/root/.ssh state=directory mode=0600
+
+- name: SSH Copy Root Key
+  copy: dest=/root/.ssh/authorized_keys content='{{ root_pubkey }}@{{ domain }}\n' mode=0600

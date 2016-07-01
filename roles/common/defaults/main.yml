@@ -1,61 +1,70 @@
 ---
 lang: en_US.UTF-8
 timezone: Europe/Moscow
+common_root_alias: 'root@{{ domain }}'
+common_sysctl:
+  net.ipv6.conf.all.disable_ipv6: 1
 install_pkgs:
-  - cryptsetup
-  - dosfstools
-  - e2fsprogs
-  - ecryptfs-utils
-  - ethtool
-  - file
-  - findutils
-  - ftp
-  - gzip
-  - iftop
-  - iproute
-  - iptables
-  - iputils-arping
-  - iputils-ping
-  - lsof
-  - lvm2
-  - makedev
-  - mdadm
-  - mc
-  - mount
-  - nano
-  - ngrep
-  - ntp
-  - ntpdate
-  - openssh-server
-  - pciutils
-  - rsync
-  - screen
-  - sdparm
-  - sed
-  - sshfs
-  - strace
-  - sudo
-  - sysstat
-  - tar
-  - tcpdump
-  - telnet
-  - traceroute
-  - unzip
-  - vim
-  - wget
-  - whois
-  - less
-  - locales
-  - aptitude
-  - python-apt
-  - python-simplejson
-  - iputils-tracepath
-  - isc-dhcp-client
-  - iotop
-  - lsb-release
-  - p7zip
-  - procps
-  - psmisc
-  - dnsutils
-  - bsd-mailx
-
+- apg
+- aptitude
+- atftp
+- bsd-mailx
+- cryptsetup
+- curl
+- dnsutils
+- dos2unix
+- dosfstools
+- e2fsprogs
+- ecryptfs-utils
+- ethtool
+- file
+- findutils
+- ftp
+- gzip
+- iftop
+- iotop
+- ipcalc
+- iproute
+- iptables
+- iputils-arping
+- iputils-ping
+- iputils-tracepath
+- isc-dhcp-client
+- less
+- locales
+- lsb-release
+- lsof
+- lvm2
+- makedev
+- mc
+- mdadm
+- mount
+- nano
+- ngrep
+- nmap
+- ntp
+- ntpdate
+- openssh-server
+- p7zip
+- pciutils
+- procps
+- psmisc
+- python-apt
+- python-httplib2
+- python-simplejson
+- rsync
+- screen
+- sdparm
+- sed
+- sshfs
+- strace
+- sudo
+- sysstat
+- tar
+- tcpdump
+- telnet
+- traceroute
+- unzip
+- vim
+- wget
+- whois

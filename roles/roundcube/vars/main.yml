@@ -1,0 +1,2 @@
+---
+_prefix: "{{ roundcube_base_dir if roundcube_chroot_enabled | bool else '/' }}"

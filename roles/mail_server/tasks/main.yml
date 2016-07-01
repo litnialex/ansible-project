@@ -1,0 +1,42 @@
+---
+- mysql_db: name={{ postfix_db_name }} encoding=utf8 collation=utf8_bin
+- mysql_user: name={{ postfix_db_user }} password={{ postfix_db_password }} priv='{{ postfix_db_name }}.*:ALL'
+
+- apt: state=installed pkg={{ item }}
+  with_items: mail_server_pkgs
+
+- lineinfile:
+    dest: /etc/postfix/master.cf
+    regexp: "^dovecot.*"
+    line: "dovecot   unix  -       n       n       -       -       pipe flags=DRhu user=mail:mail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${recipient}"
+  notify: Check postfix and restart
+
+- lineinfile:
+    dest: /etc/postfix/master.cf
+    regexp: "^policy-spf.*"
+    line: "policy-spf  unix  -       n       n       -       -       spawn user=nobody argv=/usr/bin/policyd-spf"
+  notify: Check postfix and restart
+
+- copy: dest=/etc/ssl/private/ src=files/{{ postfix_main_cf.myhostname }}.cer owner=root group=ssl-cert mode=0644
+- copy: dest=/etc/ssl/private/ src=files/{{ postfix_main_cf.myhostname }}.key owner=root group=ssl-cert mode=0640
+
+- template: dest=/etc/postfix/ src=postfix/main.cf backup=yes
+  notify: Check postfix and restart
+  tags: postfix:conf
+- template: dest=/etc/postfix/ src=postfix/tls_per_site backup=yes
+  notify: postmap tls_per_site
+  tags: postfix:conf
+- template: dest=/etc/postfix/ src=postfix/header_checks.pcre backup=yes
+  tags: postfix:conf
+- file: dest=/etc/postfix/mysql/ state=directory
+- template: dest=/etc/postfix/mysql/ src={{ item }}
+  with_fileglob:
+  - "mysql/*"
+
+- lineinfile: dest=/etc/rsyslog.conf regexp='.*/var/log/syslog.*' line='*.*;auth,authpriv,mail.none -/var/log/syslog'
+  notify: Restart rsyslog
+
+#- file: dest={{ roundcube_log_dir }} state=directory  owner=www-data 
+#- template: dest=/etc/logrotate.d/roundcube src=roundcube/logrotate
+#- template: dest={{ roundcube_htdocs_dir}}/config/main.inc.php src=roundcube/main.inc.php backup=yes
+

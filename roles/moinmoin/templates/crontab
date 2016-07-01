@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+{% for item in moinmoin_farm %}
+19 19 * * fri moinmoin {{ moinmoin_data_dir }}/wikiexport.sh {{ item.name }}
+{% endfor %}
+

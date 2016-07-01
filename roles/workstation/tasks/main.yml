@@ -1,0 +1,27 @@
+---
+- apt: name={{ item }}
+  with_items: "{{ workstation_desktop.split() }}"
+- apt: name={{ item }}
+  with_items: "{{ workstation_apps.split() }}"
+- apt: name={{ item }}
+  with_items: "{{ workstation_apps_printer.split() }}"
+- apt: name={{ item }}
+  with_items: "{{ workstation_apps_python.split() }}"
+
+- service: name=smbd enabled=no
+- service: name=nmbd enabled=no
+
+- template: src=interfaces dest=/etc/network/
+- template: src=crypttab dest=/etc/
+- lineinfile: dest=/etc/fstab line="/dev/mapper/home /home auto defaults 0 2"
+  when: workstation_crypt_home is defined
+- lineinfile: dest=/etc/fstab line="/dev/mapper/data /home/data auto defaults 0 2"
+  when: workstation_crypt_data is defined
+
+#- name: Install Netspeed applet http://forum.ubuntu.ru/index.php?topic=232842.msg1939882#msg1939882
+#  apt_repository: repo='ppa:fixnix/netspeed'
+#- apt: update_cache=yes pkg=indicator-netspeed-unity
+
+- fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
+- apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
+

@@ -8,12 +8,13 @@
 - shell: mysql < '/var/www/{{ owner }}/mysql.dump'
   when: restore is defined
 
-- include: ftp.yml
-  when: uid is defined
-
 - template: src='{{ item }}' dest='/etc/apache2/sites-enabled/{{ name }}.conf'
   with_first_found:
     - '{{ name }}.conf'
     - apache2.conf.j2
   notify: reload apache2
   when: name is defined
+
+- user: name='{{ owner }}' uid='{{ uid }}' home='{{ document_root }}/{{ owner }}' group='{{ apache2_user }}' password='{{ password }}' shell=/bin/false
+  when: uid is defined
+

@@ -61,3 +61,22 @@
   roles:
   - { role: megaraid, tags: megaraid }
 
+- hosts: workstations
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: workstation, tags: workstation }
+
+- hosts: kvm_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: kvm, tags: kvm }
+
+- hosts: debootstrap_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: debootstrap, tags: debootstrap }
+
+- hosts: mail_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: mail_server, tags: mail}

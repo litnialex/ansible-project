@@ -5,4 +5,4 @@ from farmconfig import FarmConfig
 class Config(FarmConfig):
   sitename = u'{{ item.name }}'
   interwikiname = u'{{ item.module }}'
-  data_dir = os.path.join('{{ data_dir }}', '{{ item.module }}' , '')
+  data_dir = os.path.join('{{ moinmoin_data_dir }}', '{{ item.module }}' , '')

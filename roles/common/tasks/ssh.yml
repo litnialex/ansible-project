@@ -6,10 +6,10 @@
   file: dest=/etc/ssh/keys/ state=directory
 
 - name: SSH Copy Root Key
-  template: dest=/etc/ssh/keys/root src=ssh/keys/root
+  copy: dest=/etc/ssh/keys/root content='{{ root_pubkey }}@{{ domain }}\n'
 
 - name: SSH Server Config File
-  template: src=ssh/sshd_config dest=/etc/ssh/sshd_config validate='sshd -t -f %s'
+  template: src=ssh/sshd_config dest=/etc/ssh/sshd_config validate='sshd -t -f %s' backup=yes
   notify: restart ssh
 
 - name: SSH Client Config File

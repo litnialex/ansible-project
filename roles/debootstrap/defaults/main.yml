@@ -4,6 +4,7 @@ debootstrap_path: /srv/nfs
 debootstrap_os: debian
 debootstrap_os_version: jessie
 debootstrap_common_pkgs:
+- debootstrap
 - locales
 - iproute
 - isc-dhcp-client
@@ -17,6 +18,7 @@ debootstrap_common_pkgs:
 - sudo
 - mdadm
 - lvm2
+- lsb-release
 - pciutils
 - vlan
 - ifenslave

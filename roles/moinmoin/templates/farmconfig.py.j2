@@ -11,7 +11,7 @@ from MoinMoin.config import multiconfig, url_prefix_static
   
 class FarmConfig(multiconfig.DefaultConfig):
   wikiconfig_dir = os.path.abspath(os.path.dirname(__file__))
-  data_underlay_dir = os.path.join('{{ data_dir }}', 'underlay', '')
+  data_underlay_dir = os.path.join('{{ moinmoin_data_dir }}', 'underlay', '')
 
   superuser = [u'LitniAlex']
   acl_rights_before = u"LitniAlex:read,write,delete,revert,admin"

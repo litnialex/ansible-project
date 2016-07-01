@@ -1,0 +1,6 @@
+user = {{ postfix_db_user }}
+password = {{ postfix_db_password }}
+hosts = localhost
+dbname = {{ postfix_db_name }}
+
+query = SELECT quota FROM mailbox WHERE username='%s'

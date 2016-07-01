@@ -10,3 +10,6 @@
 
 - name: newaliases
   shell: newaliases
+
+- name: service procps start
+  service: name=procps state=restarted

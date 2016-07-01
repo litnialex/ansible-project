@@ -29,5 +29,5 @@
 - include: postfix.yml
   when:
   - '"mail_servers" not in {{ group_names }}'
-  - domain != 'private'
+  #- domain != 'private'
   tags: postfix

@@ -1,0 +1,18 @@
+postfix_db_name: postfix
+postfix_db_user: postfix
+postfix_db_password: ChangeMe-CotDol3swo
+postfix_main_cf:
+  myhostname: '{{ inventory_hostname }}.{{ domain }}'
+  mynetworks: 127.0.0.0/8 192.168.0.0/16 172.16.0.0/12 10.0.0.0/8
+  virtual_mailbox_base: /data/mail
+
+roundcube_htdocs_dir: /data/www/roundcubemail/htdocs
+roundcube_log_dir: /var/log/roundcube
+roundcube_smtp_log: true
+roundcube_log_logins: true
+roundcube_log_session: false
+roundcube_sql_debug: false
+roundcube_imap_debug: false
+roundcube_ldap_debug: false
+roundcube_smtp_debug: false
+

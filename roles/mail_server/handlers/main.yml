@@ -1,0 +1,23 @@
+---
+- name: postmap tls_per_site
+  shell: postmap /etc/postfix/tls_per_site
+
+- name: Generate mail alias database
+  command: newaliases
+
+- name: Check postfix and restart
+  command: /usr/sbin/postfix -c /etc/postfix check
+  notify: [ 'Restart postfix' ]
+
+- name: Restart postfix
+  service:
+    name: 'postfix'
+    state: 'restarted'
+
+- name: Restart saslauthd
+  service:
+    name: 'saslauthd'
+    state: 'restarted'
+
+- name: Restart rsyslog
+  service: name=rsyslog state=restarted

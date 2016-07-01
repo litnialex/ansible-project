@@ -1,0 +1,7 @@
+{%if workstation_crypt_home is defined %}
+home {{ workstation_crypt_home }} none luks,tries=3,discard
+{%endif%}
+{%if workstation_crypt_data is defined %}
+data {{workstation_crypt_data }} /home/.data.key luks,noearly
+{%endif%}
+

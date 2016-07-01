@@ -1,0 +1,72 @@
+---
+- name: install roundcube config
+  template: >
+    src=config.inc.php.j2
+    dest={{ roundcube_conf_dir }}/config.inc.php
+    owner=root group={{ roundcube_group }} mode=0640
+  notify: restart roundcube
+
+- name: generate random session_key
+  shell: >
+    openssl rand -base64 34 | head -c 24 > {{ roundcube_conf_dir }}/session_key
+    creates={{ roundcube_conf_dir }}/session_key
+  notify: restart roundcube
+
+- name: ensure rights of session_key file
+  file: >
+    path={{ roundcube_conf_dir }}/session_key
+    owner=root group={{ roundcube_group }} mode=0640
+
+- name: link roundcube configs
+  file: >
+    state=link
+    src={{ roundcube_conf_dir }}/{{ item }}
+    dest={{ roundcube_www_dir }}/config/{{ item }}
+    force=yes
+  with_items:
+    - config.inc.php
+    - session_key
+  when: not roundcube_chroot_enabled and roundcube_conf_dir != roundcube_www_dir + '/config'
+
+- name: install host-specific configs
+  copy: >
+    content="<?php\n{% for k, v in item.value.items() %}$config['{{ k }}'] = '{{ v }}';\n{% endfor %}"
+    dest={{ roundcube_conf_dir }}/{{ item.key }}.inc.php
+    owner=root group={{ roundcube_group }} mode=0640
+  with_dict: roundcube_host_config
+  notify: restart roundcube
+
+- name: install plugins configs
+  template: >
+    src={{ item }}
+    dest={{ roundcube_conf_dir }}/plugins/{{ item | basename | replace('.j2', '') }}
+    owner=root group={{ roundcube_group }} mode=0640
+  with_fileglob:
+    - ../templates/plugins/*.inc.php.j2
+  notify: restart roundcube
+
+- name: link plugins configs
+  file: >
+    state=link
+    src={{ roundcube_conf_dir }}/plugins/{{ item | basename | replace('.j2', '') }}
+    dest={{ roundcube_www_dir }}/plugins/{{ item | basename | replace('.inc.php.j2', '') }}/config.inc.php
+    force=yes
+  with_fileglob:
+    - ../templates/plugins/*.inc.php.j2
+  when: not roundcube_chroot_enabled
+
+- name: configure runscript
+  template: >
+    src=runscript.conf.j2
+    dest=/etc/conf.d/{{ roundcube_name }}
+    owner=root group=root mode=0644
+  notify: restart roundcube
+
+- name: configure nginx site
+  template: >
+    src=nginx.j2
+    dest=/etc/nginx/sites/{{ roundcube_name }}.conf
+    owner=root group=root mode=0644
+  notify: reload nginx
+  when: roundcube_nginx_enabled | bool
+  tags: nginx

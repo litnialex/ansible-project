@@ -1,0 +1,14 @@
+---
+mail_server_pkgs:
+- dovecot-core
+- dovecot-imapd
+- dovecot-lmtpd
+- dovecot-managesieved
+- dovecot-mysql
+- dovecot-pop3d
+- dovecot-sieve
+- postfix
+- postfix-mysql
+- postfix-pcre
+- postfix-policyd-spf-python
+- xfsprogs

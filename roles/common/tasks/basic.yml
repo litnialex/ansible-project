@@ -1,5 +1,13 @@
 - name: Set Hostname
   hostname: name='{{inventory_hostname}}.{{domain}}'
+  when: domain != 'private'
+
+- name: Set Hostname
+  hostname: name='{{inventory_hostname}}'
+  when: domain == 'private'
+
+- name: Edit /etc/hosts
+  lineinfile: dest=/etc/hosts line='127.0.1.1 {{inventory_hostname}} {{inventory_hostname}}.{{domain}}' insertafter='^127.0.0.1.*'
 
 - name: Set Timezone
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
@@ -7,11 +15,19 @@
 - name: create locale gen file (bugfix)
   copy: dest=/etc/locale.gen content="{{ lang }} {{ lang.split('.')[1] }}\n"
 
+- name: Install language-pack-en
+  apt: name=language-pack-en
+  when: ansible_os_family == "Ubuntu"
+
+- name: create locale gen file (bugfix)
+  copy: dest=/var/lib/locales/supported.d/ansible_common content="{{ lang }} {{ lang.split('.')[1] }}\n"
+  when: ansible_os_family == "Ubuntu"
+
 - name: Generate Locale
   locale_gen: name={{ lang }}
 
 - name: Set Lang
-  lineinfile: dest='{{ lang_file }}' regexp='LANG=.*' line='LANG="{{ lang }}"'
+  copy: dest='{{ lang_file }}' content='LANG="{{ lang }}"'
 
 - name: Set Root Password
   user: name=root password="{{ root_password }}" update_password=always
@@ -33,3 +49,6 @@
 - name: Copy Rsync Config
   template: src=rsyncd.conf dest=/etc/
 
+- name: Copy /etc/sysctl.d/90-ansible-common.conf 
+  template: dest=/etc/sysctl.d/ src=sysctl.d/90-ansible-common.conf
+  notify: service procps start

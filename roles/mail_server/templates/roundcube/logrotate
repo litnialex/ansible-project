@@ -1,0 +1,15 @@
+{{ roundcube_log_dir }}/errors \
+{{ roundcube_log_dir }}/imap \
+{{ roundcube_log_dir }}/sendmail \
+{{ roundcube_log_dir }}/session \
+{{ roundcube_log_dir }}/smtp \
+{{ roundcube_log_dir }}/sql \
+{{ roundcube_log_dir }}/userlogins {
+	daily
+	missingok
+	rotate 7
+	nocompress
+	copytruncate
+	notifempty
+  dateext
+}

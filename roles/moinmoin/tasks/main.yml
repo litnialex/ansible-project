@@ -31,5 +31,11 @@
 
 - lineinfile: dest=/etc/rc.local line='moin server standalone --port=1080  --pidfile=/var/run/moinmoin.pid --user=moinmoin --group=moinmoin --start' regexp='^moin.*' insertbefore='^exit.*'
 
+- template: dest={{ moinmoin_data_dir }} src=wikiexport.sh mode=755
+
+- template: dest=/etc/cron.d/moinmoin src=crontab
+
+- user: name='{{ ansible_env.SUDO_USER }}' append=yes groups=moinmoin
+
 # http://localhost:1080/LanguageSetup?action=language_setup&target=Russian--all_pages.zip&language=Russian
 # then restart moin

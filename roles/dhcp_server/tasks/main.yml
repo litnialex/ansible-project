@@ -47,7 +47,7 @@
   when: not localconf.stat.exists
 
 - name: Generate dhcpd.conf
-  template: src=dhcpd.conf.j2 dest={{ dhcp_server_config }} owner=root group=root mode=0644 validate='/usr/sbin/dhcpd -t -cf %s'
+  template: src=dhcpd.conf.j2 dest={{ dhcp_server_config }} owner=root group=root mode=0644 backup=yes #validate='/usr/sbin/dhcpd -t -cf %s'
   notify:
     - restart dhcpd
 
@@ -59,7 +59,7 @@
     - restart dhcpd
 
 # Enable DHCP server
-- name: Start the dhcp services DHCP
-  service: name={{ dhcp_service }} state=started enabled=yes
+- name: Manage DHCP Service
+  service: name={{ dhcp_service }} state={{ dhcp_service_state }} enabled={{ dhcp_service_enabled }}
 
 

@@ -1,7 +1,1 @@
-install_pkgs:
- - atftpd
- - syslinux-common
-
-pxe_files:
-- /usr/lib/syslinux/pxelinux.0
-
+os_Debian.yml

@@ -1,0 +1,2 @@
+18 21 * * fri root mysqldump service_postfix --skip-comments --skip-extended-insert --result-file=/etc/postfix/service_postfix.mysql.dump
+

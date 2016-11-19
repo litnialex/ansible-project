@@ -80,3 +80,7 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: mail_server, tags: mail}
+- hosts: squid_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: squid, tags: squid}

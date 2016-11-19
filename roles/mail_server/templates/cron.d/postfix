@@ -1,0 +1,1 @@
+18 21 * * fri root umask 077; mysqldump {{ postfix_db_name }} --skip-comments --skip-extended-insert --result-file=/etc/postfix/{{ postfix_db_name }}_dump.sql

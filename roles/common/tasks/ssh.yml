@@ -11,6 +11,16 @@
 - name: SSH Server Config File
   template: src=ssh/sshd_config dest=/etc/ssh/sshd_config validate='sshd -t -f %s' backup=yes
   notify: restart ssh
+  
+  #- name: SSH Service Config
+  #file: dest=/etc/systemd/system/sshd.service.d/ state=directory
+  #tags: this
+
+  #- name: SSH Service Config
+  #template: src=systemd/system/sshd.service.d/ansible.conf dest=/etc/systemd/system/sshd.service.d/
+  #notify:
+    #- systemd reload
+    #- restart ssh
 
 - name: SSH Client Config File
   template: src=ssh/ssh_config dest=/etc/ssh/ssh_config

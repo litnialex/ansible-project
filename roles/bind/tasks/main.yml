@@ -1,7 +1,7 @@
 ---
 - name: install bind packages
   apt: pkg={{ item }} state={{ bind_pkg_state }}
-  with_items: bind_pkgs
+  with_items: '{{ bind_pkgs }}'
   tags: package
 
 - name: setup zone directories

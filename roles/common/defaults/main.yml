@@ -4,18 +4,21 @@ timezone: Europe/Moscow
 common_root_alias: 'root@{{ domain }}'
 common_sysctl:
   net.ipv6.conf.all.disable_ipv6: 1
+  
+# list of modules to add into /etc/modules-load.d/90-ansible-common.conf
+common_modules_load:
+preffered_mirror: 'http://mirror.yandex.ru'
+install_pkgs_distribution:
+install_pkgs_inventory_group:
+install_pkgs_inventory_host:
 install_pkgs:
 - apg
-- aptitude
-- atftp
-- bsd-mailx
+- bc
 - cryptsetup
 - curl
-- dnsutils
 - dos2unix
 - dosfstools
 - e2fsprogs
-- ecryptfs-utils
 - ethtool
 - file
 - findutils
@@ -23,22 +26,13 @@ install_pkgs:
 - gzip
 - iftop
 - iotop
-- ipcalc
 - iproute
 - iptables
-- iputils-arping
-- iputils-ping
-- iputils-tracepath
-- isc-dhcp-client
 - less
-- locales
-- lsb-release
 - lsof
 - lvm2
-- makedev
 - mc
 - mdadm
-- mount
 - nano
 - ngrep
 - nmap
@@ -47,16 +41,14 @@ install_pkgs:
 - openssh-server
 - p7zip
 - pciutils
-- procps
+- postfix
 - psmisc
-- python-apt
 - python-httplib2
 - python-simplejson
 - rsync
 - screen
 - sdparm
 - sed
-- sshfs
 - strace
 - sudo
 - sysstat
@@ -68,3 +60,4 @@ install_pkgs:
 - vim
 - wget
 - whois
+

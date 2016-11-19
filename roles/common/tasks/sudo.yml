@@ -12,5 +12,3 @@
 
 - name: Disable mail_always
   lineinfile: dest=/etc/sudoers state=absent regexp='.*mail_always.*' validate='visudo -cf %s'
-
-

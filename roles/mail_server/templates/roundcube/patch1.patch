@@ -1,0 +1,11 @@
+--- program/lib/Roundcube/bootstrap.php	2016-07-29 12:59:03.885205632 +0300
++++ program/lib/Roundcube/bootstrap.php.new	2016-07-29 13:06:29.793165154 +0300
+@@ -25,7 +25,7 @@
+  */
+ 
+ $config = array(
+-    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT,
++    'error_reporting'         => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
+     // Some users are not using Installer, so we'll check some
+     // critical PHP settings here. Only these, which doesn't provide
+     // an error/warning in the logs later. See (#1486307).

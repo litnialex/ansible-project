@@ -1,4 +1,0 @@
----
-dependencies:
-- { role: backup, ansible_sudo: no, tags: backup, src: [/etc/network/interfaces, /etc/fstab] }
-

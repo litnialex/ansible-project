@@ -5,6 +5,7 @@ debootstrap_os: debian
 debootstrap_os_version: jessie
 debootstrap_common_pkgs:
 - debootstrap
+- dnsutils
 - locales
 - iproute
 - isc-dhcp-client
@@ -19,6 +20,9 @@ debootstrap_common_pkgs:
 - mdadm
 - lvm2
 - lsb-release
+- parted
 - pciutils
 - vlan
 - ifenslave
+- file
+- lsof

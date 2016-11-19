@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-  - { role: backup, ansible_become: no, tags: backup, src: [/etc/network/interfaces, /etc/fstab] }
+  - { role: backup, ansible_become: no, tags: backup, src: [/etc/network/interfaces, /etc/network/interfaces.d, /etc/fstab] }
 - hosts: bind_servers
   roles:
   - { role: backup, ansible_become: no, tags: backup, src: [/etc/bind/named.conf.local] }
@@ -20,3 +20,6 @@
 - hosts: mail_servers
   roles:
   - { role: backup, ansible_become: no, tags: backup, src: [/etc/postfix] }
+- hosts: squid_servers
+  roles:
+  - { role: backup, ansible_become: no, tags: backup, src: [/etc/squid3] }

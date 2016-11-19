@@ -38,7 +38,7 @@
     line: 'Port {{ ssh_listen_port | default("22") }}'
 
 - name: Create SSH Keys Dir
-  file: dest=/root/.ssh state=directory mode=0600
+  file: dest='{{ debootstrap_path }}/root/.ssh' state=directory mode=0600
 
 - name: SSH Copy Root Key
-  copy: dest=/root/.ssh/authorized_keys content='{{ root_pubkey }}@{{ domain }}\n' mode=0600
+  copy: dest='{{ debootstrap_path }}/root/.ssh/authorized_keys' content='{{ root_pubkey }}@{{ domain }}\n' mode=0600

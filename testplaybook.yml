@@ -1,0 +1,112 @@
+---
+- hosts: all
+  vars: 
+  - testvar: 'YES'
+  - options: 'asdf qwer'
+  tasks:
+
+  #  tasks:
+    #  - lineinfile: dest=/tmp/asdfasdf
+    #  args:
+      #   line: 'qwer'
+      # create: yes
+
+#  tasks:
+#  - command: gsettings set org.gnome.desktop.a11y.mouse secondary-click-enabled "true"
+#    become_user: alex
+#  - command: gsettings get org.gnome.desktop.a11y.mouse secondary-click-enabled
+#    become_user: alex
+#    register: result
+#  - debug: var=result
+
+#  vars:
+#  - x: "{{ lookup('file', 'files/ssh_pubkeys/alitnitskiy') }}"
+#  - ansible_become: False
+#  tasks:
+#  - synchronize:
+#      src: /etc/bacula
+#      dest: /tmp/test/
+#      set_remote_user: False
+#      delete: yes
+#      mode: pull
+#      copy_links: yes
+#      rsync_path: "sudo rsync"
+
+  roles:
+    - testrole
+
+#  vars:
+#    - net: '192.168.98.0/24'
+#  tasks:
+#    - debug: msg='{{ net | ipaddr(10) | ipaddr("network") }}'
+
+
+#  vars:
+#    - myvar: 'asdf,qwer,zxcv'
+#  tasks:
+#    - set_fact: myvar='{{ myvar }},uioy,lkjlkj'
+#    - debug: var=myvar
+
+
+#  vars:
+#    - joined: '{{ (domain == "") | ternary(inventory_hostname,inventory_hostname+"."+domain) }}'
+#    - myvar: '{{ 999|random(start=100) }}'
+#    - mysum: '{{ [999|random(start=100)]|sum(start=3000) }}'
+
+
+#    - shell: grep AuthorizedKeysFile /etc/ssh/sshd_config
+#      register: result
+#    - debug: msg='{{ result.stdout }}'
+
+#     - raw: 'echo "Subsystem sftp internal-sftp" >> /etc/ssh/sshd_config'
+#     - raw: '/etc/init.d/ssh restart'
+
+#    - debug: msg="add user {{ item.key }} into group sudo"
+#      when:  ( item.value.sudo == "all" ) or ( inventory_hostname in item.value.sudo )
+#      with_dict: usersdict
+
+#    - debug: msg="add user {{ item.0.name }} into groups {{ item.1 }}"
+#when:  ( item.1.values()[0] == "all" ) or ( inventory_hostname in item.1.values()[0] )
+#      with_subelements:
+#        - users
+#        - groups
+
+#      - debug: var=qwe
+#        #with_items: groups_all_hosts | union(groups_this_host) | unique
+
+
+# R&D for Backup
+# 1) too many [skipped]
+#  vars:
+#    ansible_become: no
+#    backup:
+#    - name: all 
+#      paths:
+#      - /etc/network/interfaces
+#      - /etc/fstab    
+#    - name: bind_servers
+#      paths:
+#      - /etc/bind
+#  tasks:
+#  - debug: msg="{{ item.1}} in group {{ item.0.name }}"
+#    when: item.0.name in group_names
+#    with_subelements:
+#    - backup
+#    - paths
+ 
+#  2) include + with_items is a removed deprecated feature
+#  vars:
+#    paths:
+#      all:
+#      - /etc/network/interfaces
+#      - /etc/fstab
+#      bind_servers:
+#      - /etc/bind
+#  tasks:
+#  - debug: msg="{{ paths[item] }}"
+#    when: paths[item] is defined
+#    with_items:
+#    - all
+#    - '{{ group_names }}'
+
+    

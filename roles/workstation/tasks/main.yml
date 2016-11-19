@@ -1,12 +1,10 @@
 ---
 - apt: name={{ item }}
-  with_items: "{{ workstation_desktop.split() }}"
-- apt: name={{ item }}
-  with_items: "{{ workstation_apps.split() }}"
-- apt: name={{ item }}
-  with_items: "{{ workstation_apps_printer.split() }}"
-- apt: name={{ item }}
-  with_items: "{{ workstation_apps_python.split() }}"
+  with_flattened: 
+  - "{{ workstation_desktop.split() }}"
+  - "{{ workstation_apps.split() }}"
+  - "{{ workstation_apps_printer.split() }}"
+  - "{{ workstation_apps_python.split() }}"
 
 - service: name=smbd enabled=no
 - service: name=nmbd enabled=no
@@ -25,3 +23,7 @@
 - fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
 - apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
 
+- template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
+- file: dest=/etc/opt/chrome/policies/managed/ state=directory
+- template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
+- template: dest=/etc/firefox/ src=firefox/syspref.js

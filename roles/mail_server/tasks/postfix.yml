@@ -1,0 +1,31 @@
+---
+- template: dest=/etc/postfix/ src=postfix/master.cf backup=yes
+  notify: Check postfix and restart
+ 
+- template: dest=/etc/postfix/ src=postfix/main.cf backup=yes
+  notify: Check postfix and restart
+ 
+- template: dest=/etc/postfix/ src=postfix/tls_per_site backup=yes
+  notify: postmap tls_per_site
+
+- template: dest=/etc/postfix/ src=postfix/sender_access backup=yes
+  notify: postmap sender_access
+
+- template: dest=/etc/postfix/ src=postfix/header_checks.pcre backup=yes
+
+- file: dest=/etc/postfix/mysql/ state=directory
+
+- template: dest=/etc/postfix/mysql/ src={{ item }}
+  with_fileglob:
+  - "mysql/*"
+  notify: Check postfix and restart
+
+- mysql_db: name={{ postfix_db_name }} encoding=utf8 collation=utf8_bin
+  register: postfix_db_state
+
+- mysql_db: name={{ postfix_db_name }} state=import target=/etc/postfix/mysql/db_schema.sql
+  when: postfix_db_state.changed
+  
+- mysql_user: name={{ postfix_db_user }} password={{ postfix_db_password }} priv='{{ postfix_db_name }}.*:ALL'
+
+- template: dest=/etc/cron.d/ src=cron.d/postfix

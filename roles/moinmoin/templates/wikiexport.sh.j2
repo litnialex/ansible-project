@@ -1,8 +1,0 @@
-#!/bin/bash
-set -e
-cd
-rm -rf wiki.horse21.org/
-moin --config-dir=/var/www/wiki.horse21.org/corporate/ --wiki-url='http://wiki.horse21.org/' export dump --target-dir=wiki.horse21.org/ --username=LitniAlex 2> /dev/null
-cp -a /usr/local/lib/python2.6/dist-packages/MoinMoin/web/static/htdocs/modern/ wiki.horse21.org/
-tar -cf wiki.horse21.org.tar wiki.horse21.org
-

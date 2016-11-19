@@ -5,6 +5,6 @@ pxeboot_server: '{{ ansible_ssh_host }}' #better set to an IP in hosts_var
 nfsroot_server: '{{ ansible_ssh_host }}' #better set to an IP in hosts_var
 
 centos:
-  ver: 6
+  ver: 7
   arch: x86_64
   mirror_url: http://mirror.yandex.ru/centos

@@ -1,0 +1,18 @@
+---
+#- get_url: dest=/tmp/postfixadmin.tgz url=https://sourceforge.net/projects/postfixadmin/files/latest/download
+#- file: dest=/opt/postfixadmin state=directory
+#- unarchive: dest=/opt/postfixadmin src=/tmp/postfixadmin.tgz copy=no
+
+- get_url: dest=~/ url=http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.93/postfixadmin_2.93-1_all.deb
+
+- apt: deb=~/postfixadmin_2.93-1_all.deb
+  ignore_errors: true
+
+- template: dest=/etc/postfixadmin/ src=postfixadmin/config.local.php
+
+- template: dest=/etc/postfixadmin/ src=postfixadmin/postfixadmin-mailbox-postdeletion.sh mode=0755
+
+- file: dest='{{ roundcube_path }}/admin' src=/usr/share/postfixadmin/ state=link
+
+- copy: dest=/etc/sudoers.d/postfixadmin  content='www-data ALL=(ALL) NOPASSWD:/etc/postfixadmin/postfixadmin-mailbox-postdeletion.sh\n' mode=0640
+  tags: this

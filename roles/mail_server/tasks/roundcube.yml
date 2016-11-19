@@ -1,0 +1,17 @@
+---
+- git: dest={{ roundcube_path }} repo=https://github.com/roundcube/roundcubemail.git version=release-1.2 force=yes
+
+- mysql_db: name={{ roundcube_db_name }}  encoding=utf8 collation=utf8_bin
+  register: roundcube_db_state
+
+- mysql_db: name={{ roundcube_db_name }} state=import target='{{ roundcube_path }}/SQL/mysql.initial.sql'
+  when: roundcube_db_state.changed
+
+- mysql_user: name={{ roundcube_db_user }} password={{ roundcube_db_password }} priv='{{ roundcube_db_name }}.*:ALL'
+
+- template: dest={{ roundcube_path}}/config/config.inc.php src=roundcube/config.inc.php backup=yes
+
+- template: dest=/etc/nginx/sites-enabled/default src=roundcube/nginx.conf backup=yes
+  notify: Restart nginx
+
+- patch: basedir={{ roundcube_path }} src=templates/roundcube/patch1.patch strip=0

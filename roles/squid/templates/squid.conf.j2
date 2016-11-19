@@ -18,7 +18,7 @@ acl Safe_ports port 777         # multiling http
 acl CONNECT method CONNECT
 acl authenticated proxy_auth REQUIRED
 
-{% for ip in ip_aliases %}
+{% for ip in ip_aliases | d() %}
 acl dst_{{ ip }} myip {{ ip }}/32
 tcp_outgoing_address {{ ip }} dst_{{ ip }}
 {% endfor %}

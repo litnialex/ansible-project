@@ -9,7 +9,7 @@ if ! mkdir $lock_dir ; then
   exit 1
 fi
 
-rm -rf "{{ moinmoin_data_dir }}/export/${wiki_name}"
+rm -rf "${target_dir}"
 moin --quiet --wiki-url=${wiki_name} export dump --target-dir=${target_dir} --username=LitniAlex 2> /dev/null
 cp -a /usr/lib/python2.7/dist-packages/MoinMoin/web/static/htdocs/modern/ ${target_dir} 
 rmdir $lock_dir

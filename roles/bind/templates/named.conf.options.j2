@@ -30,6 +30,7 @@ options {
   };
 
   allow-transfer {
+    127.0.0.1;
 {% for allow_transfer in bind_config_master_allow_transfer %}
     {{ allow_transfer }};
 {% endfor %}

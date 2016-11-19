@@ -1,0 +1,9 @@
+#{{ ansible_managed}}
+driver = mysql
+default_pass_scheme = PLAIN
+connect = host=localhost dbname=postfix user={{ dovecot_db_user }} password={{ dovecot_db_password }}
+password_query = SELECT password FROM mailbox WHERE username = '%u' AND active = '1'
+user_query = SELECT 8 AS uid, 8 AS gid, \
+  CONCAT('*:bytes=', quota) AS quota_rule \
+  FROM mailbox WHERE username = '%u' AND active = '1'
+iterate_query = select username as user from mailbox WHERE active='1'

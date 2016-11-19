@@ -1,13 +1,15 @@
 ---
-#- template: dest=/tmp/ src=files/testfile
-- debug: var=testlist2
+- copy: dest=/tmp/ src=testfile
+#- debug: var=testlist2
 #  with_fileglob:
 #    - "/home/alex/ansible/users/*"
 #- include: test.yml
 #  with_items:
 #    - one
 #    - two
-- shell: "echo $test_env1 $test_env2"
-  environment: '{{ custom_env }}'
-  register: result
-- debug: var=result
+
+#- shell: "echo $test_env1 $test_env2"
+#  environment: '{{ custom_env }}'
+#  register: result
+#- debug: var=result
+

@@ -1,5 +1,0 @@
----
-- name: restart roundcube
-  service: >
-    name={{ roundcube_name }}
-    state=restarted

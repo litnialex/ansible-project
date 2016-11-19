@@ -11,5 +11,10 @@
 - name: newaliases
   shell: newaliases
 
-- name: service procps start
-  service: name=procps state=restarted
+- name: systemd reload
+  shell: systemctl daemon-reload
+  #systemd: daemon_reload=yes #new in ansible 2.2
+ 
+- name: sysctl restart
+  service: name=systemd-sysctl state=restarted
+

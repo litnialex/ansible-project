@@ -1,10 +1,10 @@
 [DEFAULT]
 bantime  = 3600
 maxretry = 10 
-destemail = root@niisa.ru
+destemail = root@{{ domain }}
 sender = fail2ban
-action = %(action_mwl)s
-ignoreip = 127.0.0.1/8 192.168.0.0/16
+#action = %(action_mwl)s
+ignoreip = {{ fail2ban_ignoreip }}
 
 [dovecot]
 enabled = true
@@ -13,3 +13,10 @@ logpath = /var/log/dovecot-info.log
 [roundcube-auth]
 enabled  = true
 logpath  = /var/log/mail.log
+
+[postfix-sasl]
+enabled = true
+port     = smtp,ssmtp,submission
+filter   = postfix-sasl
+logpath  = /var/log/mail.log
+

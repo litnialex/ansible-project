@@ -27,7 +27,7 @@
   tags: snmp
 
 - include: postfix.yml
-  when:
-  - '"mail_servers" not in {{ group_names }}'
-  #- domain != 'private'
-  tags: postfix
+  when: 
+  - "'mail_servers' not in group_names"
+  - domain != 'private'
+  tags: common:postfix

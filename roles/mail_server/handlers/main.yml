@@ -1,4 +1,7 @@
 ---
+- name: postmap sender_access
+  shell: postmap /etc/postfix/sender_access
+
 - name: postmap tls_per_site
   shell: postmap /etc/postfix/tls_per_site
 
@@ -21,3 +24,12 @@
 
 - name: Restart rsyslog
   service: name=rsyslog state=restarted
+
+- name: Restart dovecot
+  service: name=dovecot state=restarted
+ 
+- name: Restart fail2ban
+  service: name=fail2ban state=restarted
+
+- name: Restart nginx
+  service: name=nginx state=restarted

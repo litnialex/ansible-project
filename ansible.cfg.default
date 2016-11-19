@@ -8,3 +8,4 @@ ansible_managed = ANSIBLE MANAGED FILE. DO NOT EDIT BY HAND. CHANGES WILL BE DIS
 display_skipped_hosts = False
 retry_files_enabled = False
 pipelining=True
+display_args_to_stdout = True

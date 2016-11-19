@@ -1,0 +1,21 @@
+---
+- mysql_user: name={{ dovecot_db_user }} password={{ dovecot_db_password }} priv='{{ postfix_db_name }}.*:ALL'
+
+- file: dest=/etc/dovecot/sieve/before state=directory 
+- file: dest=/etc/dovecot/sieve/global state=directory 
+
+- template: dest=/etc/dovecot/ src='dovecot/{{ item }}'  backup=yes 
+  with_items:
+  - dovecot.conf
+  - quota-warning.py
+  - dovecot-sql.conf.ext
+  - dovecot-dict-sql.conf.ext
+  notify: Restart dovecot
+
+- file: dest=/etc/dovecot/quota-warning.py mode=0775
+
+- template: dest=/etc/dovecot/sieve src=dovecot/sieve/default.sieve
+
+- template: dest=/etc/logrotate.d/ src=logrotate.d/dovecot
+
+- template: dest=/etc/cron.d/ src=cron.d/dovecot

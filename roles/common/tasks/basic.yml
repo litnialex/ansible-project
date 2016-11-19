@@ -2,12 +2,12 @@
   hostname: name='{{inventory_hostname}}.{{domain}}'
   when: domain != 'private'
 
-- name: Set Hostname
+- name: Set Hostname if domain is private
   hostname: name='{{inventory_hostname}}'
   when: domain == 'private'
 
 - name: Edit /etc/hosts
-  lineinfile: dest=/etc/hosts line='127.0.1.1 {{inventory_hostname}} {{inventory_hostname}}.{{domain}}' insertafter='^127.0.0.1.*'
+  lineinfile: dest=/etc/hosts regexp='^127.0.1.1.*' line='127.0.1.1 {{inventory_hostname}}.{{domain}} {{inventory_hostname}}' insertafter='^127.0.0.1.*'
 
 - name: Set Timezone
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
@@ -51,4 +51,7 @@
 
 - name: Copy /etc/sysctl.d/90-ansible-common.conf 
   template: dest=/etc/sysctl.d/ src=sysctl.d/90-ansible-common.conf
-  notify: service procps start
+  notify: sysctl restart
+
+- name: Copy /etc/modules-load.d/90-ansible-common.conf
+  template: dest=/etc/modules-load.d/ src=modules-load.d/90-ansible-common.conf

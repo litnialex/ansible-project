@@ -1,0 +1,24 @@
+---
+- name: Add EPEL repo
+  yum: validate_certs=no name='https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm'
+
+- name: disable delta rpms
+  lineinfile: dest='/etc/yum.conf' line='deltarpm=0' insertafter='\[main\].*' regexp='^deltarpm.*' backup=yes
+
+- name: Configure sources
+  template: src='yum.repos.d/{{ ansible_distribution }}-Base.repo' dest=/etc/yum.repos.d/ backup=yes
+
+- name: YUM Cache Update
+  yum: name='*' state=latest update_cache=yes
+
+- name: Install Server Basics
+  yum: name='{{ item }}' state=installed
+  with_flattened: 
+  - '{{ install_pkgs }}'
+  - '{{ install_pkgs_distribution }}'
+
+- name: vimrc hack needed only in RedHat
+  lineinfile:
+    dest=/etc/vimrc
+    regexp='.*/etc/vim/vimrc.local.*'
+    line='if filereadable("/etc/vim/vimrc.local") | source /etc/vim/vimrc.local | endif'

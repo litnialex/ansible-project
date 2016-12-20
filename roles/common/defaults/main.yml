@@ -4,9 +4,12 @@ timezone: Europe/Moscow
 common_root_alias: 'root@{{ domain }}'
 common_sysctl:
   net.ipv6.conf.all.disable_ipv6: 1
+ssh_listen_port: 22
+ssh_default_port: '{{ ssh_listen_port }}'
   
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:
+common_modprobe_conf:
 preffered_mirror: 'http://mirror.yandex.ru'
 install_pkgs_distribution:
 install_pkgs_inventory_group:

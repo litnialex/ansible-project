@@ -3,7 +3,7 @@ Host *
   HashKnownHosts yes
   GSSAPIAuthentication yes
   GSSAPIDelegateCredentials no
-  Port {{ ssh_listen_port }}
+  Port {{ ssh_default_port }}
   Compression yes
   StrictHostKeyChecking no
   ServerAliveInterval 15

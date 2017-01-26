@@ -84,3 +84,9 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: squid, tags: squid}
+
+- hosts: monitoring-servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: 'sdarwin.nagios', tags: nagios}
+

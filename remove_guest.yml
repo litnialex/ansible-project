@@ -1,0 +1,13 @@
+---
+- hosts: kvm_servers
+  vars:
+    - guest: newguestname
+
+  tasks:
+    - virt: name="{{ guest }}" state=destroyed
+      ignore_errors: True
+    - virt: name="{{ guest }}" command=undefine
+      ignore_errors: True
+    - mount: src=/dev/vg0/"{{ guest }}" fstype=auto name=/mnt/"{{ guest }}" state=unmounted
+    - mount: src=/dev/vg0/"{{ guest }}" fstype=auto name=/mnt/"{{ guest }}" state=absent
+    - lvol: vg='vg0' lv='{{ guest }}' state=absent force=yes

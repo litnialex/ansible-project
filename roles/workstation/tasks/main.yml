@@ -23,7 +23,9 @@
 - fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
 - apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
 
-- template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
+- copy: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
 - file: dest=/etc/opt/chrome/policies/managed/ state=directory
-- template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
+- file: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
 - template: dest=/etc/firefox/ src=firefox/syspref.js
+- sysctl: name=vm.overcommit_memory value=2 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf

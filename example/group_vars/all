@@ -1,8 +1,8 @@
 ---
-domain: msk.example.ru
+domain: private
 timezone: Europe/Moscow
 ansible_sudo: yes
-ansible_ssh_host: "{{inventory_hostname}}.{{domain}}"
+#ansible_ssh_host: "{{inventory_hostname}}.{{domain}}"
 root_password: "$6$s3RjWlxvQq$Q3aTFEdE6tmPHnhRJugxTJbvogCVsFI/Ad48DECCwzZWJ5nEuu.GziiK0t9mEUQJLfvWAnYzqfnIf7RxVPDbr."
 root_pubkey: "ssh-rsa <some_key> root"
 ssh_listen_port: 22

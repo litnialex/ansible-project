@@ -4,6 +4,7 @@
   - testvar: 'YES'
   - options: 'asdf qwer'
   tasks:
+  - debug: var=extra1
 
   #  tasks:
     #  - lineinfile: dest=/tmp/asdfasdf

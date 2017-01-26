@@ -1,4 +1,5 @@
 {
-  "DiskCacheSize":    10100100,
-  "MediaCacheSize":   10100100
+  "DiskCacheDir": "/dev/shm/chromium_cache",
+  "DiskCacheSize":    100100100,
+  "MediaCacheSize":   100100100
 }

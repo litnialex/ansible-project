@@ -1,14 +1,14 @@
 ---
 # VIRTUAL HOST LIVECYCLE 
-# ansible-playbook new_guest.xml -l kvm2 -e 'guest=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 size=10G ram_megabytes=2048'
-# add guestname to DNS
+# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 size=10G ram_megabytes=2048'
+# add newguestname to DNS
 # ansible-playbook site.yml -t common -l newgestname -u root
 # ansible-playbook users.yml -l newgestname -u root
-# ansible-playbook remove_guest.yml -e guest=newgestname
+# ansible-playbook remove_guest.yml -e name=newgestname
 
 - hosts: kvm_servers
   vars:
-  - guest: newguestname
+  - name: newguestname
   - size: 3G
   - ram_megabytes: 1024
   - vcpu_count: 2
@@ -20,35 +20,31 @@
   #- gateway: 192.168.78.1
 
   pre_tasks:
-  - lvol: vg=vg0 lv={{ guest }} size={{ size }}
-  - filesystem: dev=/dev/vg0/{{ guest }} fstype=ext4
-  - mount: src=/dev/vg0/{{ guest }} name=/mnt/{{ guest }} fstype=auto opts=noauto,defaults state=mounted
+  - lvol: vg=vg0 lv={{ name }} size={{ size }}
+  - filesystem: dev=/dev/vg0/{{ name }} fstype=ext4
+  - mount: src=/dev/vg0/{{ name }} name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
 
   roles:
   - role: debootstrap
-    debootstrap_path: "/mnt/{{ guest }}"
+    debootstrap_path: "/mnt/{{ name }}"
     debootstrap_os: "{{ os }}"
     debootstrap_os_version: "{{ os_version }}"
-    debootstrap_hostname: "{{ guest }}"
+    debootstrap_hostname: "{{ name }}"
 
   tasks:
   - name: unmounting logical volume
-    mount: src="/dev/vg0/{{ guest }}" fstype=auto name="/mnt/{{ guest }}" state=unmounted
+    mount: src="/dev/vg0/{{ name }}" fstype=auto name="/mnt/{{ name }}" state=unmounted
 
   - name: running setup to gather facts
     setup:
     tags: always
     when: ansible_os_family is not defined
 
-  - name: copy new guest config
-    template: dest="/etc/libvirt/qemu/{{ guest }}.xml" src="files/new_guest_{{ inventory_hostname }}.xml"
-    tags: define
-
   - name: define new guest
-    virt: name="{{ guest }}" command=define xml="/etc/libvirt/qemu/{{ guest }}.xml"
+    virt: name="{{ name }}" command=define xml="{{ lookup('template', 'files/new_guest_{{ inventory_hostname }}.xml') }}"
     tags: define
 
   - name: start new guest
-    virt: name="{{ guest }}" state=running
-    tags: define
+    virt: name="{{ name }}" state=running
+    tags: start
 

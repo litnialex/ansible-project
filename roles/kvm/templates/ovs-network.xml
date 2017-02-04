@@ -1,0 +1,49 @@
+<!--
+WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
+OVERWRITTEN AND LOST. Changes to this xml configuration should be made using:
+  virsh net-edit ovs-network
+or other application using the libvirt API.
+-->
+
+<network>
+  <name>ovs-network</name>
+  <uuid>985f2612-91c7-4a5f-96ca-606f0b454f4f</uuid>
+  <forward mode='bridge'/>
+  <bridge name='br0'/>
+  <virtualport type='openvswitch'/>
+  <portgroup name='vlan-3'>
+    <vlan>
+      <tag id='3'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-27'>
+    <vlan>
+      <tag id='27'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-379'>
+    <vlan>
+      <tag id='379'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-400'>
+    <vlan>
+      <tag id='400'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='vlan-777'>
+    <vlan>
+      <tag id='777'/>
+    </vlan>
+  </portgroup>
+  <portgroup name='trunkPortGroup'>
+    <vlan trunk='yes'>
+      <tag id='3'/>
+      <tag id='60'/>
+      <tag id='207'/>
+      <tag id='502'/>
+      <tag id='504'/>
+      <tag id='777'/>
+    </vlan>
+  </portgroup>
+</network>

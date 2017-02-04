@@ -1,0 +1,5 @@
+---
+- name: start console on ttyS0
+  systemd: name=serial-console@ttyS0 daemon_reload=yes enabled=yes state=started
+- name: start console on ttyS1
+  systemd: name=serial-console@ttyS1 daemon_reload=yes enabled=yes state=started

@@ -10,7 +10,7 @@
   - { role: backup, ansible_become: no, tags: backup, src: [/etc/quagga] }
 - hosts: fw_servers
   roles:
-  - { role: backup, ansible_become: no, tags: backup, src: [/etc/network/fw] }
+  - { role: backup, ansible_become: no, tags: backup, src: [/etc/fw] }
 - hosts: asterisk_servers
   roles:
   - { role: backup, ansible_become: no, tags: backup, src: [/etc/asterisk] }

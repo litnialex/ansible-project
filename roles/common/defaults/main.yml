@@ -9,7 +9,6 @@ ssh_default_port: '{{ ssh_listen_port }}'
   
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:
-common_modprobe_conf:
 preffered_mirror: 'http://mirror.yandex.ru'
 install_pkgs_distribution: '[]'
 install_pkgs_inventory_group: '[]'
@@ -64,3 +63,5 @@ install_pkgs:
 - wget
 - whois
 
+common_modprobe_conf:
+- 'blacklist floppy'

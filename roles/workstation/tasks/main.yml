@@ -1,4 +1,7 @@
 ---
+- name: Include Distribution version specific variables
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+
 - apt: name={{ item }}
   with_flattened: 
   - "{{ workstation_desktop.split() }}"
@@ -6,8 +9,13 @@
   - "{{ workstation_apps_printer.split() }}"
   - "{{ workstation_apps_python.split() }}"
 
-- service: name=smbd enabled=no
-- service: name=nmbd enabled=no
+- service: name=smbd enabled=no state=stopped
+  ignore_errors: true
+- service: name=nmbd enabled=no state=stopped
+  ignore_errors: true
+- service: name=avahi-daemon enabled=no state=stopped
+  ignore_errors: true
+
 
 - template: src=interfaces dest=/etc/network/
 - template: src=crypttab dest=/etc/
@@ -23,9 +31,21 @@
 - fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
 - apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
 
-- copy: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
+- template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
 - file: dest=/etc/opt/chrome/policies/managed/ state=directory
-- file: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
+- template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
 - template: dest=/etc/firefox/ src=firefox/syspref.js
-- sysctl: name=vm.overcommit_memory value=2 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
-- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+
+# Chromium hangs frequently with these options
+#- sysctl: name=vm.overcommit_memory value=2 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+#- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+
+- user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }}
+- copy: dest=/etc/ssh/keys/{{ workstation_user }} content='{{ root_pubkey }}@{{ domain }}\n'
+- lineinfile: dest=/etc/sudoers.d/{{ workstation_user }} line='{{ workstation_user }} ALL=(ALL) ALL' mode=660 create=yes
+
+- block:
+  - command: gsettings set org.mate.peripherals-keyboard-xkb.indicator show-flags "true"
+  - file: dest=/home/{{ workstation_user }}/.icons/flags state=directory
+  - copy: src=files/flags/ dest=/home/{{ workstation_user }}/.icons/flags/
+  become_user: '{{ workstation_user }}'

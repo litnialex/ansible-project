@@ -3,7 +3,9 @@
 
 - name: include client
   include: client.yml 
-  when: run_nagios_client is defined 
+  when:
+  - run_nagios_client is defined 
+  - run_nagios_client == true
 
 
 - name: include server

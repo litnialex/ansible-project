@@ -37,7 +37,7 @@
 
 - name: copy master zone files
   copy: src=files/dns/{{ item.file | default(item.name) }} dest={{ bind_base_zones_path }}/{{bind_masterzones_path}} owner={{ bind_user }} group={{ bind_group }}
-  with_items: bind_config_master_zones
+  with_items: '{{ bind_config_master_zones }}'
   notify: reload bind
   tags: bindzones
 

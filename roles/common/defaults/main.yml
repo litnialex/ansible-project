@@ -26,6 +26,7 @@ install_pkgs:
 - findutils
 - ftp
 - gzip
+- htop
 - iftop
 - iotop
 - iproute
@@ -57,11 +58,13 @@ install_pkgs:
 - tar
 - tcpdump
 - telnet
+- tmux
 - traceroute
 - unzip
 - vim
 - wget
 - whois
+- xfsprogs
 
 common_modprobe_conf:
 - 'blacklist floppy'

@@ -27,7 +27,7 @@
   locale_gen: name={{ lang }}
 
 - name: Set Lang
-  copy: dest='{{ lang_file }}' content='LANG="{{ lang }}"'
+  copy: dest='{{ lang_file }}' content='LANG="{{ lang }}"\n'
 
 - name: Set Root Password
   user: name=root password="{{ root_password }}" update_password=always
@@ -39,6 +39,8 @@
 
 - name: Set screenrc
   template: dest=/etc/screenrc src=screenrc
+
+- template: dest=/etc/ src=tmux.conf
 
 - name: Vim Config Directory
   file: dest=/etc/vim/ state=directory

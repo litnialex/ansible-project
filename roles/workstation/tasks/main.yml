@@ -46,6 +46,11 @@
 
 - block:
   - command: gsettings set org.mate.peripherals-keyboard-xkb.indicator show-flags "true"
+  - command: gsettings set org.mate.power-manager sleep-display-battery 3600
+  - command: gsettings set org.mate.power-manager sleep-display-ac 3600
+  - command: gsettings set org.mate.power-manager idle-dim-ac false
+  - command: gsettings set org.mate.power-manager sleep-computer-ac 7200
+  - command: gsettings set org.mate.power-manager idle-dim-battery false
   - file: dest=/home/{{ workstation_user }}/.icons/flags state=directory
   - copy: src=files/flags/ dest=/home/{{ workstation_user }}/.icons/flags/
   become_user: '{{ workstation_user }}'

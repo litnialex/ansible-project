@@ -15,4 +15,3 @@
 - file: dest='{{ roundcube_path }}/admin' src=/usr/share/postfixadmin/ state=link
 
 - copy: dest=/etc/sudoers.d/postfixadmin  content='www-data ALL=(ALL) NOPASSWD:/etc/postfixadmin/postfixadmin-mailbox-postdeletion.sh\n' mode=0640
-  tags: this

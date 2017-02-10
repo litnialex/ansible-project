@@ -7,11 +7,9 @@
 - apt: deb='./percona-cacti-templates_1.1.5-1_all.deb'
 
 - template: src=debian.php dest=/etc/cacti/debian.php
-  tags: this
 - template: src=spine.conf dest=/etc/cacti/spine.conf
 - template: src=cron dest=/etc/cron.d/cacti
 - template: src=apache2.conf dest=/etc/apache2/conf-available/cacti.conf
-  tags: this
   notify: reload apache2
 - file: src=../conf-available/cacti.conf dest=/etc/apache2/conf-enabled/cacti.conf state=link
   notify: reload apache2

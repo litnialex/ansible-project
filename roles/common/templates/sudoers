@@ -1,0 +1,17 @@
+#{{ ansible_managed }}
+
+Defaults env_reset
+Defaults env_keep = "SSH_AUTH_SOCK EDITOR"
+Defaults timestamp_timeout = 120
+Defaults mail_badpass
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Allow members of group sudo to execute any command WITHOUT PASSWORD
+# better to remove and add timeout for password prompt
+%sudo   ALL=(ALL:ALL) NOPASSWD:ALL
+
+#includedir /etc/sudoers.d
+

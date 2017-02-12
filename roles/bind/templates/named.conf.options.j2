@@ -11,6 +11,11 @@ options {
   directory "{{ bind_base_zones_path }}";
   version "Guess";
   listen-on-v6 { none; };
+  listen-on {
+{% for addr in bind_config_listen_on %}
+    {{ addr }};
+{% endfor %}
+  };
   auth-nxdomain no;    // conform to RFC1035
   edns-udp-size 512;
   //query-source address * port 53;

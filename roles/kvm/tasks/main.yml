@@ -1,6 +1,9 @@
 - apt: name='{{ item }}'
   with_items: "{{ install_pkgs.split(' ') }}"
 
+- apt: name=openvswitch-switch
+  when: kvm_use_vswitch == "yes"
+
 - file: dest="/etc/systemd/system/serial-getty@ttyS0" src="/lib/systemd/system/serial-getty@.service" state=link force=yes
   #notify: start console on ttyS0
   # Could not find the requested service serial-console@ttyS0

@@ -10,10 +10,10 @@ ssh_default_port: '{{ ssh_listen_port }}'
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:
 preffered_mirror: 'http://mirror.yandex.ru'
-install_pkgs_distribution: '[]'
-install_pkgs_inventory_group: '[]'
-install_pkgs_inventory_host: '[]'
-install_pkgs:
+common_install_pkgs_distribution: '[]'
+common_install_pkgs_inventory_group: '[]'
+common_install_pkgs_inventory_host: '[]'
+common_install_pkgs:
 - apg
 - bc
 - cryptsetup

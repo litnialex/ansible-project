@@ -1,0 +1,13 @@
+---
+mail_root: /var/mail
+mail_server_name: mail.example.com
+
+postfix_db_password: 'tetIkTayhiFash5'
+postfix_main_cf:
+  mynetworks: 127.0.0.0/8 172.16.0.0/12 192.168.0.0/16 10.0.0.0/8
+  
+roundcube_htdocs_dir: /opt/roundcube
+dovecot_db_password: 'gofUsHikghipOim'
+roundcube_db_password: 'flecIjbayHeddye'
+
+fail2ban_ignoreip: '127.0.0.1/8 192.168.0.0/16 1.2.3.0/24'

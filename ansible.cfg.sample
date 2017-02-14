@@ -1,6 +1,6 @@
 [defaults]
 hostfile       = ./inventory
-roles_path    = ~/ansible/roles
+roles_path    = ./roles
 forks          = 50
 gathering = explicit
 hash_behaviour = merge
@@ -9,3 +9,4 @@ display_skipped_hosts = False
 retry_files_enabled = False
 pipelining=True
 display_args_to_stdout = True
+

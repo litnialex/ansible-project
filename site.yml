@@ -56,7 +56,6 @@
   roles:
   - { role: cacti, tags: cacti }
 
-
 - hosts: megaraid_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:

@@ -1,0 +1,28 @@
+---
+nagios_users: []
+nagios_admins_group: 'admin'
+
+nagios_host_groups:
+  - name: 'all'
+    checks:
+      - {command: 'check_disk', description: 'Disk'}
+      #- {command: 'check_swap', description: 'Check Swap Space'}
+      - {command: 'check_load', description: 'CPU'}
+      - {command: 'check_mem', description: 'RAM'}
+  #- name: 'webservers'
+  #  checks:
+  #    - {command: 'check_http', description: 'Check HTTP'}
+
+nagios_hosts_ignore:
+- sandbox
+nagios_groups_ignore:
+- litnitskiy_servers
+- trac_servers
+
+users:
+- username: admin
+  groups: ['admin']
+  htpasswd: $apr1$JUW25Ioe$AN58BnaSVZAqY30ZMtnCV0
+  nagios:
+    pager: 2462
+    email: root@example.com

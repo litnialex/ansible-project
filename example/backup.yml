@@ -1,7 +1,0 @@
----
-- hosts: pbx
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/tftproot] }
-- hosts: extproxy
-  roles:
-  - { role: backup, ansible_sudo: no, tags: backup, src: [/etc/apache2] }

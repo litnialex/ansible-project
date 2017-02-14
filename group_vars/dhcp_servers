@@ -1,0 +1,17 @@
+dhcp_common_domain: '{{ domain }}'
+dhcp_common_nameservers: '{{ nameservers | join(", ") }}'
+dhcp_common_default_lease_time: 600
+dhcp_common_max_lease_time: 7200
+dhcp_common_ddns_update_style: none
+dhcp_common_authoritative: true
+dhcp_common_log_facility: daemon
+dhcp_subnets:
+- base: 172.18.0.0
+  netmask: 255.255.255.0
+  interface: eth0
+  range_start: 172.18.0.160
+  range_end: 172.18.0.170
+  routers: 172.18.0.1
+  parameters:
+    - 'filename "pxelinux.0"'
+    - 'next-server {{ nfsroot_server }}'

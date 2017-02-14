@@ -10,12 +10,13 @@
 
 - name: YUM Cache Update
   yum: name='*' state=latest update_cache=yes
+  changed_when: False
 
 - name: Install Server Basics
   yum: name='{{ item }}' state=installed
   with_flattened: 
-  - '{{ install_pkgs }}'
-  - '{{ install_pkgs_distribution }}'
+  - '{{ common_install_pkgs }}'
+  - '{{ common_install_pkgs_distribution }}'
 
 - name: vimrc hack needed only in RedHat
   lineinfile:

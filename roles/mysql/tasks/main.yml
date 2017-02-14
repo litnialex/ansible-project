@@ -1,9 +1,9 @@
 ---
+- name: Include Distribution version specific variables
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
+
 - apt: pkg={{ item }} state=installed
-  with_items:
-    - mysql-server
-    - python-mysqldb
-    - php5-mysql
+  with_items: '{{ mysql_packages }}'
 
 - template: dest=/etc/mysql/my.cnf src=my.cnf backup=yes
   notify: restart mysql

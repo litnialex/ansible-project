@@ -1,0 +1,11 @@
+---
+document_root: '/var/www'
+moinmoin_data_dir: '/var/www/moinmoin'
+moinmoin_mail_smarthost: 'mail.{{ domain }}'
+moinmoin_mail_login: 'wiki@{{ domain }}'
+moinmoin_mail_password: 'itMatDukwygBi'
+moinmoin_farm:
+- name: "wiki.example.com"
+  module: "IT"
+  regexp: ".*"
+

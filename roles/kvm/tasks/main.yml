@@ -1,5 +1,5 @@
 - apt: name='{{ item }}'
-  with_items: "{{ install_pkgs.split(' ') }}"
+  with_items: "{{ kvm_install_pkgs.split() }}"
 
 - apt: name=openvswitch-switch
   when: kvm_use_vswitch == "yes"

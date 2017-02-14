@@ -17,9 +17,9 @@ class FarmConfig(multiconfig.DefaultConfig):
   acl_rights_before = u"LitniAlex:read,write,delete,revert,admin"
   acl_rights_default = u'Known:read,write,delete,revert,admin All:none'
 
-  mail_smarthost = 'mx.niisa.ru'
-  mail_from = u'Wiki <wiki@niisa.ru>'
-  mail_login = 'wiki@niisa.ru redeathmokOnHys'
+  mail_smarthost = '{{ moinmoin_mail_smarthost }}'
+  mail_from = u'Wiki <{{ moinmoin_mail_login }}>'
+  mail_login = '{{ moinmoin_mail_login }} {{ moinmoin_mail_password }}'
 
   page_front_page = u'Главная'
   navi_bar = [
@@ -40,5 +40,5 @@ class FarmConfig(multiconfig.DefaultConfig):
 
   show_hosts = 1
 
-  logo_string = u'<img src="http://niisa.ru/content/img/bg.gif" alt="MoinMoin Logo" height=100>'
+  logo_string = u'<img src="http://{{ domain }}/content/img/bg.gif" alt="MoinMoin Logo" height=100>'
   show_interwiki = 1

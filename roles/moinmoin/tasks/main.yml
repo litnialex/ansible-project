@@ -22,14 +22,21 @@
 
 - name: copy wikiconfig template
   template: src=wikiconfig.py.j2 dest='/etc/moin/{{ item.module }}.py'
-  with_items: moinmoin_farm
+  with_items: '{{ moinmoin_farm }}'
 
 #- name: add bacula job for backup
 #  template: src=bacula.conf.j2 dest=/etc/bacula/conf.d/jobs/moinmoin 
 #  delegate_to: '{{ bacula_director }}'
 #  notify: reload bacula_director
 
-- lineinfile: dest=/etc/rc.local line='moin server standalone --port=1080  --pidfile=/var/run/moinmoin.pid --user=moinmoin --group=moinmoin --start' regexp='^moin.*' insertbefore='^exit.*'
+- lineinfile:
+    dest: /etc/rc.local 
+    line: 'moin server standalone --port=1080  --pidfile=/var/run/moinmoin.pid --user=moinmoin --group=moinmoin --start'
+    regexp: '^moin.*' 
+    insertbefore: '^exit.*'
+    create: yes
+
+- file: dest={{ moinmoin_data_dir }} state=directory
 
 - template: dest={{ moinmoin_data_dir }} src=wikiexport.sh mode=755
 

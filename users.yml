@@ -1,0 +1,70 @@
+---
+- hosts: all
+  tasks:
+    - name: Create Admin Group
+      group: name=admin gid=2000 state=present
+
+    - name: Create Alitnitskiy User
+      user:
+        name: alitnitskiy
+        uid: 2001
+        home: /home/alitnitskiy
+        shell: /bin/bash
+        password: '{{ root_password }}'
+        update_password: on_create
+        groups: sudo
+      tags: alitnitskiy
+    - copy: src=files/ssh_pubkeys/alitnitskiy dest=/etc/ssh/keys/
+      tags: alitnitskiy
+
+- hosts: all:!litnitskiy_servers
+  tasks:
+    - name: Create Vasiliy Pupkin
+      user:
+        name: vpupkin
+        uid: 2002
+        home: /home/vpupkin
+        shell: /bin/bash
+        password: '{{ root_password }}'
+        update_password: on_create
+      tags: vpupkin
+    - copy: src=files/ssh_pubkeys/vpupkin dest=/etc/ssh/keys/
+      tags: vpupkin
+
+- hosts: clone1:jira:goldproxy:jira2
+  tasks:
+  - user: name=spetrov uid=2004 home=/home/spetrov shell=/bin/bash groups=sudo
+    tags: spetrov
+  - copy: src=files/ssh_pubkeys/spetrov dest=/etc/ssh/keys/
+    tags: spetrov
+
+- hosts: main:main2:sandbox
+  tasks:
+  - user: name=svoronin uid=2006 home=/home/svoronin shell=/bin/bash groups=sudo
+    tags: svoronin
+  - copy: src=files/ssh_pubkeys/svoronin dest=/etc/ssh/keys/
+    tags: svoronin
+
+########## Superuser Becoming Rules ###############
+- hosts: main:clfw01:clfw02:utm:mail:goldproxy
+  tasks:
+  - user: name=vpupkin groups=sudo append=yes
+    tags: vpupkin
+
+########## Server specific rules ###############
+- hosts: quagga_servers
+  tasks:
+  - user: name=alitnitskiy groups=quagga append=yes
+    tags: quagga
+
+- hosts: main
+  tasks:
+  - user: name={{ item }} groups=openvpn append=yes
+    with_items: [alitnitskiy,vpupkin,svoronin]
+    tags: openvpn
+
+- hosts: breeze
+  tasks:
+    - user: name=nagios uid=1001 group=nagios
+    - copy: src=files/ssh_pubkeys/nagios dest=/etc/ssh/keys/
+

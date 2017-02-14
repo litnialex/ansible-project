@@ -1,3 +1,6 @@
+ansible.cfg
+
+# Commonly excluded files
 *.pyc
 .*.s[a-w][a-z]
 *.un~

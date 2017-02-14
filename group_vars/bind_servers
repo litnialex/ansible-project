@@ -1,0 +1,9 @@
+---
+bind_config_allow_recursion:
+- 1.2.3.0/24
+bind_config_master_allow_transfer:
+- 1.2.3.4
+- 5.6.7.8
+example_domains:
+- {name: "example.ru", file: "example.db"}
+- {name: "example.com", file: "example.db"}

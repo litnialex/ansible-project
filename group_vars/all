@@ -1,0 +1,25 @@
+---
+domain: example.com
+ansible_ssh_host: "{{inventory_hostname}}.{{domain}}"
+ansible_become: yes
+
+root_password: "$6$PMXrydBlRFA$F3ShDYsNJMxijclxuVvM34f4Su8KbRBOPpSaBO9g7oL3rrO.0L1w1jREgGe88vV9mRmaS/2tKOC6atVeceUnA1"
+root_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD0F1EqBuHPcHfh4QbdQf2eTrcmBsfg0TmWG4EJlbcTRy4Ubl8F3iv3b+okjJvqldqoG3MI4Q5lvf4FMxRGVCOaKtIuSzWhNOAkUXbT3VmRl2MBmUXrUKjKA5YkVB7BzIanB535H4lJylJSqOLrbDxG0vtoCvZiHWzWtG74qyeic9tglmceRDd+EkpqlNE6Fp03DUOFSFw5uqoyqtAaG8FbsAD8gIJ1zwvgRg9+nEDm2+STyxR7Bl5UR6WjzkVEqBBigqfrA6OJsLRDDcXsEaTWWx0mTQObsbwW+3TkSEV6u0KroqkElqwiCq/Hp9I54l+rfgwCIt43R7FIq640B7iH root@localhost"
+
+ssh_listen_port: 8822
+
+snmp_community: 'guajWiheck'
+cacti_db_password: 'SeectEthPy'
+
+nameservers: 
+- "8.8.8.8"
+- "8.8.4.4"
+
+bacula_director: bak
+
+nfsroot_server: 192.168.0.252
+
+nagios_allowed_hosts:
+  - 127.0.0.1
+  - ::1
+  - 10.0.13.3

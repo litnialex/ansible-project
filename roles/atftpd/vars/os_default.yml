@@ -1,4 +1,4 @@
-install_pkgs:
+atftpd_install_pkgs:
  - atftpd
  - pxelinux
 

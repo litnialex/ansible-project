@@ -1,0 +1,6 @@
+---
+bind_config_slave_zones:
+- name: example slave zones
+  masters:
+  - 11.22.33.44
+  zones: '{{ example_domains }}'

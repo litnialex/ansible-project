@@ -8,7 +8,7 @@
     - os_default.yml
 
 - apt: state=installed name='{{ item }}'
-  with_items: '{{ install_pkgs }}'
+  with_items: '{{ atftpd_install_pkgs }}'
 
 - template: dest=/etc/default/atftpd src=atftpd
   notify: restart atftpd

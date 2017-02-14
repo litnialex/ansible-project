@@ -1,0 +1,5 @@
+---
+moinmoin_farm:
+- name: "wiki.example.com"
+  module: "IT"
+  regexp: ".*"

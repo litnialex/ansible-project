@@ -1,4 +1,5 @@
 ---
+debootstrap_arch: amd64
 debootstrap_hostname: debootstrapped
 debootstrap_path: /srv/nfs
 debootstrap_os: debian
@@ -15,6 +16,7 @@ debootstrap_common_pkgs:
 - grub-pc
 - vim
 - screen
+- tmux
 - rsync
 - sudo
 - mdadm

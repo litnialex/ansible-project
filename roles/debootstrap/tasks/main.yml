@@ -7,7 +7,7 @@
 - stat: path="{{ debootstrap_path }}/etc"
   register: debootstrap_etc
 
-- shell: "debootstrap --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ http://mirror.yandex.ru/{{ debootstrap_os }}"
+- shell: "debootstrap --arch {{ debootstrap_arch }} --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ http://mirror.yandex.ru/{{ debootstrap_os }}"
   when: not debootstrap_etc.stat.exists
 
 - name: setting hostname

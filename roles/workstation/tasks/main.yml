@@ -17,7 +17,7 @@
   ignore_errors: true
 
 
-- template: src=interfaces dest=/etc/network/
+#- template: src=interfaces dest=/etc/network/
 - template: src=crypttab dest=/etc/
 - lineinfile: dest=/etc/fstab line="/dev/mapper/home /home auto defaults 0 2"
   when: workstation_crypt_home is defined
@@ -30,10 +30,13 @@
 
 - fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
 - apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
+  ignore_errors: true
 
 - template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
+  ignore_errors: true
 - file: dest=/etc/opt/chrome/policies/managed/ state=directory
 - template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
+  ignore_errors: true
 - template: dest=/etc/firefox/ src=firefox/syspref.js
 
 # Chromium hangs frequently with these options

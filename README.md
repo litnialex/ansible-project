@@ -1,6 +1,7 @@
 # ansible-project
 This is a set of [Ansible](http://docs.ansible.com/ansible/index.html) Playbooks and Roles I use for automation tasks.
-Some roles are written from scratch, others taken from [ansible-galaxy](https://galaxy.ansible.com/) or other sources.
+Some roles are written from scratch (e.g. role *common*), others taken from [ansible-galaxy](https://galaxy.ansible.com/) (like *bind*, *dhcp_server*).
+
 Role *common* is used for any ansible-managed host.
 
 
@@ -29,16 +30,20 @@ For adding a new user on all hosts you can run:
 ```
 ansible-playbook users.yml -t vpupkin
 ```
-
+#### new_guest.yml - create new KVM guest 
+    ansible-playbook new_guest.yml -l kvm2 -e 'name=sandbox size=10G ip=192.168.231.18/24 gateway=192.168.231.1 vlan=27'
 
 ## How To Use this repository
-First clone it to your host and create ansible.cfg
+First clone it on your host and create ansible.cfg
+```bash
+git clone https://github.com/litnialex/ansible-project
+cd ansible-project
+cp ansible.cfg.sample ansible.cfg
+```
 
-    git clone https://github.com/litnialex/ansible-project
-    cd ansible-project
-    cp ansible.cfg.sample ansible.cfg
-
-Review files *ansible.cfg*, *group_vars/all* and *inventory*.
+Review  *ansible.cfg* and make sure `roles_path` points to actual location of *roles* subdirectory of this repo.
+Remove demo hosts from *inventory* and add yours.
+Modify *group_vars/all* and other files inside *group_vars* or *host_vars* to match your environment.
 
 Then apply *common* role to a server, e.g. *testos* connecting as root
 ```
@@ -50,20 +55,19 @@ Create users on *testos*
 ansible-playbook users.yml -l testos -e ansible_ssh_port=8822
 ```
 
-I usually add in *~/.ssh/config* entries like
+There is a way to use the same set of ssh options whenever you run `ssh ns.example.com` or `ansible -m ping ns`.
+First, add ino *~/.ssh/config* entries like
 ```
 Host *.example.com
   Port 8822
   User alitnitskiy
 ```
-Thus the same parameters are used whenever I run `ssh ns.example.com` or `ansible -m ping ns`
 
-It is working because I have in *group_vars/all*:
+Second part is already done for you, *group_vars/all* defines:
 ```
 domain: example.com
 ansible_ssh_host: ansible_ssh_host: "{{inventory_hostname}}.{{domain}}"
 ```
-
 
 ## Creating a New Project
 I use the same set of roles in different projects (I guess it's the primary scope for roles being invented.)

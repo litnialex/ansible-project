@@ -21,8 +21,12 @@
 
   pre_tasks:
   - lvol: vg=vg0 lv={{ name }} size={{ size }}
-  - filesystem: dev=/dev/vg0/{{ name }} fstype=ext4
-  - mount: src=/dev/vg0/{{ name }} name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
+  - shell: losetup -f
+    register: loopback
+  - command: losetup {{ loopback.stdout }} /dev/vg0/{{ name }}
+  - command: parted -s {{ loopback.stdout }} -- mklabel msdos mkpart primary 2048s -1s
+  - filesystem: dev={{ loopback.stdout }}p1 fstype=ext4
+  - mount: src={{ loopback.stdout }}p1 name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
 
   roles:
   - role: debootstrap
@@ -32,8 +36,8 @@
     debootstrap_hostname: "{{ name }}"
 
   tasks:
-  - name: unmounting logical volume
-    mount: src="/dev/vg0/{{ name }}" fstype=auto name="/mnt/{{ name }}" state=unmounted
+  - mount: name=/mnt/{{ name }} state=unmounted
+  - command: losetup -d {{ loopback.stdout }}
 
   - name: running setup to gather facts
     setup:

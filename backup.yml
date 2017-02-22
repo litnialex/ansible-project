@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: all:!network_hardware
   roles:
   - { role: backup, ansible_become: no, tags: backup, src: [/etc/network/interfaces, /etc/network/interfaces.d, /etc/fstab] }
 - hosts: bind_servers

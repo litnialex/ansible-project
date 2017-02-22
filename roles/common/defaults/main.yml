@@ -9,6 +9,10 @@ ssh_default_port: '{{ ssh_listen_port }}'
   
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:
+
+common_sudoers_rules:
+- '%admin ALL = NOPASSWD:/usr/sbin/tcpdump, /usr/sbin/iftop'
+
 preffered_mirror: 'http://mirror.yandex.ru'
 common_install_pkgs_distribution: '[]'
 common_install_pkgs_inventory_group: '[]'
@@ -18,6 +22,7 @@ common_install_pkgs:
 - bc
 - cryptsetup
 - curl
+- dbus
 - dos2unix
 - dosfstools
 - e2fsprogs

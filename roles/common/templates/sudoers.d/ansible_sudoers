@@ -1,0 +1,4 @@
+#{{ ansible_managed }}
+{% for line in common_sudoers_rules %}
+{{ line }}
+{% endfor %}

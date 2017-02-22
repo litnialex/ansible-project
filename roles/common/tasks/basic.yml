@@ -41,6 +41,7 @@
   template: dest=/etc/screenrc src=screenrc
 
 - template: dest=/etc/ src=tmux.conf
+  tags: tmuxconf
 
 - name: Vim Config Directory
   file: dest=/etc/vim/ state=directory

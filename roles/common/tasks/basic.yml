@@ -37,6 +37,13 @@
   with_dict: "{{ custom_env | default('{}') }}"
   when: item.value != None
 
+- name: Setup Grub Environment
+  lineinfile: dest=/etc/default/grub line='{{ item.key }}="{{ item.value }}"' regexp='^{{ item.key }}=.*' create=no
+  with_dict: "{{ common_grub_defaults }}"
+  when: item.value != None
+  notify: update grub
+  tags: grubconfig
+
 - name: Set screenrc
   template: dest=/etc/screenrc src=screenrc
 
@@ -61,3 +68,7 @@
 
 - name: Copy /etc/modprobe.d/ansible-common.conf
   template: dest=/etc/modprobe.d/ src=modprobe.d/ansible-common.conf
+
+- name: Enable Console on Serial Port ttyS0
+  systemd: name=serial-getty@ttyS0 daemon_reload=yes enabled=yes state=started
+

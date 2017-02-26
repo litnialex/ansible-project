@@ -8,6 +8,7 @@
 
 - hosts: kvm_servers
   vars:
+  - ansible_become: true
   - name: newguestname
   - size: 3G
   - ram_megabytes: 1024
@@ -38,6 +39,7 @@
   tasks:
   - mount: name=/mnt/{{ name }} state=unmounted
   - command: losetup -d {{ loopback.stdout }}
+  - file: dest={{ loopback.stdout }}p1 state=absent
 
   - name: running setup to gather facts
     setup:

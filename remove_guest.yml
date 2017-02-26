@@ -1,6 +1,7 @@
 ---
 - hosts: kvm_servers
   vars:
+    - ansible_become: true
     - name: newguestname
 
   tasks:
@@ -8,6 +9,6 @@
       ignore_errors: True
     - virt: name="{{ name }}" command=undefine
       ignore_errors: True
-    - mount: src=/dev/vg0/"{{ name }}" fstype=auto name=/mnt/"{{ name }}" state=unmounted
-    - mount: src=/dev/vg0/"{{ name }}" fstype=auto name=/mnt/"{{ name }}" state=absent
+    - mount: name="/mnt/{{ name }}" state=unmounted
+    - mount: name="/mnt/{{ name }}" state=absent
     - lvol: vg='vg0' lv='{{ name }}' state=absent force=yes

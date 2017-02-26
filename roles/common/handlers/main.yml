@@ -18,3 +18,8 @@
 - name: sysctl restart
   service: name=systemd-sysctl state=restarted
 
+- name: update grub
+  shell: update-grub
+
+- name: enable serial console on ttyS0
+  systemd: name=serial-getty@ttyS0 daemon_reload=yes enabled=yes state=started

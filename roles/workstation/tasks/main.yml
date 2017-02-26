@@ -46,6 +46,7 @@
 - user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }}
 - copy: dest=/etc/ssh/keys/{{ workstation_user }} content='{{ root_pubkey }}@{{ domain }}\n'
 - lineinfile: dest=/etc/sudoers.d/{{ workstation_user }} line='{{ workstation_user }} ALL=(ALL) ALL' mode=660 create=yes
+- lineinfile: dest='/etc/security/limits.d/{{ workstation_user }}.conf' line='{{ workstation_user }} - nofile 10000' mode=644 create=yes
 
 - block:
   - command: gsettings set org.mate.peripherals-keyboard-xkb.indicator show-flags "true"

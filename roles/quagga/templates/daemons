@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for daemon in quagga_daemons %}
+{{ daemon }}=yes
+{% endfor %}

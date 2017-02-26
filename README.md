@@ -79,18 +79,13 @@ Let's suppose it is the *newproject*, then run:
 rsync  -av ansible-project/ ansible-newproject --exclude roles/ --exclude .git/
 ```
 
-Then change directory to *ansible-newproject* and create a soft-link: roles -> ../ansible-project/roles
-
-```
-ln -ivs ../ansible-project/roles
-```
-
 You will probably would like also to use the same site.yml and ansible.cfg in all projects.
 It will allow you to change *site.yml* inside any project, and it will effect all projects.
-If so run:
-
-    ln -ivs ../ansible-project/ansible.cfg
-    ln -ivs ../ansible-project/site.yml
+If so then change directory to *ansible-newproject* and create a soft-links:
+```
+ln -ivs ../ansible-project/ansible.cfg
+ln -ivs ../ansible-project/site.yml
+```
 
 Free advice: keep *ansible-project* in a private repository.
 

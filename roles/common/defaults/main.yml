@@ -1,19 +1,27 @@
 ---
 lang: en_US.UTF-8
 timezone: Europe/Moscow
+preffered_mirror: 'http://mirror.yandex.ru'
+ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
+ssh_default_port: '{{ ssh_listen_port }}'
+
 common_root_alias: 'root@{{ domain }}'
+
 common_sysctl:
   net.ipv6.conf.all.disable_ipv6: 1
-ssh_listen_port: 22
-ssh_default_port: '{{ ssh_listen_port }}'
-  
+
+common_grub_defaults:
+  GRUB_CMDLINE_LINUX_DEFAULT: 'rootdelay=15'
+
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:
 
 common_sudoers_rules:
 - '%admin ALL = NOPASSWD:/usr/sbin/tcpdump, /usr/sbin/iftop'
 
-preffered_mirror: 'http://mirror.yandex.ru'
+common_modprobe_conf:
+- 'blacklist floppy'
+
 common_install_pkgs_distribution: '[]'
 common_install_pkgs_inventory_group: '[]'
 common_install_pkgs_inventory_host: '[]'
@@ -44,7 +52,6 @@ common_install_pkgs:
 - nano
 - ngrep
 - nmap
-- ntp
 - ntpdate
 - openssh-server
 - p7zip
@@ -71,5 +78,3 @@ common_install_pkgs:
 - whois
 - xfsprogs
 
-common_modprobe_conf:
-- 'blacklist floppy'

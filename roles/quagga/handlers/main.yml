@@ -1,0 +1,4 @@
+---
+- name: restart quagga
+  service: name=quagga state=restarted
+

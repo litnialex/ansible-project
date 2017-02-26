@@ -1,10 +1,11 @@
 ---
-- hosts: all
-  vars: 
-  - testvar: 'YES'
-  - options: 'asdf qwer'
+- hosts: all_servers
+  vars:
+    - ansible_become: yes
   tasks:
-  - debug: var=extra1
+  - setup:
+  - apt: name=ntp state=absent
+    when: ansible_system_vendor == "QEMU"
 
   #  tasks:
     #  - lineinfile: dest=/tmp/asdfasdf
@@ -33,8 +34,8 @@
 #      copy_links: yes
 #      rsync_path: "sudo rsync"
 
-  roles:
-    - testrole
+#  roles:
+#    - testrole
 
 #  vars:
 #    - net: '192.168.98.0/24'

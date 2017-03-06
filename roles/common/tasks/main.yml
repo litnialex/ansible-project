@@ -1,14 +1,15 @@
 ---
 - name: Gather Facts
   setup:
-  tags: always
-  when: ansible_distribution is not defined
+  tags: [install, basic, ssh, grubconfig]
 
-- include_vars: 'os_{{ ansible_os_family }}.yml'
-  tags: always
+- name: Include OS-specific variables
+  include_vars: 'os_{{ ansible_os_family }}.yml'
+  tags: [install, basic, ssh]
 
 - include: 'install_{{ ansible_os_family }}.yml'
   tags: install
+  when: ansible_os_family is defined
 
 - include: basic.yml
   tags: basic
@@ -26,5 +27,4 @@
 - include: postfix.yml
   when: 
   - "'mail_servers' not in group_names"
-  - domain != 'private'
   tags: common:postfix

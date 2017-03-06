@@ -68,25 +68,21 @@ nagios_user: nagios
 nagios_group: nagios
 
 nagios_host_groups:
-  - name: 'all'
+  - name: 'all_servers'
     checks:
-      - {command: 'check_ssh', description: 'SSH Service Check'}
-      - {command: 'check_disk', description: 'Check Disk Space'}
-      - {command: 'check_swap', description: 'Check Swap Space'}
-      - {command: 'check_load', description: 'Check Load'}
-      - {command: 'check_mem', description: 'Check Memory'}
-  #- name: 'webservers'
-  #  checks:
-  #    - {command: 'check_http', description: 'Check HTTP'}
-
+      - {command: 'check_disk', description: 'Disk'}
+      - {command: 'check_load', description: 'CPU'}
+      - {command: 'check_mem', description: 'RAM'}
+  - name: 'quagga_servers'
+    checks:
+      - {command: 'check_ospf', description: 'OSPF'}
 
 nagios_commands:
-  #check_ssh is already in the default installation
-  #- {name: 'check_ssh', command: '$USER1$/check_ssh $ARG1$ $HOSTADDRESS$'}
   - {name: 'check_disk', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_disk'}
   - {name: 'check_load', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_load'}
   - {name: 'check_swap', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_swap'}
   - {name: 'check_mem', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mem'}
+  - {name: 'check_ospf', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_ospf'}
 
 nagios_cgi_show_context_help: 1
 nagios_cgi_authorized_for_system_information: '*'

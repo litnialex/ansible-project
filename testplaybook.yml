@@ -3,9 +3,15 @@
   vars:
     - ansible_become: yes
   tasks:
-  - setup:
-  - apt: name=ntp state=absent
-    when: ansible_system_vendor == "QEMU"
+    - debug: msg="{{ item }}"
+      with_file:
+        - "/etc/quagga/ospfd.conf"
+        - '/etc/quagga/bgpd.conf'
+        - '/etc/quagga/zebra.conf'
+
+    #  - setup:
+    #  - apt: name=ntp state=absent
+    #    when: ansible_system_vendor == "QEMU"
 
   #  tasks:
     #  - lineinfile: dest=/tmp/asdfasdf

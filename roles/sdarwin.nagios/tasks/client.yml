@@ -5,11 +5,13 @@
 - name: nrpe_plugin_dir_default
   set_fact:
     nrpe_plugin_dir: /usr/lib/nagios/plugins
+  tags: nrpeconf
 
 - name: nrpe_plugin_dir_1
   set_fact:
     nrpe_plugin_dir: /usr/lib64/nagios/plugins
   when: ansible_os_family == "RedHat" and ansible_architecture != "i686"
+  tags: nrpeconf
 
 - name: install epel repo
   yum:
@@ -46,6 +48,10 @@
 
 - name: Install check_mem plugin
   copy: src=files/check_mem dest={{ nrpe_plugin_dir }}/check_mem mode=755
+  tags: nrpeconf
+
+- name: Install check_ospf plugin
+  copy: src=check_ospf dest={{ nrpe_plugin_dir }}/ mode=755
   tags: nrpeconf
 
 - name: NRPE config file

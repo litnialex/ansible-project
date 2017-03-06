@@ -42,3 +42,6 @@
 
 - name: SSH Copy Root Key
   copy: dest='{{ debootstrap_path }}/root/.ssh/authorized_keys' content='{{ root_pubkey }}@{{ domain }}\n' mode=0600
+
+- name: Create /etc/fstab
+  copy: dest='{{ debootstrap_path }}/etc/fstab' content='/dev/root / auto defaults 0 1\n'

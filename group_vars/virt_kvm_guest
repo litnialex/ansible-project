@@ -1,0 +1,2 @@
+---
+common_cmdline_append: 'console=ttyS0'

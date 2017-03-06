@@ -11,7 +11,7 @@ common_sysctl:
   net.ipv6.conf.all.disable_ipv6: 1
 
 common_grub_defaults:
-  GRUB_CMDLINE_LINUX_DEFAULT: 'rootdelay=15'
+  GRUB_CMDLINE_LINUX_DEFAULT: 'console=tty {{ common_cmdline_append | d() }}'
 
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:

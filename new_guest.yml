@@ -37,6 +37,8 @@
     debootstrap_hostname: "{{ name }}"
 
   tasks:
+  - command: grub-install --modules=part_msdos.mod --boot-directory='/mnt/{{ name }}/boot' {{ loopback.stdout }}
+  - template: dest='/mnt/{{ name }}/boot/grub/grub.cfg' src=files/new_guest_grub.cfg
   - mount: name=/mnt/{{ name }} state=unmounted
   - command: losetup -d {{ loopback.stdout }}
   - file: dest={{ loopback.stdout }}p1 state=absent

@@ -6,7 +6,6 @@ install_pkgs_distribution:
 - atftp
 - bsd-mailx
 - dnsutils
-- ecryptfs-utils
 - ipcalc
 - iputils-arping
 - iputils-ping

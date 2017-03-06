@@ -2,17 +2,15 @@
 - apt: name=quagga
 - template: dest=/etc/quagga/ src=daemons backup=yes
   notify: restart quagga
-- file: dest='/etc/quagga/{{ item }}.conf' state=touch mode=644 owner=quagga group=quagga
+- copy: dest='/etc/quagga/{{ item }}.conf' mode=644 owner=quagga group=quagga content="" force=no
   with_items: '{{ quagga_daemons }}'
-  changed_when: False
+  notify: restart quagga
 
 - block:
   - file: dest='files/quagga/{{ inventory_hostname }}' state=directory
     delegate_to: localhost
-    changed_when: False
   - synchronize: mode=pull src='/etc/quagga/{{ item }}.conf' dest='files/quagga/{{ inventory_hostname }}'
     with_items: '{{ quagga_daemons }}'
-    changed_when: False
   when: quagga_make_backup == true
   tags: quaggabackup
   become: false

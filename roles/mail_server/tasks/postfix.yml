@@ -8,7 +8,7 @@
 - template: dest=/etc/postfix/ src=postfix/tls_per_site backup=yes
   notify: postmap tls_per_site
 
-- template: dest=/etc/postfix/ src=postfix/sender_access backup=yes
+- copy: dest=/etc/postfix/ src=postfix/sender_access force=no
   notify: postmap sender_access
 
 - template: dest=/etc/postfix/ src=postfix/header_checks.pcre backup=yes

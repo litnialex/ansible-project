@@ -1,16 +1,29 @@
+- name: Group Hosts by virtualization_type and virtualization_role
+  group_by:
+    key: virt_{{ ansible_virtualization_type }}_{{ ansible_virtualization_role }}
+  tags: grubconfig
+
+- name: Setup Grub Environment
+  lineinfile: dest=/etc/default/grub line='{{ item.key }}="{{ item.value }}"' regexp='^{{ item.key }}=.*' create=no
+  with_dict: "{{ common_grub_defaults }}"
+  when: item.value != None
+  notify: update grub
+  tags: grubconfig
+
 - name: Set Hostname
   hostname: name='{{inventory_hostname}}.{{domain}}'
-  when: domain != 'private'
-
-- name: Set Hostname if domain is private
-  hostname: name='{{inventory_hostname}}'
-  when: domain == 'private'
 
 - name: Edit /etc/hosts
   lineinfile: dest=/etc/hosts regexp='^127.0.1.1.*' line='127.0.1.1 {{inventory_hostname}}.{{domain}} {{inventory_hostname}}' insertafter='^127.0.0.1.*'
 
 - name: Set Timezone
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
+
+- name: Update resolv.conf
+  template: dest=/etc/ src=resolv.conf
+  when:
+  - nameservers is defined
+  - "'bind_servers' not in group_names"
 
 - name: create locale gen file (bugfix)
   copy: dest=/etc/locale.gen content="{{ lang }} {{ lang.split('.')[1] }}\n"
@@ -37,13 +50,6 @@
   with_dict: "{{ custom_env | default('{}') }}"
   when: item.value != None
 
-- name: Setup Grub Environment
-  lineinfile: dest=/etc/default/grub line='{{ item.key }}="{{ item.value }}"' regexp='^{{ item.key }}=.*' create=no
-  with_dict: "{{ common_grub_defaults }}"
-  when: item.value != None
-  notify: update grub
-  tags: grubconfig
-
 - name: Set screenrc
   template: dest=/etc/screenrc src=screenrc
 
@@ -68,7 +74,4 @@
 
 - name: Copy /etc/modprobe.d/ansible-common.conf
   template: dest=/etc/modprobe.d/ src=modprobe.d/ansible-common.conf
-
-- name: Enable Console on Serial Port ttyS0
-  systemd: name=serial-getty@ttyS0 daemon_reload=yes enabled=yes state=started
 

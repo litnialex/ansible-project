@@ -1,0 +1,14 @@
+#!/bin/bash
+
+testhost=$5
+
+vtysh -c "show ip route $testhost" | grep -q ospf
+
+if [ $? == 0 ]; then
+  echo "OK OSPF route found"
+  exit 0
+else
+  echo "CRITICAL OSPF route not found"
+  exit 2
+fi
+

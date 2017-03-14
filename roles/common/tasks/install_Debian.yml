@@ -1,4 +1,7 @@
 ---
+- name: preinstall lsb-release
+  apt: name=lsb-release state=installed
+
 - name: Configure sources
   template: src='apt/sources.list.{{ ansible_distribution }}' dest=/etc/apt/sources.list backup=yes
 

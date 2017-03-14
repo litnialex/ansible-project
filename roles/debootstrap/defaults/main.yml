@@ -21,7 +21,7 @@ debootstrap_common_pkgs:
 - sudo
 - mdadm
 - lvm2
-- lsb-release
+#- lsb-release #dependency problems prevent configuration of lsb-release on debian-testing @2017-03-09
 - parted
 - pciutils
 - vlan

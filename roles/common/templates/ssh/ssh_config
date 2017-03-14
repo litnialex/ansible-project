@@ -1,3 +1,4 @@
+#{{ ansible_managed }}
 Host *
   SendEnv LANG EDITOR LC_*
   HashKnownHosts yes

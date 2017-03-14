@@ -21,12 +21,13 @@
   #- gateway: 192.168.78.1
 
   pre_tasks:
+  - setup:
   - lvol: vg=vg0 lv={{ name }} size={{ size }}
   - shell: losetup -f
     register: loopback
   - command: losetup {{ loopback.stdout }} /dev/vg0/{{ name }}
   - command: parted -s {{ loopback.stdout }} -- mklabel msdos mkpart primary 2048s -1s
-  - filesystem: dev={{ loopback.stdout }}p1 fstype=ext4
+  - filesystem: dev={{ loopback.stdout }}p1 fstype=ext4 force=yes
   - mount: src={{ loopback.stdout }}p1 name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
 
   roles:

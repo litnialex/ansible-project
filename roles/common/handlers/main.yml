@@ -21,3 +21,6 @@
 - name: update grub
   shell: update-grub
 
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
+

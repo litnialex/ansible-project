@@ -1,3 +1,4 @@
+#{{ ansible_managed }}
 export MIBS=
 SNMPDRUN=yes
 SNMPDOPTS='-LS5d -Lf /dev/null -u snmp -g snmp -I -smux -p /var/run/snmpd.pid'

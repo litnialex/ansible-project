@@ -1,3 +1,4 @@
+#{{ ansible_managed }}
 {% if first_run is defined %}
 Port 22
 {% endif %}

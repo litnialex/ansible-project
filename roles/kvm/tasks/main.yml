@@ -2,9 +2,6 @@
   with_items: "{{ kvm_install_pkgs.split() }}"
 
 - apt: name=openvswitch-switch
-  when: kvm_use_vswitch == "yes"
-
-- file: dest="/etc/systemd/system/serial-getty@ttyS1" src="/lib/systemd/system/serial-getty@.service" state=link force=yes
-  notify: start console on ttyS1
+  when: kvm_use_vswitch
 
 #- template: dest=/etc/libvirt/qemu/networks/ src=ovs-network.xml mode=600 owner=root group=root

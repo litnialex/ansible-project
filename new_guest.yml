@@ -50,7 +50,7 @@
     when: ansible_os_family is not defined
 
   - name: define new guest
-    virt: name="{{ name }}" command=define xml="{{ lookup('template', 'files/new_guest_{{ inventory_hostname }}.xml') }}"
+    virt: name="{{ name }}" command=define xml="{{ lookup('template', 'files/new_guest_template.xml') }}"
     tags: define
 
   - name: start new guest

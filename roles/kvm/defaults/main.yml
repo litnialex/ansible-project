@@ -1,2 +1,2 @@
 ---
-kvm_use_vswitch: yes
+kvm_use_vswitch: True

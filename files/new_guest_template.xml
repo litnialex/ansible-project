@@ -5,9 +5,6 @@
   <vcpu placement='static'>{{ vcpu_count }}</vcpu>
   <os>
     <type arch='x86_64' machine='pc-i440fx-2.1'>hvm</type>
-    <kernel>/boot/vmlinuz-{{ ansible_kernel }}</kernel>
-    <initrd>/boot/initrd.img-{{ ansible_kernel }}</initrd>
-    <cmdline>root=/dev/vda1 rw console=tty console=ttyS0 net.ifnames=0</cmdline>
     <boot dev='hd'/>
   </os>
   <features>

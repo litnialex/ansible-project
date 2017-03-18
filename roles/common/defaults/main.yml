@@ -45,6 +45,7 @@ common_install_pkgs:
 - iproute
 - iptables
 - less
+- lsb-release
 - lsof
 - lvm2
 - mc

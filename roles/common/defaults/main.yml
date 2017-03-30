@@ -17,10 +17,11 @@ common_grub_defaults:
 common_modules_load:
 
 common_sudoers_rules:
-- '%admin ALL = NOPASSWD:/usr/sbin/tcpdump, /usr/sbin/iftop'
+- '%adm ALL = NOPASSWD:/usr/sbin/tcpdump, /usr/sbin/iftop'
 
 common_modprobe_conf:
 - 'blacklist floppy'
+- 'blacklist n_hdlc' #CVE-2017-2636
 
 common_install_pkgs_distribution: '[]'
 common_install_pkgs_inventory_group: '[]'

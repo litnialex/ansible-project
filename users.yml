@@ -1,21 +1,24 @@
 ---
 - hosts: all
   tasks:
-    - name: Create Admin Group
-      group: name=admin gid=2000 state=present
+  - name: Make sure groups adm exists
+    group: name=adm gid=4 state=present
 
-    - name: Create Alitnitskiy User
-      user:
-        name: alitnitskiy
-        uid: 2001
-        home: /home/alitnitskiy
-        shell: /bin/bash
-        password: '{{ root_password }}'
-        update_password: on_create
-        groups: sudo
-      tags: alitnitskiy
-    - copy: src=files/ssh_pubkeys/alitnitskiy dest=/etc/ssh/keys/
-      tags: alitnitskiy
+  - name: Make sure group sudo exists (Hello CentOS)
+    group: name=sudo gid=27
+
+  - name: Create Alitnitskiy User
+    user:
+      name: alitnitskiy
+      uid: 2001
+      home: /home/alitnitskiy
+      password: '{{ root_password }}'
+      update_password: on_create
+      group: adm
+      groups: sudo
+    tags: alitnitskiy
+  - copy: src=files/ssh_pubkeys/alitnitskiy dest=/etc/ssh/keys/
+    tags: alitnitskiy
 
 - hosts: all:!litnitskiy_servers
   tasks:
@@ -23,8 +26,8 @@
       user:
         name: vpupkin
         uid: 2002
+        group: adm
         home: /home/vpupkin
-        shell: /bin/bash
         password: '{{ root_password }}'
         update_password: on_create
       tags: vpupkin
@@ -33,14 +36,14 @@
 
 - hosts: clone1:jira:goldproxy:jira2
   tasks:
-  - user: name=spetrov uid=2004 home=/home/spetrov shell=/bin/bash groups=sudo
+  - user: name=spetrov uid=2004 group=adm home=/home/spetrov groups=sudo
     tags: spetrov
   - copy: src=files/ssh_pubkeys/spetrov dest=/etc/ssh/keys/
     tags: spetrov
 
 - hosts: main:main2:sandbox
   tasks:
-  - user: name=svoronin uid=2006 home=/home/svoronin shell=/bin/bash groups=sudo
+  - user: name=svoronin uid=2006 group=adm home=/home/svoronin shell=/bin/bash groups=sudo
     tags: svoronin
   - copy: src=files/ssh_pubkeys/svoronin dest=/etc/ssh/keys/
     tags: svoronin

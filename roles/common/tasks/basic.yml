@@ -79,6 +79,7 @@
 - name: Copy /etc/rsyslog.d/netlog.conf
   template: dest=/etc/rsyslog.d/ src=rsyslog.d/netlog.conf
   when:
+  - "'log_servers' in groups"
   - groups['log_servers'] != ''
   - "'log_servers' not in group_names"
   tags: rsyslog

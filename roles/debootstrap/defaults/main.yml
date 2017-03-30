@@ -5,6 +5,7 @@ debootstrap_path: /srv/nfs
 debootstrap_os: debian
 debootstrap_os_version: jessie
 debootstrap_common_pkgs:
+- dbus
 - debootstrap
 - dnsutils
 - locales

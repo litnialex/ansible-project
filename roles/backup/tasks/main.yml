@@ -1,15 +1,14 @@
 ---
 - name: Creating directory for host backup
-  file: dest='{{ dest }}/{{ domain }}/{{ inventory_hostname }}' state=directory
+  file: dest='{{ backup_dest }}/{{ inventory_hostname }}' state=directory
   delegate_to: localhost
 
 - synchronize:
     src: '{{ item }}'
-    dest: '{{ dest }}/{{ domain }}/{{ inventory_hostname }}'
+    dest: '{{ backup_dest }}/{{ inventory_hostname }}'
     set_remote_user: False
     delete: yes
     mode: pull
     copy_links: yes
-    rsync_path: "sudo rsync"
-  with_items: '{{ src }}'
+  with_items: '{{ backup_src }}'
   ignore_errors: True

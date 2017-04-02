@@ -1,12 +1,15 @@
 [defaults]
-hostfile       = ./inventory
-roles_path    = ./roles
+roles_path    = ~/ansible-project/roles
+inventory       = ./example/inventory
 forks          = 50
 gathering = explicit
+#fact_caching = jsonfile
+#fact_caching_connection = ~/.cache/ansible
+#fact_caching_timeout = 86400
 hash_behaviour = merge
 ansible_managed = ANSIBLE MANAGED FILE. DO NOT EDIT BY HAND. CHANGES WILL BE DISCARDED.
 display_skipped_hosts = False
 retry_files_enabled = False
-pipelining=True
+pipelining = True
 display_args_to_stdout = True
-
+local_tmp = $HOME/.cache/ansibletmp

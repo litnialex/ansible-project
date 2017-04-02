@@ -88,7 +88,9 @@ smtpd_sasl_local_domain = $myhostname
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_authenticated_header = yes
 
-# Restrictions:
+# Restrictions (RESTRICTION_CLASS_README.html)
+smtpd_restriction_classes = insiders_access
+insiders_access = check_sender_access hash:/etc/postfix/insiders_access, reject
 smtpd_etrn_restrictions = reject
 smtpd_reject_unlisted_sender = yes
 smtpd_hard_error_limit = 8
@@ -102,8 +104,13 @@ smtpd_sender_restrictions =
 smtpd_relay_restrictions =
   permit_mynetworks,
   permit_sasl_authenticated,
+  check_policy_service unix:private/policy-spf
+  reject_unauth_destination
+smtpd_recipient_restrictions =
+  permit_mynetworks,
+  permit_sasl_authenticated,
   check_sender_access hash:/etc/postfix/sender_access,
-  reject_unauth_destination,
+  check_recipient_access hash:/etc/postfix/recipient_access,
   reject_unknown_client_hostname,
   reject_rbl_client zen.spamhaus.org,
   reject_rbl_client bl.spamcop.net,
@@ -113,10 +120,6 @@ smtpd_relay_restrictions =
   reject_non_fqdn_sender,
   reject_unknown_sender_domain,
   reject_unverified_sender,
-  check_policy_service unix:private/policy-spf
-smtpd_recipient_restrictions =
-  permit_mynetworks,
-  permit_sasl_authenticated,
   reject_unknown_recipient_domain,
   reject_non_fqdn_recipient,
   reject_unauth_pipelining,

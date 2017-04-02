@@ -6,12 +6,3 @@
   with_items: '{{ quagga_daemons }}'
   notify: restart quagga
 
-- block:
-  - file: dest='files/quagga/{{ inventory_hostname }}' state=directory
-    delegate_to: localhost
-  - synchronize: mode=pull src='/etc/quagga/{{ item }}.conf' dest='files/quagga/{{ inventory_hostname }}'
-    with_items: '{{ quagga_daemons }}'
-  when: quagga_make_backup == true
-  tags: quaggabackup
-  become: false
-

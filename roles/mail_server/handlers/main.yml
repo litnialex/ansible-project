@@ -2,6 +2,12 @@
 - name: postmap sender_access
   shell: postmap /etc/postfix/sender_access
 
+- name: postmap recipient_access
+  shell: postmap /etc/postfix/recipient_access
+
+- name: postmap insiders_access
+  shell: postmap /etc/postfix/insiders_access
+
 - name: postmap tls_per_site
   shell: postmap /etc/postfix/tls_per_site
 

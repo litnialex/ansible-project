@@ -3,12 +3,14 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: common, become: true, tags: common }
-  - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: domain != 'private'}
+  - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: domain != 'private' }
+  - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
 
 - hosts: bind_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: bind, become: true, tags: bind }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/bind/named.conf.local] }
 
 - hosts: dhcp_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -71,6 +73,7 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: kvm, become: true, tags: kvm }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/libvirt] }
 
 - hosts: debootstrap_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -81,6 +84,7 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: mail_server, become: true, tags: mail}
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/postfix] }
 
 - hosts: squid_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -96,10 +100,19 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: 'quagga', become: true, tags: quagga}
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/quagga] }
 
 - hosts: staging_servers
   roles:
   - { role: debops.pki/env, become: true, tags: pki }
   - { role: debops.secret, become: true, tags: pki }
   - { role: debops.pki, become: true, tags: pki }
+
+- hosts: fw_servers
+  roles:
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/fw] }
+
+- hosts: asterisk_servers
+  roles:
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/asterisk] }
 

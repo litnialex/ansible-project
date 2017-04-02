@@ -8,8 +8,14 @@
 - template: dest=/etc/postfix/ src=postfix/tls_per_site backup=yes
   notify: postmap tls_per_site
 
-- copy: dest=/etc/postfix/ src=postfix/sender_access force=no
+- template: dest=/etc/postfix/ src=postfix/sender_access force=no
   notify: postmap sender_access
+
+- template: dest=/etc/postfix/ src=postfix/recipient_access force=no
+  notify: postmap recipient_access
+
+- template: dest=/etc/postfix/ src=postfix/insiders_access force=no
+  notify: postmap insiders_access
 
 - template: dest=/etc/postfix/ src=postfix/header_checks.pcre backup=yes
 

@@ -1,0 +1,1 @@
+root@{{ domain }} insiders_access allow insiders send mail to root

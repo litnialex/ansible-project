@@ -1,7 +1,4 @@
 ---
-- name: Gather Facts
-  setup:
-
 - name: Create SSH Keys Dir
   file: dest=/etc/ssh/keys/ state=directory
 

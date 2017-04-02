@@ -3,11 +3,8 @@
   vars:
     - ansible_become: yes
   tasks:
-    - debug: msg="{{ item }}"
-      with_file:
-        - "/etc/quagga/ospfd.conf"
-        - '/etc/quagga/bgpd.conf'
-        - '/etc/quagga/zebra.conf'
+    - debug: var=tag_list
+      tags: lala
 
     #  - setup:
     #  - apt: name=ntp state=absent

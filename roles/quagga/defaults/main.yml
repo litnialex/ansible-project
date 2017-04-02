@@ -1,3 +1,2 @@
 ---
 quagga_daemons: [zebra]
-quagga_make_backup: true

@@ -1,0 +1,8 @@
+---
+# Connection settings
+
+es_host: localhost
+es_cluster_name: syslog
+es_node_name: node-1
+es_http_port: 9200
+

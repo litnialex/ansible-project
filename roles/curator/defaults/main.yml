@@ -1,0 +1,10 @@
+---
+# Crontab targets
+
+elasticsearch_curator_crontab:
+  - {
+    name: "Daily job",
+    job: "/usr/local/bin/curator --config /etc/elasticsearch-curator/curator.yml /etc/elasticsearch-curator/actions.yml",
+    minute: 0,
+    hour: 0
+  }

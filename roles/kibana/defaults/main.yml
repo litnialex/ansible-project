@@ -1,0 +1,6 @@
+---
+# Connections settings
+
+kibana_port: 5601
+kibana_host: localhost
+

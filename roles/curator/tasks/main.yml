@@ -1,0 +1,29 @@
+---
+# Installing pip
+- name: verify pip is installed
+  apt: name=python-pip state=present
+
+# Installing Curator
+- name: Installing ES Curator
+  pip: name=elasticsearch-curator state=present
+
+# Create directory for Curator
+- name: Create directory for Curator
+  file: dest=/etc/elasticsearch-curator state=directory mode=0755
+
+# Coping Curator`s config file
+- name: copy conf
+  template: src=curator_config.yml.j2 dest=/etc/elasticsearch-curator/curator_config.yml
+
+# Coping Curator`s action file
+- name: copy action
+  template: src=curator_action.yml.j2 dest=/etc/elasticsearch-curator/curator_action.yml
+
+# Crontab config
+- name: Configure Crontab for Curator
+  cron:
+    name: "{{ item.name  }}"
+    minute: "{{ item.minute  }}"
+    hour: "{{ item.hour  }}"
+    job: "{{ item.job  }}"
+  with_items: "{{ elasticsearch_curator_crontab  }}"

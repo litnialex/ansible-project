@@ -1,0 +1,9 @@
+---
+
+# Restarting ES after config`s cnahge
+
+- name: restart es
+  service:
+    name: elasticsearch
+    state: restarted
+

@@ -1,0 +1,3 @@
+---
+# Destination source
+syslog_dest_host: localhost

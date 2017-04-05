@@ -116,3 +116,14 @@
   roles:
   - { role: backup, become: no, tags: backup, backup_src: [/etc/asterisk] }
 
+- hosts: log_servers
+  tags: elk
+  roles:
+  - { role: java, become: true, tags: java }
+  - { role: elasticsearch, become: true, tags: es }
+  - { role: kibana, become: true, tags: kibana }
+  - { role: syslog-ng, become: true, tags: syslog-ng }
+  - { role: logstash, become: true, tags: logstash }
+  - { role: curator, become: true, tags: curator }
+  - { role: logrotate, become: true, tags: logrotate }
+

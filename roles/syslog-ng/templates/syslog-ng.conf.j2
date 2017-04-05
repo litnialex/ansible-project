@@ -1,0 +1,33 @@
+@version: 3.5.6
+@include "scl.conf"
+
+################################### Options ########################################
+options {
+        keep-hostname(yes);
+        };
+
+################################### Sources ########################################
+# Listen network on port 514
+source s_network {
+    syslog(transport(udp) port(514) flags(no-parse));
+    };
+# Source of local logs
+source s_local { system(); internal(); };
+
+################################## Destinations ####################################
+# Destination for recieving logs in the file
+destination d_file {
+    file("/var/log/syslog-ng/syslog-ng.log");
+    };
+# Destination for next sending to Logstash
+destination d_logstash {
+    syslog("{{ syslog_dest_host  }}" transport("udp") port(50514));
+    };
+
+################################## Processing #########################################
+
+# Recieve network logs and write to file
+log { source(s_network); source(s_local); destination(d_file); };
+
+# Send logs to Logstash from network
+log { source(s_network); source(s_local); destination(d_logstash);  };

@@ -1,0 +1,13 @@
+/var/log/syslog-ng/*.log
+{
+  daily
+  missingok
+  rotate 7
+  compress
+  delaycompress
+  notifempty
+  postrotate
+    invoke-rc.d syslog-ng reload > /dev/null
+  endscript
+}
+

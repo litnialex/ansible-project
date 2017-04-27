@@ -1,6 +1,8 @@
 atftpd_install_pkgs:
  - atftpd
  - pxelinux
+ 
+inetd_service_name: inetutils-inetd
 
 pxe_files:
 - /usr/lib/PXELINUX/pxelinux.0

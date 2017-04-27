@@ -4,6 +4,7 @@ tftp_root: /srv/nfs/boot
 pxeboot_server: '{{ ansible_ssh_host }}' #better set to an IP in hosts_var
 nfsroot_server: '{{ ansible_ssh_host }}' #better set to an IP in hosts_var
 
+centos_install_srv: False
 centos:
   ver: 7
   arch: x86_64

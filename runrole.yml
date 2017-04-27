@@ -1,0 +1,6 @@
+- hosts: all_servers
+  pre_tasks:
+  - setup:
+  roles:
+  - role: '{{ role }}'
+

@@ -1,10 +1,10 @@
 ---
 - setup:
-  when: ansible_distribution is not defined
+  when: ansible_os_family is not defined
 
 - include_vars: '{{ item }}'
   with_first_found:
-    - 'os_{{ ansible_distribution }}.yml'
+    - 'os_{{ ansible_os_family }}.yml'
     - os_default.yml
 
 - apt: state=installed name='{{ item }}'
@@ -20,13 +20,13 @@
 
 - template: dest={{ tftp_root }}/pxelinux.cfg/default src=pxelinux.cfg force=yes backup=yes
 
-- file: mode=a+rX dest={{ tftp_root }}/ recurse=yes
+- name: Stop inetd service
+  service: name="{{ inetd_service_name }}" state=stopped
+  ignore_errors: True
 
-- name: Stop inetutils-inetd service
-  service: name=inetutils-inetd state=stopped
-
-- name: Disable inetutils-inetd service
-  service: name=inetutils-inetd enabled=no
+- name: Disable inetd service
+  service: name="{{ inetd_service_name }}" enabled=no
+  ignore_errors: True
 
 - name: Start the atftpd service
   service: name=atftpd state=started
@@ -35,8 +35,10 @@
   service: name=atftpd enabled=yes
 
 - include: centos-install.yml
-  when: centos.ver is defined
+  when: centos_install_srv
   tags: centosinstall
+
+- file: mode=a+rX dest={{ tftp_root }}/ recurse=yes
 
 #- lineinfile: line='MODULES=netboot' regexp='^MODULES.*'
 #- shell: update-initramfs -b {{ tftp_root }}/ -c -k "{{ ansible_kernel }}" -v

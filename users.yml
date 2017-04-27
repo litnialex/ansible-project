@@ -17,7 +17,7 @@
       group: adm
       groups: sudo
     tags: alitnitskiy
-  - copy: src=files/ssh_pubkeys/alitnitskiy dest=/etc/ssh/keys/
+  - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/alitnitskiy" dest=/etc/ssh/keys/
     tags: alitnitskiy
 
 - hosts: all:!litnitskiy_servers
@@ -31,21 +31,21 @@
         password: '{{ root_password }}'
         update_password: on_create
       tags: vpupkin
-    - copy: src=files/ssh_pubkeys/vpupkin dest=/etc/ssh/keys/
+    - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/vpupkin" dest=/etc/ssh/keys/
       tags: vpupkin
 
 - hosts: clone1:jira:goldproxy:jira2
   tasks:
   - user: name=spetrov uid=2004 group=adm home=/home/spetrov groups=sudo
     tags: spetrov
-  - copy: src=files/ssh_pubkeys/spetrov dest=/etc/ssh/keys/
+  - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/spetrov" dest=/etc/ssh/keys/
     tags: spetrov
 
 - hosts: main:main2:sandbox
   tasks:
   - user: name=svoronin uid=2006 group=adm home=/home/svoronin shell=/bin/bash groups=sudo
     tags: svoronin
-  - copy: src=files/ssh_pubkeys/svoronin dest=/etc/ssh/keys/
+  - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/svoronin" dest=/etc/ssh/keys/
     tags: svoronin
 
 ########## Superuser Becoming Rules ###############
@@ -69,5 +69,5 @@
 - hosts: breeze
   tasks:
     - user: name=nagios uid=1001 group=nagios
-    - copy: src=files/ssh_pubkeys/nagios dest=/etc/ssh/keys/
+    - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/nagios" dest=/etc/ssh/keys/
 

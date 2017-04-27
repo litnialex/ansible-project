@@ -6,9 +6,10 @@
 - synchronize:
     src: '{{ item }}'
     dest: '{{ backup_dest }}/{{ inventory_hostname }}'
-    set_remote_user: False
     delete: yes
     mode: pull
     copy_links: yes
+    rsync_path: "sudo rsync"
+    rsync_opts: '{{ backup_rsync_opts }}'
   with_items: '{{ backup_src }}'
   ignore_errors: True

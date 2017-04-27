@@ -1,12 +1,13 @@
 {%if  ip is defined %}
 auto eth0
-  {%if  ip == 'dhcp' %}
-  iface eth0 inet dhcp
+{%if  ip == 'dhcp' %}
+iface eth0 inet dhcp
 
-  {% else %}
-  iface eth0 inet static
-    address {{ ip }}
-    {%if  gateway is defined %}gateway {{ gateway }}{% endif %}
-  {% endif %}
+{% else %}
+iface eth0 inet static
+  address {{ ip }}
+{%if  gateway is defined %}
+  gateway {{ gateway }}
 {% endif %}
-
+{% endif %}
+{% endif %}

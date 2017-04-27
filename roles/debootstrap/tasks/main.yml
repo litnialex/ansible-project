@@ -45,3 +45,7 @@
 
 - name: Create /etc/fstab
   copy: dest='{{ debootstrap_path }}/etc/fstab' content='/dev/root / auto defaults 0 1\n'
+
+- name: Create /etc/resolv.conf
+  copy: dest='{{ debootstrap_path }}/etc/' src=/etc/resolv.conf remote_src=yes
+

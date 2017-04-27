@@ -46,7 +46,7 @@
   tags: service
 
 - name: Update single master zone
-  copy: src=files/dns/{{ file }} dest={{ bind_base_zones_path }}/{{bind_masterzones_path}} owner={{ bind_user }} group={{ bind_group }}
+  copy: src="{{ inventory_dir }}/files/dns/{{ file }}" dest={{ bind_base_zones_path }}/{{bind_masterzones_path}} owner={{ bind_user }} group={{ bind_group }}
   notify: reload bind
   tags: bindzone
   when: 

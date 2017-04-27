@@ -1,5 +1,5 @@
 [defaults]
-roles_path    = ~/ansible-project/roles
+roles_path    = ./roles
 inventory       = ./example/inventory
 forks          = 50
 gathering = explicit
@@ -13,3 +13,4 @@ retry_files_enabled = False
 pipelining = True
 display_args_to_stdout = True
 local_tmp = $HOME/.cache/ansibletmp
+force_handlers = True

@@ -4,3 +4,14 @@ backup_src_all_servers:
 - /etc/network/interfaces
 - /etc/network/interfaces.d
 - /etc/fstab
+backup_rsync_opts:
+- "--exclude=*.wav"
+- "--exclude=*.sln*"
+- "--exclude=*.png"
+- "--exclude=*.jpg"
+- "--exclude=*.swp"
+- "--exclude=*~"
+- "--exclude=*.dpkg-dist"
+- "--exclude=*.old"
+- "--exclude=*.bak"
+- "--exclude=*.sav"

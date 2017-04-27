@@ -1,10 +1,15 @@
 ---
 - hosts: all_servers
   vars:
-    - ansible_become: yes
+    - ansible_become: no
   tasks:
-    - debug: var=tag_list
-      tags: lala
+    - copy: dest=/tmp/ src="/tmp/{{ item }}"
+      with_items:
+        - f1
+        - f2
+        - f3
+        - f4
+        - f5
 
     #  - setup:
     #  - apt: name=ntp state=absent

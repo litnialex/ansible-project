@@ -4,6 +4,8 @@ atftpd_install_pkgs:
  - syslinux-common
  - memtest86+
 
+inetd_service_name: inetd
+
 pxe_files:
 - /usr/lib/PXELINUX/pxelinux.0
 - /usr/lib/syslinux/modules/bios/ldlinux.c32

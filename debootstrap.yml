@@ -1,4 +1,0 @@
-- hosts: '{{ runon }}'
-  roles:
-  - role: debootstrap
-

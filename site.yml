@@ -73,7 +73,7 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: kvm, become: true, tags: kvm }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/libvirt] }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/libvirt/qemu] }
 
 - hosts: debootstrap_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -110,7 +110,7 @@
 
 - hosts: fw_servers
   roles:
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/fw] }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/network/fw] }
 
 - hosts: asterisk_servers
   roles:

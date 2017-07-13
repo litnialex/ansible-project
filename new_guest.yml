@@ -1,6 +1,6 @@
 ---
 # VIRTUAL HOST LIVECYCLE 
-# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 size=10G ram_megabytes=2048'
+# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 disk=10G ram=2048'
 # add newguestname to DNS
 # ansible-playbook site.yml -t common -l newgestname -u root
 # ansible-playbook users.yml -l newgestname -u root
@@ -10,9 +10,9 @@
   vars:
   - ansible_become: true
   - name: newguestname
-  - size: 3G
-  - ram_megabytes: 1024
-  - vcpu_count: 2
+  - disk: 3G
+  - ram: 1024
+  - cpu: 1
   - os: debian
   - os_version: jessie
   - vlan: 400
@@ -22,7 +22,7 @@
 
   pre_tasks:
   - setup:
-  - lvol: vg=vg0 lv={{ name }} size={{ size }}
+  - lvol: vg=vg0 lv={{ name }} size={{ disk }}
   - shell: losetup -f
     register: loopback
   - command: losetup {{ loopback.stdout }} /dev/vg0/{{ name }}
@@ -46,11 +46,6 @@
   - mount: name=/mnt/{{ name }} state=unmounted
   - command: losetup -d {{ loopback.stdout }}
   - file: dest={{ loopback.stdout }}p1 state=absent
-
-  - name: running setup to gather facts
-    setup:
-    tags: always
-    when: ansible_os_family is not defined
 
   - name: define new guest
     virt: name="{{ name }}" command=define xml="{{ lookup('template', 'templates/new_guest_template.xml') }}"

@@ -16,12 +16,12 @@ append_dot_mydomain = no
 readme_directory = no
 
 # TLS parameters
-smtp_use_tls	=yes
-smtpd_use_tls 	= yes
+smtp_use_tls = yes
+smtpd_use_tls = yes
 smtp_tls_CApath = /etc/ssl/certs
 smtp_tls_note_starttls_offer = yes
-smtpd_tls_cert_file	=/etc/ssl/private/{{ postfix_main_cf.myhostname }}.pem
-smtpd_tls_key_file	=/etc/ssl/private/{{ postfix_main_cf.myhostname }}.pem
+smtpd_tls_cert_file = /etc/ssl/private/{{ postfix_main_cf.myhostname }}.pem
+smtpd_tls_key_file = /etc/ssl/private/{{ postfix_main_cf.myhostname }}.pem
 
 #smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 #smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
@@ -41,7 +41,6 @@ alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination =
 relayhost =
-mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = ipv4
@@ -62,28 +61,28 @@ mailbox_size_limit = 0
 message_size_limit = 204800000
 
 ### MILTERS
-#smtpd_milters 		= unix:/spamass/spamass.sock
-#milter_default_action 	= accept
+smtpd_milters = unix:/spamass/spamass.sock
+milter_default_action = accept
 
 #Virtual Setings
-#virtual_transport 	= dovecot #lda style http://wiki2.dovecot.org/LDA/Postfix
+#virtual_transport = dovecot #lda style http://wiki2.dovecot.org/LDA/Postfix
 #dovecot_destination_recipient_limit = 1 #lda style
-virtual_transport 	= lmtp:unix:private/dovecot-lmtp
+virtual_transport = lmtp:unix:private/dovecot-lmtp
  #lmtp style http://wiki2.dovecot.org/HowTo/PostfixDovecotLMTP
-virtual_uid_maps 	= static:8
-virtual_gid_maps 	= static:8
-virtual_minimum_uid     = 8
-virtual_mailbox_limit   = 0
-virtual_alias_maps      = proxy:mysql:/etc/postfix/mysql/virtual_alias_maps.cf
-virtual_alias_domains   = proxy:mysql:/etc/postfix/mysql/virtual_alias_domains.cf
+virtual_uid_maps = static:8
+virtual_gid_maps = static:8
+virtual_minimum_uid = 8
+virtual_mailbox_limit = 0
+virtual_alias_maps = proxy:mysql:/etc/postfix/mysql/virtual_alias_maps.cf
+virtual_alias_domains = proxy:mysql:/etc/postfix/mysql/virtual_alias_domains.cf
 virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql/virtual_mailbox_domains.cf
-virtual_mailbox_maps    = proxy:mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf,proxy:mysql:/etc/postfix/mysql/virtual_mailbox_alias_maps.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql/virtual_mailbox_maps.cf,proxy:mysql:/etc/postfix/mysql/virtual_mailbox_alias_maps.cf
 
 #SASL
 broken_sasl_auth_clients = yes
-smtpd_sasl_auth_enable 	= yes
-smtpd_sasl_type 	= dovecot
-smtpd_sasl_path 	= private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
 smtpd_sasl_local_domain = $myhostname
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_authenticated_header = yes
@@ -97,7 +96,7 @@ smtpd_hard_error_limit = 8
 smtpd_authorized_xclient_hosts = 127.0.0.1
 smtpd_recipient_limit = 50
 smtpd_delay_reject = yes
-smtpd_helo_required	= yes
+smtpd_helo_required = yes
 smtpd_client_restrictions = 
 smtpd_helo_restrictions = 
 smtpd_sender_restrictions = 
@@ -106,26 +105,6 @@ smtpd_relay_restrictions =
   permit_sasl_authenticated,
   check_policy_service unix:private/policy-spf
   reject_unauth_destination
-smtpd_recipient_restrictions =
-  permit_mynetworks,
-  permit_sasl_authenticated,
-  check_sender_access hash:/etc/postfix/sender_access,
-  check_recipient_access hash:/etc/postfix/recipient_access,
-  reject_unknown_client_hostname,
-  reject_rbl_client zen.spamhaus.org,
-  reject_rbl_client bl.spamcop.net,
-  reject_invalid_helo_hostname,
-  reject_non_fqdn_helo_hostname,
-  reject_unknown_helo_hostname,
-  reject_non_fqdn_sender,
-  reject_unknown_sender_domain,
-  reject_unverified_sender,
-  reject_unknown_recipient_domain,
-  reject_non_fqdn_recipient,
-  reject_unauth_pipelining,
-  reject_unauth_destination,
-  reject_unlisted_recipient,
-  check_policy_service inet:localhost:10023
 
 header_checks = pcre:/etc/postfix/header_checks.pcre
 

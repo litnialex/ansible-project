@@ -1,8 +1,8 @@
 <domain type='kvm'>
   <name>{{ name }}</name>
-  <memory unit='MiB'>{{ ram_megabytes }}</memory>
-  <currentMemory unit='MiB'>{{ ram_megabytes }}</currentMemory>
-  <vcpu placement='static'>{{ vcpu_count }}</vcpu>
+  <memory unit='MiB'>{{ ram }}</memory>
+  <currentMemory unit='MiB'>{{ ram }}</currentMemory>
+  <vcpu placement='static'>{{ cpu }}</vcpu>
   <os>
     <type arch='x86_64' machine='pc-i440fx-2.1'>hvm</type>
     <boot dev='hd'/>

@@ -41,6 +41,7 @@ common_install_pkgs:
 - ftp
 - gzip
 - htop
+- ifenslave
 - iftop
 - iotop
 - iproute
@@ -61,6 +62,7 @@ common_install_pkgs:
 - postfix
 - psmisc
 - python-httplib2
+- python-netaddr
 - python-simplejson
 - rsync
 - screen
@@ -76,6 +78,7 @@ common_install_pkgs:
 - traceroute
 - unzip
 - vim
+- vlan
 - wget
 - whois
 - xfsprogs

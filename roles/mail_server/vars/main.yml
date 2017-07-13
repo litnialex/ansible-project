@@ -42,4 +42,6 @@ mail_server_pkgs:
 - postfix-pcre
 - postfix-policyd-spf-python
 - postgrey
+- spamassassin
+- spamass-milter
 - xfsprogs

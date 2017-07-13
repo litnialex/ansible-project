@@ -3,7 +3,7 @@
   environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: common, become: true, tags: common }
-  - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: domain != 'private' }
+  - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: "'monitoring_servers' in groups" }
   - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
 
 - hosts: bind_servers
@@ -105,7 +105,8 @@
 - hosts: staging_servers
   roles:
   - { role: debops.pki/env, become: true, tags: pki }
-  - { role: debops.secret, become: true, tags: pki }
+  - { role: debops.secret, become: true, tags: pki , secret_directories: '{{ pki_env_secret_directories }}' }
+  - { role: debops.nginx, become: true, tags: nginx }
   - { role: debops.pki, become: true, tags: pki }
 
 - hosts: fw_servers

@@ -22,6 +22,7 @@
       # create: yes
 
 #  tasks:
+#  - template: src=templates/dumpall.j2 dest=/tmp/ansible.all  
 #  - command: gsettings set org.gnome.desktop.a11y.mouse secondary-click-enabled "true"
 #    become_user: alex
 #  - command: gsettings get org.gnome.desktop.a11y.mouse secondary-click-enabled

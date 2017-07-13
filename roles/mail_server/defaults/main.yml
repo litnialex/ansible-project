@@ -7,6 +7,25 @@ postfix_db_password: ChangeMe-CotDol3swo
 postfix_main_cf:
   myhostname: '{{ mail_server_name }}'
   virtual_mailbox_base: '{{ mail_root }}'
+  smtpd_recipient_restrictions: 'permit_mynetworks,
+permit_sasl_authenticated,
+check_sender_access hash:/etc/postfix/sender_access,
+check_recipient_access hash:/etc/postfix/recipient_access,
+reject_unknown_client_hostname,
+reject_rbl_client zen.spamhaus.org,
+reject_rbl_client bl.spamcop.net,
+reject_invalid_helo_hostname,
+reject_non_fqdn_helo_hostname,
+reject_unknown_helo_hostname,
+reject_non_fqdn_sender,
+reject_unknown_sender_domain,
+reject_unverified_sender,
+reject_unknown_recipient_domain,
+reject_non_fqdn_recipient,
+reject_unauth_pipelining,
+reject_unauth_destination,
+reject_unlisted_recipient,
+check_policy_service inet:localhost:10023'
 
 roundcube_path: /opt/roundcube
 roundcube_log_dir: /var/log/roundcube
@@ -26,6 +45,7 @@ dovecot_db_user: dovecot
 dovecot_db_password: '{{ postfix_db_password }}'
 fail2ban_ignoreip: '127.0.0.1/8 192.168.0.0/16'
 
+postfixadmin_version: 3.1
 postfixadmin_allow:
 - 10.0.0.0/8
 - 192.168.0.0/16

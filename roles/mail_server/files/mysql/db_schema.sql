@@ -16,8 +16,8 @@ CREATE TABLE `admin` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `superadmin` tinyint(1) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Admins';
@@ -29,8 +29,8 @@ CREATE TABLE `alias` (
   `address` varchar(255) NOT NULL,
   `goto` text NOT NULL,
   `domain` varchar(255) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`address`),
   KEY `domain` (`domain`)
@@ -40,10 +40,10 @@ DROP TABLE IF EXISTS `alias_domain`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `alias_domain` (
-  `alias_domain` varchar(255) NOT NULL,
-  `target_domain` varchar(255) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `alias_domain` varchar(255) NOT NULL DEFAULT '',
+  `target_domain` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`alias_domain`),
   KEY `active` (`active`),
@@ -55,11 +55,11 @@ DROP TABLE IF EXISTS `config`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) CHARACTER SET latin1 NOT NULL DEFAULT '',
-  `value` varchar(20) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `value` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PostfixAdmin settings';
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='PostfixAdmin settings';
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `domain`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -73,8 +73,8 @@ CREATE TABLE `domain` (
   `quota` bigint(20) NOT NULL DEFAULT '0',
   `transport` varchar(255) NOT NULL,
   `backupmx` tinyint(1) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`domain`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Domains';
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `domain_admins`;
 CREATE TABLE `domain_admins` (
   `username` varchar(255) NOT NULL,
   `domain` varchar(255) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   KEY `username` (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Domain Admins';
@@ -98,14 +98,14 @@ CREATE TABLE `fetchmail` (
   `domain` varchar(255) DEFAULT '',
   `mailbox` varchar(255) NOT NULL,
   `src_server` varchar(255) NOT NULL,
-  `src_auth` enum('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any') CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `src_auth` enum('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any') DEFAULT NULL,
   `src_user` varchar(255) NOT NULL,
   `src_password` varchar(255) NOT NULL,
   `src_folder` varchar(255) NOT NULL,
   `poll_time` int(11) unsigned NOT NULL DEFAULT '10',
   `fetchall` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `keep` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `protocol` enum('POP3','IMAP','POP2','ETRN','AUTO') CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `protocol` enum('POP3','IMAP','POP2','ETRN','AUTO') DEFAULT NULL,
   `usessl` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `sslcertck` tinyint(1) NOT NULL DEFAULT '0',
   `sslcertpath` varchar(255) CHARACTER SET utf8 DEFAULT '',
@@ -124,7 +124,7 @@ DROP TABLE IF EXISTS `log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log` (
-  `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `timestamp` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `username` varchar(255) NOT NULL,
   `domain` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
@@ -144,8 +144,8 @@ CREATE TABLE `mailbox` (
   `quota` bigint(20) NOT NULL DEFAULT '0',
   `local_part` varchar(255) NOT NULL,
   `domain` varchar(255) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
+  `modified` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`),
   KEY `domain` (`domain`)
@@ -155,21 +155,21 @@ DROP TABLE IF EXISTS `quota`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quota` (
-  `username` varchar(255) COLLATE utf8_bin NOT NULL,
-  `path` varchar(100) COLLATE utf8_bin NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `path` varchar(100) NOT NULL,
   `current` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`username`,`path`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `quota2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quota2` (
-  `username` varchar(100) COLLATE utf8_bin NOT NULL,
+  `username` varchar(100) NOT NULL,
   `bytes` bigint(20) NOT NULL DEFAULT '0',
   `messages` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `vacation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -183,7 +183,7 @@ CREATE TABLE `vacation` (
   `cache` text NOT NULL,
   `domain` varchar(255) NOT NULL,
   `interval_time` int(11) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL DEFAULT '2000-01-01 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`email`),
@@ -195,7 +195,7 @@ DROP TABLE IF EXISTS `vacation_notification`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vacation_notification` (
   `on_vacation` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `notified` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `notified` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '',
   `notified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`on_vacation`,`notified`),
   CONSTRAINT `vacation_notification_pkey` FOREIGN KEY (`on_vacation`) REFERENCES `vacation` (`email`) ON DELETE CASCADE

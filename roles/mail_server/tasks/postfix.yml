@@ -1,9 +1,11 @@
 ---
 - template: dest=/etc/postfix/ src=postfix/master.cf backup=yes
   notify: Check postfix and restart
+  tags: postfixconf
  
 - template: dest=/etc/postfix/ src=postfix/main.cf backup=yes
   notify: Check postfix and restart
+  tags: postfixconf
  
 - template: dest=/etc/postfix/ src=postfix/tls_per_site backup=yes
   notify: postmap tls_per_site
@@ -35,3 +37,6 @@
 - mysql_user: name={{ postfix_db_user }} password={{ postfix_db_password }} priv='{{ postfix_db_name }}.*:ALL'
 
 - template: dest=/etc/cron.d/ src=cron.d/postfix
+
+- template: dest=/etc/spamassassin/ src=spamassassin/local.cf
+

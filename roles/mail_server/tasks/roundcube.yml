@@ -11,7 +11,12 @@
 
 - template: dest={{ roundcube_path}}/config/config.inc.php src=roundcube/config.inc.php backup=yes
 
+- template: dest={{ roundcube_path}}/plugins/additional_message_headers/config.inc.php src=roundcube/additional_message_headers.config.inc.php backup=yes
+
 - template: dest=/etc/nginx/sites-enabled/default src=roundcube/nginx.conf backup=yes
   notify: Restart nginx
 
 - patch: basedir={{ roundcube_path }} src=templates/roundcube/patch1.patch strip=0
+
+- lineinfile: dest=/etc/php5/fpm/php.ini regex='^upload_max_filesize.*' line='upload_max_filesize = 21M'
+- lineinfile: dest=/etc/php5/fpm/php.ini regex='^post_max_size.*' line='post_max_size = 21M'

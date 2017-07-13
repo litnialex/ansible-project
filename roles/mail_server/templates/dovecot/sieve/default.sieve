@@ -1,3 +1,8 @@
+require "fileinto";
+if header :contains "X-Spam-Flag" "YES" {
+    fileinto "Junk";
+}
+
 # rule:[vacation]
 if false # true
 {
@@ -11,4 +16,5 @@ Kind regards,
 .
 ;
 }
+
 

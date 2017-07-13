@@ -3,12 +3,12 @@
 #- file: dest=/opt/postfixadmin state=directory
 #- unarchive: dest=/opt/postfixadmin src=/tmp/postfixadmin.tgz copy=no
 
-- get_url: dest=~/ url=http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.93/postfixadmin_2.93-1_all.deb
+- get_url: dest=~/ url="http://downloads.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-{{ postfixadmin_version }}/postfixadmin_{{ postfixadmin_version }}-1_all.deb"
 
-- apt: deb=~/postfixadmin_2.93-1_all.deb
+- apt: deb="~/postfixadmin_{{ postfixadmin_version }}-1_all.deb"
   ignore_errors: true
 
-- template: dest=/etc/postfixadmin/ src=postfixadmin/config.local.php
+- template: dest=/etc/postfixadmin/ src=postfixadmin/config.local.php backup=yes
 
 - template: dest=/etc/postfixadmin/ src=postfixadmin/postfixadmin-mailbox-postdeletion.sh mode=0755
 

@@ -14,7 +14,7 @@ $config['imap_debug'] = false;
 $config['smtp_debug'] = false;
 $config['reply_mode'] = 1;
 $config['language'] = 'ru_RU';
-$config['plugins'] = array('subscriptions_option','managesieve');
+$config['plugins'] = array('subscriptions_option','managesieve','additional_message_headers');
 $config['use_subscriptions'] = false;
 
 $config['log_driver'] = 'syslog';

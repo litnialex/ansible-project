@@ -74,3 +74,4 @@
     - localhost
   when: nagios_removelocalhost is defined or 'localhost' in groups['all']
  
+- copy: src=notify_by_phone dest={{ nrpe_plugin_dir }}/ mode=755

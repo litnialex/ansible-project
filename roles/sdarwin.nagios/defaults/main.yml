@@ -83,6 +83,8 @@ nagios_commands:
   - {name: 'check_swap', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_swap'}
   - {name: 'check_mem', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_mem'}
   - {name: 'check_ospf', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ -c check_ospf'}
+  - {name: 'service_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTNAME$, service $SERVICEDESC$, status $SERVICESTATE$ - $SERVICEOUTPUT$"'}
+  - {name: 'host_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTALIAS$, status $HOSTSTATE$ - $HOSTOUTPUT$"'}
 
 nagios_cgi_show_context_help: 1
 nagios_cgi_authorized_for_system_information: '*'

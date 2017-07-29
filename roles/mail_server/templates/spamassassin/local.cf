@@ -1,3 +1,5 @@
 {{ ansible_managed }}
 report_safe 0
 required_score 2.0
+ok_languages en ru
+ok_locales en ru

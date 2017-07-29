@@ -56,7 +56,6 @@
 
 - name: Set htpasswd for gui users from users variable
   htpasswd: crypt_scheme=plaintext path=/usr/local/nagios/etc/htpasswd.users name={{ item.username }} password={{ item.htpasswd }} state=present
-  when: nagios_admins_group in item.groups
   with_items: "{{ users | default([]) }}"
   tags: nagiosconf
 

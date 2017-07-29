@@ -1,0 +1,9 @@
+#!/bin/bash
+data=$@
+logger -t nagios "$0: ${data}"
+
+if [[ $data == *PROBLEM* ]]; then
+  echo "${data}" | ssh breeze.niisa.ru
+else
+  logger -t nagios "$0: skip notifying"
+fi

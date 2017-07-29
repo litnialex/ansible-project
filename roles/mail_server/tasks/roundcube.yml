@@ -18,5 +18,5 @@
 
 - patch: basedir={{ roundcube_path }} src=templates/roundcube/patch1.patch strip=0
 
-- lineinfile: dest=/etc/php5/fpm/php.ini regex='^upload_max_filesize.*' line='upload_max_filesize = 21M'
-- lineinfile: dest=/etc/php5/fpm/php.ini regex='^post_max_size.*' line='post_max_size = 21M'
+- lineinfile: dest=/etc/php5/fpm/php.ini regexp='^upload_max_filesize.*' line='upload_max_filesize = 21M'
+- lineinfile: dest=/etc/php5/fpm/php.ini regexp='^post_max_size.*' line='post_max_size = 21M'

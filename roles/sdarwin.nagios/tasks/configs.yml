@@ -26,6 +26,7 @@
   with_items:
     - { src: contacts.cfg, dest: contacts.cfg }
   when: users is defined
+  tags: nagioscontacts
 
 - name: Install more config files
   become: true

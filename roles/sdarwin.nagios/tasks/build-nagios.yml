@@ -55,8 +55,9 @@
   tags: nagiosconf
 
 - name: Set htpasswd for gui users from users variable
-  htpasswd: crypt_scheme=plaintext path=/usr/local/nagios/etc/htpasswd.users name={{ item.username }} password={{ item.htpasswd }} state=present
-  with_items: "{{ users | default([]) }}"
+  htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.key }} password={{ item.value.nagios.htpasswd }} state=present
+  with_dict: "{{ users | default({}) }}"
+  when: 'item.value.nagios is defined and item.value.nagios.htpasswd is defined'
   tags: nagiosconf
 
 #Let's move this to the end of the playbook, so that configs can be set up first

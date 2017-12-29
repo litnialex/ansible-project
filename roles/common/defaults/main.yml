@@ -1,10 +1,10 @@
 ---
+domain: '{{ ansible_domain }}'
 lang: en_US.UTF-8
 timezone: Europe/Moscow
 preffered_mirror: 'http://mirror.yandex.ru'
 ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
 ssh_default_port: '{{ ssh_listen_port }}'
-
 common_root_alias: 'root@{{ domain }}'
 
 common_sysctl:
@@ -12,6 +12,8 @@ common_sysctl:
 
 common_grub_defaults:
   GRUB_CMDLINE_LINUX_DEFAULT: 'console=tty {{ common_cmdline_append | d() }}'
+  GRUB_TERMINAL: "console serial"
+  GRUB_SERIAL_COMMAND: "serial --speed=38400 --unit=1 --word=8 --parity=no --stop=1"
 
 # list of modules to add into /etc/modules-load.d/90-ansible-common.conf
 common_modules_load:

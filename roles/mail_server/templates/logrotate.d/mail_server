@@ -1,0 +1,11 @@
+{{ mail_log_dir }}/mail.log
+{{ mail_log_dir }}/mail.warn
+{{ mail_log_dir }}/mail.err
+{
+  daily
+  rotate 30
+  dateext
+  copytruncate
+  notifempty
+  missingok
+}

@@ -1,5 +1,6 @@
 ---
 mail_root: /var/mail
+mail_log_dir: '{{ mail_root }}/log'
 mail_server_name: '{{ inventory_hostname }}.{{ domain }}'
 postfix_db_name: postfix
 postfix_db_user: postfix

@@ -12,11 +12,11 @@ logpath = /var/log/dovecot-info.log
 
 [roundcube-auth]
 enabled  = true
-logpath  = /var/log/mail.log
+logpath  = {{ mail_log_dir }}/mail.log
 
 [postfix-sasl]
 enabled = true
 port     = smtp,ssmtp,submission
 filter   = postfix-sasl
-logpath  = /var/log/mail.log
+logpath  = {{ mail_log_dir }}/mail.log
 

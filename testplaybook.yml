@@ -3,13 +3,11 @@
   vars:
     - ansible_become: no
   tasks:
-    - copy: dest=/tmp/ src="/tmp/{{ item }}"
-      with_items:
-        - f1
-        - f2
-        - f3
-        - f4
-        - f5
+    - shell: echo -n
+      register: shell_result
+      changed_when: shell_result.stdout
+    - debug: msg="ok"
+      when: shell_result.changed
 
     #  - setup:
     #  - apt: name=ntp state=absent

@@ -1,3 +1,9 @@
 ---
 dependencies:
 - role: mysql
+  #- role: debops.nginx
+  #nginx_acme_domain: '{{ mail_server_name }}'
+  #nginx_http_client_max_body_size: 21M
+  #nginx__default_servers: []
+  #nginx__dependent_servers:
+    #- '{{ nginx_server_acme }}'

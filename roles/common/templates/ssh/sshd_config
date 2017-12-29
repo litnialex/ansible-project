@@ -13,6 +13,9 @@ Subsystem sftp internal-sftp
 GatewayPorts clientspecified
 PermitTunnel yes
 X11Forwarding yes
+HostbasedAuthentication yes
+HostbasedUsesNameFromPacketOnly yes
+IgnoreRhosts no
 ClientAliveInterval 10
 ClientAliveCountMax 2
 LogLevel ERROR

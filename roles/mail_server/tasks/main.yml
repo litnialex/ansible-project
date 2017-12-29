@@ -10,6 +10,12 @@
 
 - lineinfile: dest=/etc/rsyslog.conf regexp='.*/var/log/syslog.*' line='*.*;auth,authpriv,mail.none -/var/log/syslog'
   notify: Restart rsyslog
+- lineinfile: dest=/etc/rsyslog.conf regexp='^mail.*' state=absent
+  notify: Restart rsyslog
+- file: dest="{{ mail_log_dir }}" state=directory owner=root group=adm mode=0755
+- template: dest=/etc/logrotate.d/ src=logrotate.d/mail_server
+- template: dest=/etc/rsyslog.d/ src=rsyslog.d/mail_server.conf
+  notify: Restart rsyslog
 
 - name: configure postgrey options
   lineinfile: dest=/etc/default/postgrey regexp='^POSTGREY_OPTS.*' line='POSTGREY_OPTS="--inet=127.0.0.1:10023 --max-age=360"'
@@ -33,10 +39,13 @@
   tags: pfa
 
 - template: dest=/etc/fail2ban/ src=fail2ban/fail2ban.local
+  tags: fail2ban
   notify: Restart fail2ban
 - template: dest=/etc/fail2ban/ src=fail2ban/jail.local
+  tags: fail2ban
   notify: Restart fail2ban
 - template: dest=/etc/fail2ban/filter.d/ src=fail2ban/filter.d/roundcube.conf
+  tags: fail2ban
   notify: Restart fail2ban
 
 - name: enable and start postgrey

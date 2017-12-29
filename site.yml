@@ -4,7 +4,17 @@
   roles:
   - { role: common, become: true, tags: common }
   - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: "'monitoring_servers' in groups" }
+
+- hosts: all_servers
+  strategy: free
+  roles:
   - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
+
+- hosts: staging_servers
+  roles:
+  - { role: debops.pki/env, become: true, tags: pki }
+  - { role: debops.secret, become: true, tags: pki , secret_directories: '{{ pki_env_secret_directories }}' }
+  - { role: debops.pki, become: true, tags: pki }
 
 - hosts: bind_servers
   environment: '{{ custom_env | default("{}") }}'
@@ -83,6 +93,7 @@
 - hosts: mail_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:
+  - { role: debops.nginx, become: true, tags: nginx,mail }
   - { role: mail_server, become: true, tags: mail}
   - { role: backup, become: no, tags: backup, backup_src: [/etc/postfix] }
 
@@ -102,19 +113,13 @@
   - { role: 'quagga', become: true, tags: quagga}
   - { role: backup, become: no, tags: backup, backup_src: [/etc/quagga] }
 
-- hosts: staging_servers
-  roles:
-  - { role: debops.pki/env, become: true, tags: pki }
-  - { role: debops.secret, become: true, tags: pki , secret_directories: '{{ pki_env_secret_directories }}' }
-  - { role: debops.nginx, become: true, tags: nginx }
-  - { role: debops.pki, become: true, tags: pki }
-
 - hosts: fw_servers
   roles:
   - { role: backup, become: no, tags: backup, backup_src: [/etc/network/fw] }
 
 - hosts: asterisk_servers
   roles:
+  - { role: asterisk, become: true, tags: asterisk }
   - { role: backup, become: no, tags: backup, backup_src: [/etc/asterisk] }
 
 - hosts: log_servers

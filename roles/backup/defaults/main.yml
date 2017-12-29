@@ -4,6 +4,7 @@ backup_src_all_servers:
 - /etc/network/interfaces
 - /etc/network/interfaces.d
 - /etc/fstab
+- /etc/rc.local
 backup_rsync_opts:
 - "--exclude=*.wav"
 - "--exclude=*.sln*"

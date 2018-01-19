@@ -5,11 +5,6 @@
   - { role: common, become: true, tags: common }
   - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: "'monitoring_servers' in groups" }
 
-- hosts: all_servers
-  strategy: free
-  roles:
-  - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
-
 - hosts: staging_servers
   roles:
   - { role: debops.pki/env, become: true, tags: pki }
@@ -90,6 +85,11 @@
   roles:
   - { role: debootstrap, become: true, tags: debootstrap }
 
+- hosts: nginx_servers
+  environment: '{{ custom_env | default("{}") }}'
+  roles:
+  - { role: debops.nginx, become: true, tags: nginx,mail }
+
 - hosts: mail_servers
   environment: '{{ custom_env | default("{}") }}'
   roles:
@@ -132,4 +132,9 @@
   - { role: logstash, become: true, tags: logstash }
   - { role: curator, become: true, tags: curator }
   - { role: logrotate, become: true, tags: logrotate }
+
+- hosts: all_servers
+  strategy: free
+  roles:
+  - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
 

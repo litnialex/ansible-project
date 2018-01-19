@@ -1,0 +1,24 @@
+{% set mac = ansible_default_ipv4.macaddress | replace(':', '') %}
+{% set mac_str = mac[0:2] ~ mac[2:4] ~ '.' ~ mac[4:6] ~ mac[6:8] ~ '.' ~ mac[8:10] ~ mac[10:12] %}
+= {{ ansible_hostname }} =
+
+== Общие сведения ==
+|| Модель ||  {{ ansible_system_vendor }} {{ ansible_product_name }} ||
+|| Имя  || {{ansible_hostname }} ||
+|| Местонахождение || [[Amsterdam]], есть [[IPMI]] ||
+|| ОС  || {{ ansible_lsb['description'] | d('unknown') }} ||
+|| Сеть || {{ ansible_interfaces | join(',') }}. Default route MAC {{ mac_str }} ||
+|| CPU || Кол-во:{{ ansible_processor_count }} Ядер:{{ ansible_processor_cores }} {{ ansible_processor[:2] | join(' ')  }}  ||
+|| RAM || {{ ansible_memtotal_mb // 1024}}Gb  ||
+|| HDD || Кол-во:{{ ansible_devices | count }} {% for item in ansible_devices|dictsort %}{{ item[1]['size'] }} {% endfor %}||
+
+
+== Назначение ==
+ * раз 
+
+
+== Страницы, ссылающиеся на эту ==
+<<FullSearch(linkto:{{ ansible_hostname }})>>
+
+----
+КатегорияСервер

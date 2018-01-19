@@ -26,8 +26,11 @@
   - nameservers is defined
   - "'bind_servers' not in group_names"
 
-- name: create locale gen file (bugfix)
-  copy: dest=/etc/locale.gen content="{{ lang }} {{ lang.split('.')[1] }}\n"
+- name: Copy locale.gen
+  template: src=locale.gen dest=/etc/
+
+- name: Set Lang
+  copy: dest='{{ lang_file }}' content='LANG="{{ lang }}"\n'
 
 - name: Install language-pack-en
   apt: name=language-pack-en
@@ -38,10 +41,8 @@
   when: ansible_os_family == "Ubuntu"
 
 - name: Generate Locale
-  locale_gen: name={{ lang }}
-
-- name: Set Lang
-  copy: dest='{{ lang_file }}' content='LANG="{{ lang }}"\n'
+  command: locale-gen
+  changed_when: False
 
 - name: Set Root Password
   user: name=root password="{{ root_password }}" update_password=always

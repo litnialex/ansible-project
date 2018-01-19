@@ -1,11 +1,11 @@
 [defaults]
-roles_path    = ./roles
-inventory       = ./example/inventory
-forks          = 50
-gathering = explicit
-#fact_caching = jsonfile
-#fact_caching_connection = ~/.cache/ansible
-#fact_caching_timeout = 86400
+roles_path = ./roles
+inventory = ./example/inventory
+forks = 50
+gathering = smart
+fact_caching = jsonfile
+fact_caching_connection = ~/.cache/ansible
+fact_caching_timeout = 86400
 hash_behaviour = merge
 ansible_managed = ANSIBLE MANAGED FILE. DO NOT EDIT BY HAND. CHANGES WILL BE DISCARDED.
 display_skipped_hosts = False
@@ -14,3 +14,4 @@ pipelining = True
 display_args_to_stdout = True
 local_tmp = $HOME/.cache/ansibletmp
 force_handlers = True
+stdout_callback = debug

@@ -18,5 +18,6 @@ HostbasedUsesNameFromPacketOnly yes
 IgnoreRhosts no
 ClientAliveInterval 10
 ClientAliveCountMax 2
-LogLevel ERROR
-AcceptEnv EDITOR
+{% for key, value in common_sshd_options.iteritems() %}{% if value != 'None' %}
+{{ key }} {{ value }}
+{% endif %}{% endfor %}

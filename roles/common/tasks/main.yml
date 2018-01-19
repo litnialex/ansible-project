@@ -7,9 +7,13 @@
   include_vars: 'os_{{ ansible_os_family }}.yml'
   tags: [install, basic, ssh]
 
-- include: 'install_{{ ansible_os_family }}.yml'
+- include: 'install_Debian.yml'
   tags: install
-  when: ansible_os_family is defined
+  when: ansible_os_family == 'Debian'
+
+- include: 'install_RedHat.yml'
+  tags: install
+  when: ansible_os_family == 'RedHat'
 
 - include: basic.yml
   tags: basic

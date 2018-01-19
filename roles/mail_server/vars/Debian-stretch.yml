@@ -1,4 +1,5 @@
 ---
+php_fpm_path: /etc/php/7.0/fpm/php.ini
 mail_server_pkgs:
 - dovecot-core
 - dovecot-imapd
@@ -10,7 +11,7 @@ mail_server_pkgs:
 - fail2ban
 - git
 - nginx
-- php-auth
+- patch
 - php-auth-sasl
 - php-db
 - php-gettext
@@ -27,16 +28,16 @@ mail_server_pkgs:
 - php-pear
 - php-soap
 - php-tcpdf
-- php5-fpm
-- php5-gd
-- php5-imap
-- php5-intl
-- php5-json
-- php5-mcrypt
-- php5-mysql
-- php5-pspell
-- php5-readline
-- php5-sqlite
+- php-fpm
+- php-gd
+- php-imap
+- php-intl
+- php-json
+- php-mcrypt
+- php-mysql
+- php-pspell
+- php-readline
+- php-sqlite3
 - postfix
 - postfix-mysql
 - postfix-pcre

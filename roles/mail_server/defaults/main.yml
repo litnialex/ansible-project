@@ -28,6 +28,7 @@ reject_unauth_destination,
 reject_unlisted_recipient,
 check_policy_service inet:localhost:10023'
 
+roundcube_version: 1.3
 roundcube_path: /opt/roundcube
 roundcube_log_dir: /var/log/roundcube
 roundcube_smtp_log: true

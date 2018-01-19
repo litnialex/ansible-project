@@ -12,6 +12,6 @@
 
 - template: dest=/etc/postfixadmin/ src=postfixadmin/postfixadmin-mailbox-postdeletion.sh mode=0755
 
-- file: dest='{{ roundcube_path }}/admin' src=/usr/share/postfixadmin/ state=link
-
 - copy: dest=/etc/sudoers.d/postfixadmin  content='www-data ALL=(ALL) NOPASSWD:/etc/postfixadmin/postfixadmin-mailbox-postdeletion.sh\n' mode=0640
+
+- file: dest=/usr/share/postfixadmin/templates_c owner=www-data

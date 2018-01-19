@@ -1,9 +1,24 @@
 ---
 dependencies:
 - role: mysql
-  #- role: debops.nginx
-  #nginx_acme_domain: '{{ mail_server_name }}'
-  #nginx_http_client_max_body_size: 21M
-  #nginx__default_servers: []
-  #nginx__dependent_servers:
-    #- '{{ nginx_server_acme }}'
+  tags: [deps, mysql]
+- role: debops.nginx
+  tags: [deps, nginx]
+  nginx__dependent_servers:
+  - name: '{{ mail_server_name }}'
+    root: '{{ roundcube_path }}'
+    enabled: True
+    ssl: True
+    welcome: False
+    type: php
+    php_upstream: 'unix:/var/run/php/php7.0-fpm.sock'
+    php_options: |
+      location ~* /admin/(.*)$ {
+      alias /usr/share/postfixadmin/$1;
+      fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+      allow 127.0.0.1;
+      allow 10.0.0.0/8;
+      allow 192.168.0.0/16;
+      allow 62.117.122.2;
+      deny all;
+      }

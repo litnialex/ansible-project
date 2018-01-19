@@ -1,0 +1,6 @@
+# Run this playbook with -v flag and ANSIBLE_STDOUT_CALLBACK=debug environment. Example:
+# ANSIBLE_STDOUT_CALLBACK=debug ansible-playbook ../server_description.yml  -l ams-hp-18 -v
+- hosts: all
+  tasks:
+  - template: src=../templates/server_description.yml dest=/tmp/description.txt
+  - shell: cat /tmp/description.txt

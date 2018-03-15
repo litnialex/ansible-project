@@ -39,3 +39,7 @@
 
 - name: Restart nginx
   service: name=nginx state=restarted
+
+- name: Compile sieve default rule
+  command: sievec  /etc/dovecot/sieve/default.sieve
+

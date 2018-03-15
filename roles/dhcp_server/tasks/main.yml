@@ -53,8 +53,10 @@
 
 # Generate service configuration
 - name: Generate DHCP service conf
-  template: src=service.conf.{{ ansible_os_family }}.j2 dest={{ dhcp_service_config }} owner=root group=root
-  when: ansible_os_family == 'Debian' or (ansible_os_family == 'RedHat' and ansible_distribution_major_version < '7')
+  template: src={{ item }} dest={{ dhcp_service_config }} owner=root group=root
+  with_first_found:
+  - service.conf.{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.j2
+  - service.conf.{{ ansible_distribution }}.j2
   notify:
     - restart dhcpd
 

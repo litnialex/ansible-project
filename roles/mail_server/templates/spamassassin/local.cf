@@ -1,5 +1,6 @@
-{{ ansible_managed }}
+#{{ ansible_managed }}
 report_safe 0
-required_score 2.0
-ok_languages en ru
-ok_locales en ru
+required_score 6.0
+ok_languages en ru ch
+ok_locales en ru ch
+whitelist_from *@{{ domain }}

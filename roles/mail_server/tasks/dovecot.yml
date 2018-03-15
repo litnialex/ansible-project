@@ -11,10 +11,12 @@
   - dovecot-sql.conf.ext
   - dovecot-dict-sql.conf.ext
   notify: Restart dovecot
+  tags: dovecotconf
 
 - file: dest=/etc/dovecot/quota-warning.py mode=0775
 
 - template: dest=/etc/dovecot/sieve src=dovecot/sieve/default.sieve
+  notify: Compile sieve default rule
 
 - template: dest=/etc/logrotate.d/ src=logrotate.d/dovecot
 

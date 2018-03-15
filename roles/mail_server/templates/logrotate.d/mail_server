@@ -3,7 +3,7 @@
 {{ mail_log_dir }}/mail.err
 {
   daily
-  rotate 30
+  rotate 180
   dateext
   copytruncate
   notifempty

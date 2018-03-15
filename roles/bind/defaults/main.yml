@@ -10,8 +10,8 @@ bind_config_forward_zones: []
 bind_service_state: started
 bind_service_enabled: yes
 bind_pkg_state: installed
-bind_base_zones_path: '/var/lib/bind'
+bind_workdir: '/var/lib/bind'
 bind_log_path: '/var/log/named'
-bind_masterzones_path: 'masters'
-bind_slavezones_path: 'slaves'
+bind_masterzones_path: '{{ bind_config_basepath }}/masters'
+bind_slavezones_path: '{{ bind_workdir }}/slaves'
 bind_config_listen_on: ['any']

@@ -1,7 +1,8 @@
 ---
-- name: Gather Facts
-  setup:
-  tags: [install, basic, ssh, grub, rsyslog, pki]
+# switched to gathering = smart inansible.cfg
+#- name: Gather Facts
+#  setup:
+#  tags: [install, basic, ssh, grub, rsyslog, pki]
 
 - name: Include OS-specific variables
   include_vars: 'os_{{ ansible_os_family }}.yml'

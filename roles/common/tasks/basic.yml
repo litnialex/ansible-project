@@ -60,9 +60,11 @@
 
 - name: Vim Config Directory
   file: dest=/etc/vim/ state=directory
+  tags: common:vim
 
 - name: Copy Vim Config
   template: src=vim/vimrc.local dest=/etc/vim/
+  tags: common:vim
 
 - name: Copy Rsync Config
   template: src=rsyncd.conf dest=/etc/

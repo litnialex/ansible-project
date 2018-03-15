@@ -4,7 +4,7 @@
 {% for zone in slave_zone.zones %}
 zone "{{ zone.name }}" {
     type slave;
-    file "{{bind_base_zones_path}}/{{bind_slavezones_path}}/{{ zone.name }}";
+    file "{{bind_slavezones_path}}/{{ zone.name }}";
     masters {
 {% for master in slave_zone.masters %}
           {{ master }};

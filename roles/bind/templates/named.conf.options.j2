@@ -8,7 +8,7 @@ acl "private_nets" {
   };
 
 options {
-  directory "{{ bind_base_zones_path }}";
+  directory "{{ bind_workdir }}";
   version "Guess";
   listen-on-v6 { none; };
   listen-on {

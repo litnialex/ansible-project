@@ -6,11 +6,14 @@
 - apt: state=installed pkg={{ item }}
   with_items: '{{ mail_server_pkgs }}'
  
-- copy: dest=/etc/ssl/private/ src="{{ inventory_dir }}/files/{{ mail_server_name }}.pem" owner=root group=ssl-cert mode=0640
+#- copy: dest=/etc/ssl/private/ src="{{ inventory_dir }}/files/{{ mail_server_name }}.pem" owner=root group=ssl-cert mode=0640
 
 - user: name=www-data groups=ssl-cert append=yes
 - user: name=dovecot groups=ssl-cert append=yes
 - user: name=postfix groups=ssl-cert append=yes
+
+- lineinfile: dest=/etc/hosts regexp='127.0.0.1 {{ mail_server_name }}' line='127.0.0.1 {{ mail_server_name }}'
+  when:  ansible_ssh_host != mail_server_name
 
 - lineinfile: dest=/etc/rsyslog.conf regexp='.*/var/log/syslog.*' line='*.*;auth,authpriv,mail.none -/var/log/syslog'
   notify: Restart rsyslog
@@ -24,11 +27,16 @@
 - name: configure postgrey options
   lineinfile: dest=/etc/default/postgrey regexp='^POSTGREY_OPTS.*' line='POSTGREY_OPTS="--inet=127.0.0.1:10023 --max-age=360"'
 
+- template: dest=/etc/spamassassin/ src=spamassassin/local.cf backup=yes
+  tags: spamass
+
 - name: configure spamassassin options
   lineinfile: dest=/etc/default/spamassassin regexp='^OPTIONS.*' line='OPTIONS="--create-prefs --max-children 5 --helper-home-dir -u debian-spamd"'
+  tags: spamass
 
 - name: configure spamass-multer options
   lineinfile: dest=/etc/default/spamass-milter regexp='^OPTIONS.*' line='OPTIONS="-u debian-spamd -i 127.0.0.1"'
+  tags: spamass
 
 - include: postfix.yml
   tags: postfix
@@ -55,9 +63,15 @@
 - name: enable and start postgrey
   service: name=postgrey state=started enabled=yes
 
-- name: enable and start spamassassin
-  service: name=spamassassin state=started enabled=yes
+- name: enable spamassassin
+  service: name=spamassassin enabled=yes
+  tags: spamass
+
+- name: start spamassassin
+  service: name=spamassassin state=started
+  tags: spamass
 
 - name: enable spamass-milter (remake to a systemd script)
   file: src=/etc/init.d/spamass-milter dest=/etc/rc2.d/S50spamass-milter state=link
+  tags: spamass
 

@@ -1,7 +1,7 @@
 [defaults]
-roles_path = ./roles
-inventory = ./example/inventory
-forks = 50
+roles_path    = ./roles:./galaxy-roles
+inventory       = {{CWD}}/inventory
+forks          = 50
 gathering = smart
 fact_caching = jsonfile
 fact_caching_connection = ~/.cache/ansible

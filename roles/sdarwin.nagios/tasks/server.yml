@@ -24,7 +24,7 @@
   group: name={{ nagios_monitoring_command_group }} state=present
 
 - name: Create nagios user
-  user: name={{ nagios_monitoring_user }} state=present groups={{ nagios_monitoring_command_group }}
+  user: name={{ nagios_monitoring_user }} state=present groups={{ nagios_monitoring_command_group }} system=yes
 
 - name: Add apache user to nagcmd group
   user: name={{ nagios_apache_user }} state=present groups={{ nagios_monitoring_command_group }}

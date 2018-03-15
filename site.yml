@@ -1,6 +1,5 @@
 ---
 - hosts: all_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: common, become: true, tags: common }
   - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: "'monitoring_servers' in groups" }
@@ -11,104 +10,80 @@
   - { role: debops.secret, become: true, tags: pki , secret_directories: '{{ pki_env_secret_directories }}' }
   - { role: debops.pki, become: true, tags: pki }
 
-- hosts: bind_servers
-  environment: '{{ custom_env | default("{}") }}'
-  roles:
-  - { role: bind, become: true, tags: bind }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/bind/named.conf.local] }
-
 - hosts: dhcp_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: 'dhcp_server', become: true, tags: dhcp }
 
-- hosts: vmware_guests
-  environment: '{{ custom_env | default("{}") }}'
-  tasks:
-  - apt: pkg=open-vm-tools
-    tags: vm
-    become: true
+- hosts: bind_servers
+  roles:
+  - { role: bind, become: true, tags: bind }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/bind/named.conf.local] }
+  - { role: backup, become: no, tags: backup, backup_src: ['{{ bind_masterzones_path }}'], when: bind_config_master_zones }
 
 - hosts: tftp_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: atftpd, become: true, tags: tftp }
 
 - hosts: nfs_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: nfs_server, become: true, tags: nfs }
 
 - hosts: moinmoin_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: moinmoin, become: true, tags: moin }
 
 - hosts: trac_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: trac, become: true, tags: trac }
 
 - hosts: ftp_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: proftpd, become: true, tags: ftp }
 
 - hosts: mysql_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: mysql, become: true, tags: mysql }
 
 - hosts: cacti_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: cacti, become: true, tags: cacti }
 
 - hosts: megaraid_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: megaraid, become: true, tags: megaraid }
 
 - hosts: workstations
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: workstation, become: true, tags: workstation }
 
 - hosts: kvm_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: kvm, become: true, tags: kvm }
   - { role: backup, become: no, tags: backup, backup_src: [/etc/libvirt/qemu] }
 
 - hosts: debootstrap_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: debootstrap, become: true, tags: debootstrap }
 
 - hosts: nginx_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: debops.nginx, become: true, tags: nginx,mail }
 
 - hosts: mail_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: debops.nginx, become: true, tags: nginx,mail }
   - { role: mail_server, become: true, tags: mail}
   - { role: backup, become: no, tags: backup, backup_src: [/etc/postfix] }
 
 - hosts: squid_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: squid, become: true, tags: squid}
 
 - hosts: monitoring_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: 'sdarwin.nagios', become: true, run_nagios_server: true, tags: nagios}
 
 - hosts: quagga_servers
-  environment: '{{ custom_env | default("{}") }}'
   roles:
   - { role: 'quagga', become: true, tags: quagga}
   - { role: backup, become: no, tags: backup, backup_src: [/etc/quagga] }

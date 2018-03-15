@@ -13,7 +13,7 @@ $config['log_session'] = true;
 $config['imap_debug'] = false;
 $config['smtp_debug'] = false;
 $config['reply_mode'] = 1;
-$config['language'] = 'ru_RU';
+$config['language'] = '{{ roundcube_language }}';
 $config['plugins'] = array('subscriptions_option','managesieve','additional_message_headers');
 $config['use_subscriptions'] = false;
 

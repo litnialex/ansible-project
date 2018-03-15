@@ -4,11 +4,27 @@
   with_items: '{{ bind_pkgs }}'
   tags: package
 
-- name: setup zone directories
-  file: dest={{ bind_base_zones_path }}/{{ item }} state=directory owner={{ bind_user }} group={{ bind_group }} mode=0755
-  with_items:
-  - masters
-  - slaves
+- name: create slave zones path
+  file: dest={{ bind_slavezones_path }} state=directory owner={{ bind_user }} group={{ bind_group }} mode=0755
+  when: bind_config_slave_zones
+  tags: bindconf
+
+- name: create master zones path
+  file: dest={{ bind_masterzones_path }} state=directory owner={{ bind_user }} group={{ bind_group }} mode=0755
+  when: bind_config_master_zones
+  tags: bindconf
+  register: masterzones_path_create
+
+- synchronize:
+    mode: push
+    src: '{{ inventory_dir }}/backup/{{ inventory_hostname }}/masters/'
+    dest: '{{ bind_masterzones_path }}'
+    archive: no
+    recursive: yes
+    times: yes
+    delete: no
+    rsync_opts: ['--update']
+  when: masterzones_path_create.changed
   tags: bindconf
 
 - name: setup log directory
@@ -35,21 +51,6 @@
   notify: restart bind
   tags: bindconf
 
-- name: copy master zone files
-  copy: src="{{ inventory_dir }}/files/dns/{{ item.file | default(item.name) }}" dest={{ bind_base_zones_path }}/{{bind_masterzones_path}} owner={{ bind_user }} group={{ bind_group }}
-  with_items: '{{ bind_config_master_zones }}'
-  notify: reload bind
-  tags: bindzones
-
 - name: start/stop bind service
   service: name={{ bind_service_name }} state={{ bind_service_state }} enabled={{ bind_service_enabled }}
   tags: service
-
-- name: Update single master zone
-  copy: src="{{ inventory_dir }}/files/dns/{{ file }}" dest={{ bind_base_zones_path }}/{{bind_masterzones_path}} owner={{ bind_user }} group={{ bind_group }}
-  notify: reload bind
-  tags: bindzone
-  when: 
-    - file is defined
-    - bind_config_master_zones != []
-

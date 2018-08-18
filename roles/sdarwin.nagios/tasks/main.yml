@@ -1,11 +1,11 @@
 ---
 - name: include client
-  include: client.yml 
+  import_tasks: client.yml 
   when:
   - run_nagios_client is defined 
   - run_nagios_client == true
 
 - name: include server
-  include: server.yml 
+  import_tasks: server.yml 
   when: run_nagios_server is defined 
 

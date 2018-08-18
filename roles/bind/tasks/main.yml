@@ -25,7 +25,9 @@
     delete: no
     rsync_opts: ['--update']
   when: masterzones_path_create.changed
+  ignore_errors: True
   tags: bindconf
+
 
 - name: setup log directory
   file: dest={{ bind_log_path }} state=directory owner={{ bind_user }} group={{ bind_group }}

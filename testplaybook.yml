@@ -3,12 +3,28 @@
   vars:
     - ansible_become: no
   tasks:
-    - shell: echo -n
-      register: shell_result
-      changed_when: shell_result.stdout
-    - debug: msg="ok"
-      when: shell_result.changed
-
+  - template: src=/tmp/test.yml dest=/tmp
+  - debug: var=testvar
+  - debug: msg={{testvar}}
+    ignore_errors: True
+  - debug: msg="testvar != ''"
+    when: testvar != ''
+    ignore_errors: True
+  - debug: msg="testvar | d(false,true)"
+    when: testvar | d(false,true)
+    ignore_errors: True
+  - debug: msg="COMPLEX"
+    when:
+    - testvar is defined
+    - testvar
+    - testvar != ''
+ 
+#    - shell: echo -n
+#      register: shell_result
+#      changed_when: shell_result.stdout
+#    - debug: msg="ok"
+#      when: shell_result.changed
+#
     #  - setup:
     #  - apt: name=ntp state=absent
     #    when: ansible_system_vendor == "QEMU"

@@ -1,8 +1,15 @@
 ---
 - hosts: all_servers
+  tasks:
+  - include_role:
+      name: sdarwin.nagios
+    vars:
+      ansible_become: true
+      run_nagios_client: true
+    tags: nrpe
+    when: "'monitoring_servers' in groups"
   roles:
   - { role: common, become: true, tags: common }
-  - { role: 'sdarwin.nagios', become: true, run_nagios_client: true, tags: nrpe, when: "'monitoring_servers' in groups" }
 
 - hosts: staging_servers
   roles:
@@ -67,17 +74,17 @@
 
 - hosts: nginx_servers
   roles:
-  - { role: debops.nginx, become: true, tags: nginx,mail }
+  - { role: debops.nginx, become: true, tags: nginx }
 
 - hosts: mail_servers
   roles:
-  - { role: debops.nginx, become: true, tags: nginx,mail }
   - { role: mail_server, become: true, tags: mail}
   - { role: backup, become: no, tags: backup, backup_src: [/etc/postfix] }
 
 - hosts: squid_servers
   roles:
   - { role: squid, become: true, tags: squid}
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/squid3] }
 
 - hosts: monitoring_servers
   roles:
@@ -96,6 +103,16 @@
   roles:
   - { role: asterisk, become: true, tags: asterisk }
   - { role: backup, become: no, tags: backup, backup_src: [/etc/asterisk] }
+
+- hosts: postgresql_servers
+  roles:
+  - { role: anxs.postgresql, become: true, tags: postgresql }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/postgresql] }
+
+- hosts: odoo_servers
+  roles:
+  - { role: sebalix.odoo, become: true, tags: odoo }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/odoo] }
 
 - hosts: log_servers
   tags: elk

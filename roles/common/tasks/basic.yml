@@ -1,14 +1,14 @@
 - name: Group Hosts by virtualization_type and virtualization_role
   group_by:
     key: virt_{{ ansible_virtualization_type }}_{{ ansible_virtualization_role }}
-  tags: grub
+  tags: common_grub
 
 - name: Setup Grub Environment
   lineinfile: dest=/etc/default/grub line='{{ item.key }}="{{ item.value }}"' regexp='^{{ item.key }}=.*' create=no
   with_dict: "{{ common_grub_defaults }}"
   when: item.value != None
   notify: update grub
-  tags: grub
+  tags: common_grub
   ignore_errors: yes
 
 - name: Set Hostname
@@ -56,15 +56,15 @@
   template: dest=/etc/screenrc src=screenrc
 
 - template: dest=/etc/ src=tmux.conf
-  tags: tmuxconf
+  tags: common_tmuxconf
 
 - name: Vim Config Directory
   file: dest=/etc/vim/ state=directory
-  tags: common:vim
+  tags: common_vim
 
 - name: Copy Vim Config
   template: src=vim/vimrc.local dest=/etc/vim/
-  tags: common:vim
+  tags: common_vim
 
 - name: Copy Rsync Config
   template: src=rsyncd.conf dest=/etc/
@@ -86,5 +86,6 @@
   - "'log_servers' in groups"
   - groups['log_servers'] != ''
   - "'log_servers' not in group_names"
-  tags: rsyslog
+  - not common_netlog_omit 
+  tags: common_rsyslog
   notify: restart rsyslog

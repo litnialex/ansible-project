@@ -6,7 +6,7 @@
 - name: Add the OS specific varibles
   include_vars: "{{ ansible_os_family }}.yml"
 
-- include: uninstall.yml
+- import_tasks: uninstall.yml
   when:
   - uninstall is defined
   - uninstall == 'yes'

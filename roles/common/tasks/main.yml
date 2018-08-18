@@ -6,30 +6,26 @@
 
 - name: Include OS-specific variables
   include_vars: 'os_{{ ansible_os_family }}.yml'
-  tags: [install, basic, ssh]
+  tags: [common_install, common_basic, common_ssh]
 
-- include: 'install_Debian.yml'
-  tags: install
-  when: ansible_os_family == 'Debian'
+- include_tasks: 'install_{{ ansible_os_family }}.yml'
+  tags: common_install
+  when: ansible_os_family in ['Debian', 'RedHat']
 
-- include: 'install_RedHat.yml'
-  tags: install
-  when: ansible_os_family == 'RedHat'
+- import_tasks: basic.yml
+  tags: common_basic
 
-- include: basic.yml
-  tags: basic
+- include_tasks: sudo.yml
+  tags: common_sudo
 
-- include: sudo.yml
-  tags: sudo
+- include_tasks: ssh.yml
+  tags: common_ssh
 
-- include: ssh.yml
-  tags: ssh
-
-- include: snmp.yml
+- include_tasks: snmp.yml
   when: snmp_community is defined
-  tags: snmp
+  tags: common_snmp
 
-- include: postfix.yml
+- include_tasks: postfix.yml
   when: 
   - "'mail_servers' not in group_names"
-  tags: common:postfix
+  tags: common_postfix

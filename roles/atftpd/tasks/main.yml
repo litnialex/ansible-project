@@ -34,7 +34,7 @@
 - name: Enable the atftpd service
   service: name=atftpd enabled=yes
 
-- include: centos-install.yml
+- import_tasks: centos-install.yml
   when: centos_install_srv
   tags: centosinstall
 

@@ -4,3 +4,6 @@ required_score 6.0
 ok_languages en ru ch
 ok_locales en ru ch
 whitelist_from *@{{ domain }}
+{% if spam_whitelist_to %}{%for item in spam_whitelist_to %}
+whitelist_to {{ item }}
+{% endfor %}{% endif %}

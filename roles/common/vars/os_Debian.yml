@@ -1,7 +1,7 @@
 ---
 ssh_service_name: ssh
 lang_file: /etc/default/locale
-install_pkgs_distribution:
+common_install_pkgs_distribution:
 - aptitude
 - atftp
 - bsd-mailx
@@ -14,6 +14,7 @@ install_pkgs_distribution:
 - locales
 - lsb-release
 - makedev
+- net-tools
 - procps
 - python-apt
 - sshfs

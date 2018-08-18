@@ -1,9 +1,9 @@
 ---
-- git: dest={{ roundcube_path }} repo=https://github.com/roundcube/roundcubemail.git version=release-{{ roundcube_version }} force=no
+- git: dest={{ roundcube_path }} repo=https://github.com/roundcube/roundcubemail.git version=release-{{ roundcube_version }} force=no update={{roundcube_update | d('yes') }}
 
 - command: ./bin/install-jsdeps.sh chdir={{ roundcube_path }} creates=program/js/jquery.min.js
   when:
-  - "{{ roundcube_version | version_compare('1.3', '>=') }}"
+  - roundcube_version | version_compare('1.3', '>=')
 
 - mysql_db: name={{ roundcube_db_name }}  encoding=utf8 collation=utf8_bin
   register: roundcube_db_state

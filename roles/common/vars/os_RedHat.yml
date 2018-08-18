@@ -1,6 +1,6 @@
 ---
 ssh_service_name: sshd
 lang_file: /etc/sysconfig/i18n
-install_pkgs_distribution:
+common_install_pkgs_distribution:
 - fuse-sshfs
 - ntfsprogs

@@ -1,5 +1,5 @@
 ---
-- include: load-variables.yml
+- import_tasks: load-variables.yml
   tags: nrpeconf
 
 - name: nrpe_plugin_dir_default

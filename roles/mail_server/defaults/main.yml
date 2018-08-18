@@ -31,6 +31,7 @@ postfix_main_cf:
     reject_unlisted_recipient,
     check_policy_service inet:localhost:10023
 
+roundcube_update: yes
 roundcube_version: 1.3
 roundcube_path: /opt/roundcube
 roundcube_log_dir: /var/log/roundcube
@@ -55,3 +56,5 @@ postfixadmin_version: 3.1
 postfixadmin_allow:
 - 10.0.0.0/8
 - 192.168.0.0/16
+
+spam_whitelist_to: []

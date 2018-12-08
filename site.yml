@@ -123,7 +123,6 @@
   - { role: syslog-ng, become: true, tags: syslog-ng }
   - { role: logstash, become: true, tags: logstash }
   - { role: curator, become: true, tags: curator }
-  - { role: logrotate, become: true, tags: logrotate }
 
 - hosts: all_servers
   strategy: free

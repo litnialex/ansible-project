@@ -44,6 +44,7 @@
 #- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
 
 - user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }}
+  ignore_errors: true
 - copy: dest=/etc/ssh/keys/{{ workstation_user }} content='{{ root_pubkey }}@{{ domain }}\n'
 - lineinfile: dest=/etc/sudoers.d/{{ workstation_user }} line='{{ workstation_user }} ALL=(ALL) ALL' mode=660 create=yes
 - lineinfile: dest='/etc/security/limits.d/{{ workstation_user }}.conf' line='{{ workstation_user }} - nofile 10000' mode=644 create=yes
@@ -58,3 +59,4 @@
   - file: dest=/home/{{ workstation_user }}/.icons/flags state=directory
   - copy: src=files/flags/ dest=/home/{{ workstation_user }}/.icons/flags/
   become_user: '{{ workstation_user }}'
+  tags: this

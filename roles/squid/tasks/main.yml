@@ -1,5 +1,7 @@
 ---
-- template: src=squid.conf.j2 dest=/etc/squid3/squid.conf group=squid mode=640 validate='squid -k check -f %s'
+- apt: name=squid3
+
+- template: src=squid.conf.j2 dest=/etc/squid/squid.conf group=squid mode=640 validate='squid -k check -f %s' backup=yes
   notify: restart squid
 #- lineinfile: dest=/etc/squid/passwd line="admin:Proxy:{{ 'admin:Proxy:litnialex'|hash('md5') }}"
 

@@ -5,6 +5,7 @@ backup_src_all_servers:
 - /etc/network/interfaces.d
 - /etc/fstab
 - /etc/rc.local
+- /etc/cron.d
 backup_rsync_opts:
 - "--exclude=*.wav"
 - "--exclude=*.sln*"

@@ -15,7 +15,7 @@ common_sysctl:
   net.ipv6.conf.all.disable_ipv6: 1
 
 common_grub_defaults:
-  GRUB_CMDLINE_LINUX_DEFAULT: 'console=tty {{ common_cmdline_append | d() }}'
+  GRUB_CMDLINE_LINUX_DEFAULT: 'console=tty {{ grub_cmdline_append | d() }}'
   GRUB_TERMINAL: "console serial"
   GRUB_SERIAL_COMMAND: "serial --speed=38400 --unit=1 --word=8 --parity=no --stop=1"
 
@@ -52,7 +52,6 @@ common_install_pkgs:
 - ifenslave
 - iftop
 - iotop
-- iproute
 - iptables
 - less
 - lsb-release

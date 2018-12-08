@@ -1,0 +1,3 @@
+#ANSIBLE MANAGED FILE. DO NOT EDIT BY HAND. CHANGES WILL BE DISCARDED.
+www-data ALL=(ALL) NOPASSWD:/etc/postfixadmin/postfixadmin-mailbox-postdeletion.sh
+zabbix ALL = NOPASSWD:/usr/bin/find /var/spool/postfix/deferred/ -type f

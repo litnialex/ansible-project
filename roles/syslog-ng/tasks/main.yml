@@ -1,33 +1,24 @@
 ---
-# Installing syslog-ng
-#
-# Install syslog-ng
 - name: Update repositories cache and install syslog-ng
-  apt:
-    name: syslog-ng
-    update_cache: yes
+  apt: name=syslog-ng update_cache=yes
 
-# Create dir and file for logs in shell (not good method)
-# - name: create dir and file
-#   command: mkdir -p /var/log/syslog-ng && touch /var/log/syslog-ng/syslog.log
 
-#  Create directory for logs - /var/log/syslog-ng
 - name: Creating directory for logs
   file: dest=/var/log/syslog-ng state=directory mode=0755
 
-# Create file for logs
 - name: Creating log file in /var/log/syslog-ng - syslog-ng.log
   copy: content="" dest=/var/log/syslog-ng/syslog-ng.log force=no owner=root group=root mode=0755
   
-# Load syslog-ng config file
 - name: Loading config file from template
   template: src=syslog-ng.conf.j2 dest=/etc/syslog-ng/syslog-ng.conf owner=root group=root mode=0755
   notify: restart syslog-ng
 
-# Enable syslog-ng service
+- name: Loading logrotate file from template
+  template: src=syslog-ng.logrotate dest=/etc/logrotate.d/syslog-ng owner=root group=root mode=0755
+  tags: this
+
 - name: Enabling syslog-ng service
   systemd: name=syslog-ng enabled=yes daemon_reload=yes
 
-# Start syslog-ng service
 - name: Starting syslog-ng service
   systemd: name=syslog-ng state=started

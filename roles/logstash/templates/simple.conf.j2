@@ -2,44 +2,39 @@ input {
   udp {
     port => 50514
     type => syslog
-      } 
+    } 
+  }
 
-    }
 filter {
-       if [type] == "syslog" and [message] =~ "reductor_niisa_ru" {
-       grok {
-            match => [ "message", "%{SYSLOGTIMESTAMP:syslog_timestamp} %{NOTSPACE:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" ]
-            }
-                                                }   else if [type] == "syslog" {
-                                                grok {
-                                                match => [ "message", "<%{NONNEGINT:syslog_pri}>%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" ]
-                                               } 
- }        
+  if [type] == "syslog" {
+    grok {
+      match => [ "message", "<%{NONNEGINT:syslog_pri}>%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" ]
+      } 
+    }        
 
-syslog_pri { }
+  syslog_pri { }
 
-
-if "_grokparsefailure" in [tags] {  
-          grok {
-                match => ["message", "%{GREEDYDATA:syslog_message}"]
-            }
-      
+  if "_grokparsefailure" in [tags] {  
+    grok {
+      match => ["message", "%{GREEDYDATA:syslog_message}"]
       }
+    }
 
 
 # Rename fields
-mutate {
-        rename => { "syslog_pid" => "PID" }
-        rename => { "syslog_message" => "Message"}
-        rename => { "syslog_program" => "App"}
-        rename => { "syslog_hostname" => "Hostname"}
-        rename => { "syslog_facility" => "Facility"}
-        rename => { "syslog_severity" => "Severity"}
-       }
-        
+  mutate {
+    rename => { "syslog_pid" => "PID" }
+    rename => { "syslog_message" => "Message"}
+    rename => { "syslog_program" => "App"}
+    rename => { "syslog_hostname" => "Hostname"}
+    rename => { "syslog_facility" => "Facility"}
+    rename => { "syslog_severity" => "Severity"}
+   }
 
-}
+  }
+
 output {
   elasticsearch { hosts => ["{{ es_host  }}:{{ es_http_port  }}"] }
-    stdout { codec => rubydebug }
-    }
+  stdout { codec => rubydebug }
+  }
+

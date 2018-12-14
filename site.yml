@@ -1,7 +1,7 @@
 ---
 - hosts: all_servers
   tasks:
-  - include_role:
+  - import_role:
       name: sdarwin.nagios
     vars:
       ansible_become: true

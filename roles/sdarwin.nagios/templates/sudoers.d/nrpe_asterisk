@@ -1,0 +1,3 @@
+#{{ ansible_managed }}
+{{ nagios_user }} {{ inventory_hostname }} = (asterisk) NOPASSWD: /usr/sbin/asterisk -rx pri show *
+{{ nagios_user }} {{ inventory_hostname }} = (asterisk) NOPASSWD: /usr/sbin/asterisk -rx core show *

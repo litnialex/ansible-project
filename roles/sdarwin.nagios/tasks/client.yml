@@ -71,3 +71,10 @@
   notify: restart nrpe
   tags: nrpeconf
 
+- block:
+  - copy: src=check_asterisk.cfg dest=/etc/nagios/nrpe.d/
+  - copy: src=check_asterisk.sh dest=/etc/asterisk/
+  - template: src=sudoers.d/nrpe_asterisk dest=/etc/sudoers.d/ mode=0440
+  when: "'asterisk_servers' in group_names"
+  tags: this
+

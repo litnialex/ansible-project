@@ -7,7 +7,7 @@
   changed_when: False
 
 - name: Install Server Basics
-  apt: pkg='{{ item }}' state=installed
+  apt: pkg='{{ item }}' state=present
   with_flattened: 
   - '{{ common_install_pkgs }}'
   - '{{ common_install_pkgs_distribution }}'

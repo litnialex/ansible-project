@@ -7,7 +7,7 @@
     - 'os_{{ ansible_os_family }}.yml'
     - os_default.yml
 
-- apt: state=installed name='{{ item }}'
+- apt: state=present name='{{ item }}'
   with_items: '{{ atftpd_install_pkgs }}'
 
 - template: dest=/etc/default/atftpd src=atftpd

@@ -1,6 +1,6 @@
 ---
-- apt: state=installed pkg=apache2-mpm-prefork
-- apt: state=installed pkg=libapache2-mod-php5
+- apt: state=present pkg=apache2-mpm-prefork
+- apt: state=present pkg=libapache2-mod-php5
 
 - mysql_user: name='{{ owner }}' password='{{ db_password }}' priv='{{ owner }}.*:ALL'
   when: db_password is defined

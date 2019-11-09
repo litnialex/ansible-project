@@ -13,7 +13,7 @@
   changed_when: False
 
 - name: Install Server Basics
-  yum: name='{{ item }}' state=installed
+  yum: name='{{ item }}' state=present
   with_flattened: 
   - '{{ common_install_pkgs }}'
   - '{{ common_install_pkgs_distribution }}'

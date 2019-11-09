@@ -6,7 +6,7 @@
 - import_tasks: mysql.yml
   when: trac_db_engine == 'mysql'
 
-- apt: state=installed pkg='{{ item }}'
+- apt: state=present pkg='{{ item }}'
   with_items:
   - python-pip
 #  - python-virtualenv 

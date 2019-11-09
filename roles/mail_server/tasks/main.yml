@@ -3,7 +3,7 @@
   include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
   tags: [postfix, dovecot, roundcube, pfa, fail2ban]
 
-- apt: state=installed pkg={{ item }}
+- apt: state=present pkg={{ item }}
   with_items: '{{ mail_server_pkgs }}'
  
 #- copy: dest=/etc/ssl/private/ src="{{ inventory_dir }}/files/{{ mail_server_name }}.pem" owner=root group=ssl-cert mode=0640

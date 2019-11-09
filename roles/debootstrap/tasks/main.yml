@@ -1,5 +1,5 @@
 - name: install debootstrap
-  apt: state=installed name=debootstrap
+  apt: state=present name=debootstrap
 
 - name: include os specific variables
   include_vars: 'os_{{ debootstrap_os }}.yml'

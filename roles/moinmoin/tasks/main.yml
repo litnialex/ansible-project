@@ -1,7 +1,7 @@
 ---
 #ToDo: restart moinmoin on farmconfig changes
 
-- apt: pkg={{ item }} state=installed
+- apt: pkg={{ item }} state=present
   with_items:
     - python-moinmoin
 

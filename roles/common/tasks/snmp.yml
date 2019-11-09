@@ -1,5 +1,5 @@
 ---
-- apt: state=installed pkg=snmpd
+- apt: state=present pkg=snmpd
 
 - template: src=snmp/snmpd.conf dest=/etc/snmp/ backup=yes
   notify: restart snmpd

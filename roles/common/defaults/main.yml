@@ -1,10 +1,9 @@
 ---
 domain: '{{ ansible_domain }}'
 lang: C.UTF-8
-timezone: Europe/Moscow
+timezone: UTC
 preffered_mirror: 'http://mirror.yandex.ru'
 ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
-ssh_default_port: '{{ ssh_listen_port }}'
 common_sshd_options:
   LogLevel: ERROR
   AcceptEnv: EDITOR

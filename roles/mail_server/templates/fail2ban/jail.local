@@ -8,7 +8,7 @@ ignoreip = {{ fail2ban_ignoreip }}
 
 [dovecot]
 enabled = true
-logpath = /var/log/dovecot-info.log
+logpath = {{ mail_log_dir }}/dovecot-info.log
 
 [roundcube-auth]
 enabled  = true

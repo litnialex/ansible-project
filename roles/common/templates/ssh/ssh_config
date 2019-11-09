@@ -1,10 +1,17 @@
 #{{ ansible_managed }}
+
+# local-site hosts usually listen the same ssh port as this host does
+Host !*.* *
+  Port {{ ssh_listen_port }}
+Host *.{{ domain }} *
+  Port {{ ssh_listen_port }}
+
+# Default settings for all hosts
 Host *
   SendEnv LANG EDITOR LC_*
   HashKnownHosts yes
   GSSAPIAuthentication yes
   GSSAPIDelegateCredentials no
-  Port {{ ssh_default_port }}
   Compression yes
   StrictHostKeyChecking no
   ServerAliveInterval 15

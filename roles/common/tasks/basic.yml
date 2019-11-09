@@ -19,6 +19,7 @@
 
 - name: Set Timezone
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
+  tags: common_timezone
 
 - name: Update resolv.conf
   template: dest=/etc/ src=resolv.conf
@@ -46,11 +47,13 @@
 
 - name: Set Root Password
   user: name=root password="{{ root_password }}" update_password=always
+  tags: common_passwd
 
 - name: Setup Server Environment
   lineinfile: dest='/etc/environment' line='{{ item.key }}={{ item.value }}' regexp='{{ item.key }}=.*' create=yes
   with_dict: "{{ custom_env | default('{}') }}"
   when: item.value != None
+  tags: common_env
 
 - name: Set screenrc
   template: dest=/etc/screenrc src=screenrc
@@ -72,6 +75,7 @@
 - name: Copy /etc/sysctl.d/90-ansible-common.conf 
   template: dest=/etc/sysctl.d/ src=sysctl.d/90-ansible-common.conf
   notify: sysctl restart
+  tags: common_sysctl
 
 - name: Copy /etc/modules-load.d/90-ansible-common.conf
   template: dest=/etc/modules-load.d/ src=modules-load.d/90-ansible-common.conf

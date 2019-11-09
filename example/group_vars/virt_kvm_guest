@@ -1,2 +1,2 @@
 ---
-common_cmdline_append: 'console=ttyS0 net.ifnames=0'
+grub_cmdline_append: 'console=ttyS0 net.ifnames=0'

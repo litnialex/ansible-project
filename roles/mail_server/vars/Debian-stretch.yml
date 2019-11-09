@@ -11,6 +11,8 @@ mail_server_pkgs:
 - fail2ban
 - git
 - nginx
+- opendkim
+- opendkim-tools
 - patch
 - php-auth-sasl
 - php-db

@@ -21,3 +21,4 @@
 
 - name: SSH Client Config File
   template: src=ssh/ssh_config dest=/etc/ssh/ssh_config
+  tags: this

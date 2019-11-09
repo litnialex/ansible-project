@@ -15,17 +15,17 @@
 - import_tasks: basic.yml
   tags: common_basic
 
-- include_tasks: sudo.yml
+- import_tasks: sudo.yml
   tags: common_sudo
 
-- include_tasks: ssh.yml
+- import_tasks: ssh.yml
   tags: common_ssh
 
-- include_tasks: snmp.yml
+- import_tasks: snmp.yml
   when: snmp_community is defined
   tags: common_snmp
 
-- include_tasks: postfix.yml
+- import_tasks: postfix.yml
   when: 
   - "'mail_servers' not in group_names"
   tags: common_postfix

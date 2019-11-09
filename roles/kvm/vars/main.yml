@@ -1,1 +1,1 @@
-kvm_install_pkgs: "qemu-kvm qemu-utils libvirt-bin libguestfs-tools virt-manager virt-top kpartx"
+kvm_install_pkgs: "qemu-kvm qemu-utils libvirt-daemon libguestfs-tools virt-manager virt-top kpartx"

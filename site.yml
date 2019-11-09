@@ -11,7 +11,7 @@
   roles:
   - { role: common, become: true, tags: common }
 
-- hosts: staging_servers
+- hosts: pki_servers
   roles:
   - { role: debops.pki/env, become: true, tags: pki }
   - { role: debops.secret, become: true, tags: pki , secret_directories: '{{ pki_env_secret_directories }}' }
@@ -30,6 +30,7 @@
 - hosts: tftp_servers
   roles:
   - { role: atftpd, become: true, tags: tftp }
+  - { role: backup, become: no, tags: backup, backup_src: ['{{ tftp_root }}'] }
 
 - hosts: nfs_servers
   roles:
@@ -75,6 +76,7 @@
 - hosts: nginx_servers
   roles:
   - { role: debops.nginx, become: true, tags: nginx }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/nginx] }
 
 - hosts: mail_servers
   roles:
@@ -84,7 +86,7 @@
 - hosts: squid_servers
   roles:
   - { role: squid, become: true, tags: squid}
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/squid3] }
+  - { role: backup, become: no, tags: backup, backup_src: [/etc/squid] }
 
 - hosts: monitoring_servers
   roles:

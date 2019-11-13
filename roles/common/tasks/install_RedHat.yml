@@ -14,9 +14,7 @@
 
 - name: Install Server Basics
   yum: name='{{ item }}' state=present
-  with_flattened: 
-  - '{{ common_install_pkgs }}'
-  - '{{ common_install_pkgs_distribution }}'
+  loop: "{{ common_install_pkgs|product(common_install_pkgs_distribution)|list }}"
 
 - name: vimrc hack needed only in RedHat
   lineinfile:

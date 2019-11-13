@@ -1,6 +1,6 @@
 #{{ ansible_managed }}
 
-{% for key, value in postfix_main_cf.iteritems() %}
+{% for key, value in postfix_main_cf.items() %}
 {{ key }} = {{ value }}
 {% endfor %}
 

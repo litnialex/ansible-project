@@ -6,13 +6,15 @@
   apt: update_cache=yes
   changed_when: False
 
-- name: Install Server Basics
-  apt: pkg='{{ item }}' state=present
-  with_flattened: 
-  - '{{ common_install_pkgs }}'
-  - '{{ common_install_pkgs_distribution }}'
-  - '{{ common_install_pkgs_inventory_group }}'
-  - '{{ common_install_pkgs_inventory_host }}'
+- name: Install Server Basics common
+  apt: pkg="{{ common_install_pkgs }}"
+- name: Install Server Basics distrib
+  apt: pkg="{{ common_install_pkgs_distribution }}"
+- name: Install Server Basics groups
+  apt: name="{{ common_install_pkgs_groups[item] }}"
+  loop: "{{ group_names }}"
+  when: item in common_install_pkgs_groups
+
 
 #- name: Add Periodic Configuration
 #  copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic owner=root group=root

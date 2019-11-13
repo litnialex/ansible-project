@@ -8,9 +8,13 @@
   include_vars: 'os_{{ ansible_os_family }}.yml'
   tags: [common_install, common_basic, common_ssh]
 
-- include_tasks: 'install_{{ ansible_os_family }}.yml'
+- import_tasks: install_Debian.yml
+  when: ansible_os_family == 'Debian'
   tags: common_install
-  when: ansible_os_family in ['Debian', 'RedHat']
+
+- import_tasks: install_RedHat.yml
+  when: ansible_os_family == 'RedHat'
+  tags: common_install
 
 - import_tasks: basic.yml
   tags: common_basic

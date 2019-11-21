@@ -1,11 +1,4 @@
 ---
-backup_dest: '{{ inventory_dir }}/backup'
-backup_src_all_servers:
-- /etc/network/interfaces
-- /etc/network/interfaces.d
-- /etc/fstab
-- /etc/rc.local
-- /etc/cron.d
 backup_rsync_opts:
 - "--exclude=*.wav"
 - "--exclude=*.sln*"
@@ -17,3 +10,39 @@ backup_rsync_opts:
 - "--exclude=*.old"
 - "--exclude=*.bak"
 - "--exclude=*.sav"
+
+backup_dest: '{{ inventory_dir }}/backup'
+
+backup_src_groups:
+  all_servers:
+  - /etc/network/interfaces
+  - /etc/fstab
+  - /etc/rc.local
+  - /etc/cron.d
+  bind_servers:
+  - "{{ bind_masterzones_path|d('/etc/bind/masters') }}"
+  fw_servers:
+  - /etc/network/fw
+  - /etc/keepalived
+  kvm_servers:
+  - /etc/libvirt/qemu
+  nginx_servers:
+  - /etc/nginx
+  elk_servers:
+  - /srv/docker-elk
+  mail_servers:
+  - /etc/postfix
+  squid_servers:
+  - /etc/squid
+  quagga_servers:
+  - /etc/quagga
+  asterisk_servers:
+  - /etc/asterisk
+  postgresql_servers:
+  - /etc/postgresql
+  odoo_servers:
+  - /etc/odoo
+
+backup_src_hosts:
+  somehostnameinventoryname:
+  - /a/path/to/backup

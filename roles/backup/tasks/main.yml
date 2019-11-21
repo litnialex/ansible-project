@@ -3,13 +3,18 @@
   file: dest='{{ backup_dest }}/{{ inventory_hostname }}' state=directory
   delegate_to: localhost
 
+- include_tasks: sync.yml
+  loop: "{{ group_names }}"
+  loop_control:
+    loop_var: this
+
 - synchronize:
     src: '{{ item }}'
     dest: '{{ backup_dest }}/{{ inventory_hostname }}'
     delete: yes
     mode: pull
-    copy_links: yes
+    copy_links: no
     rsync_path: "sudo rsync"
     rsync_opts: '{{ backup_rsync_opts }}'
-  with_items: '{{ backup_src }}'
-  ignore_errors: True
+  loop: "{{backup_src_hosts[inventory_hostname] }}"
+  when: inventory_hostname in backup_src_hosts

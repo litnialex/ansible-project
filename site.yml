@@ -24,13 +24,10 @@
 - hosts: bind_servers
   roles:
   - { role: bind, become: true, tags: bind }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/bind/named.conf.local] }
-  - { role: backup, become: no, tags: backup, backup_src: ['{{ bind_masterzones_path }}'], when: bind_config_master_zones }
 
 - hosts: tftp_servers
   roles:
   - { role: atftpd, become: true, tags: tftp }
-  - { role: backup, become: no, tags: backup, backup_src: ['{{ tftp_root }}'] }
 
 - hosts: nfs_servers
   roles:
@@ -67,7 +64,6 @@
 - hosts: kvm_servers
   roles:
   - { role: kvm, become: true, tags: kvm }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/libvirt/qemu] }
 
 - hosts: debootstrap_servers
   roles:
@@ -76,17 +72,14 @@
 - hosts: nginx_servers
   roles:
   - { role: debops.nginx, become: true, tags: nginx }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/nginx] }
 
 - hosts: mail_servers
   roles:
   - { role: mail_server, become: true, tags: mail}
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/postfix] }
 
 - hosts: squid_servers
   roles:
   - { role: squid, become: true, tags: squid}
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/squid] }
 
 - hosts: monitoring_servers
   roles:
@@ -95,26 +88,18 @@
 - hosts: quagga_servers
   roles:
   - { role: 'quagga', become: true, tags: quagga}
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/quagga] }
-
-- hosts: fw_servers
-  roles:
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/network/fw] }
 
 - hosts: asterisk_servers
   roles:
   - { role: asterisk, become: true, tags: asterisk }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/asterisk] }
 
 - hosts: postgresql_servers
   roles:
   - { role: anxs.postgresql, become: true, tags: postgresql }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/postgresql] }
 
 - hosts: odoo_servers
   roles:
   - { role: sebalix.odoo, become: true, tags: odoo }
-  - { role: backup, become: no, tags: backup, backup_src: [/etc/odoo] }
 
 - hosts: log_servers
   tags: elk
@@ -129,5 +114,5 @@
 - hosts: all_servers
   strategy: free
   roles:
-  - { role: backup, become: no, tags: backup, backup_src: '{{ backup_src_all_servers }}' }
+  - { role: backup, become: no, tags: backup  }
 

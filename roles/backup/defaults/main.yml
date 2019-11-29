@@ -42,6 +42,8 @@ backup_src_groups:
   - /etc/postgresql
   odoo_servers:
   - /etc/odoo
+  caddy_servers:
+  - /etc/caddy
 
 backup_src_hosts:
   somehostnameinventoryname:

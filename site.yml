@@ -101,6 +101,10 @@
   roles:
   - { role: sebalix.odoo, become: true, tags: odoo }
 
+- hosts: caddy_servers
+  roles:
+  - { role: caddy, become: true, tags: caddy }
+
 - hosts: log_servers
   tags: elk
   roles:

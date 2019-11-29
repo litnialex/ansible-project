@@ -1,0 +1,12 @@
+---
+- synchronize:
+    src: '{{ item }}'
+    dest: '{{ backup_dest }}/{{ inventory_hostname }}'
+    delete: yes
+    mode: pull
+    copy_links: no
+    rsync_path: "sudo rsync"
+    rsync_opts: '{{ backup_rsync_opts }}'
+  loop: "{{backup_src_groups[this] }}"
+  when: this in backup_src_groups
+  ignore_errors: True

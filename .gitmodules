@@ -1,0 +1,3 @@
+[submodule "ext-roles/caddy"]
+	path = ext-roles/caddy
+	url = https://github.com/caddy-ansible/caddy-ansible.git

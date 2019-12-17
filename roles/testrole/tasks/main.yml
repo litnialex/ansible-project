@@ -1,5 +1,9 @@
 ---
-- copy: dest=/tmp/ src=testfile
+- command: /bin/true
+  notify: ttt
+- command: /bin/false
+  notify: fff
+  ignore_errors: true
 #- debug: var=testlist2
 #  with_fileglob:
 #    - "/home/alex/ansible/users/*"

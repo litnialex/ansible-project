@@ -1,0 +1,6 @@
+---
+- name: ttt
+  debug: msg="TRUE NOTIFY"
+
+- name: fff
+  debug: msg="FALSE NOTIFY"

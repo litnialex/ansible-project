@@ -36,6 +36,7 @@ backup_src_groups:
   - /etc/squid
   quagga_servers:
   - /etc/quagga
+  - /etc/network/iptables
   asterisk_servers:
   - /etc/asterisk
   postgresql_servers:

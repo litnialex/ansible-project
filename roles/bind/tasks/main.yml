@@ -1,17 +1,16 @@
 ---
 - name: install bind packages
-  apt: pkg={{ item }} state={{ bind_pkg_state }}
-  with_items: '{{ bind_pkgs }}'
+  apt: pkg={{ bind_pkgs }} state={{ bind_pkg_state }}
   tags: package
 
 - name: create slave zones path
   file: dest={{ bind_slavezones_path }} state=directory owner={{ bind_user }} group={{ bind_group }} mode=0755
-  when: bind_config_slave_zones
+  when: bind_config_slave_zones|bool
   tags: bindconf
 
 - name: create master zones path
   file: dest={{ bind_masterzones_path }} state=directory owner={{ bind_user }} group={{ bind_group }} mode=0755
-  when: bind_config_master_zones
+  when: bind_config_master_zones|bool
   tags: bindconf
   register: masterzones_path_create
 
@@ -34,23 +33,16 @@
   notify: restart bind
   tags: bindconf
 
-- name: setup zones
-  template: src=named.conf.local.{{ item }}.j2 dest={{ bind_config_basepath }}/named.conf.local.{{ item }} owner={{ bind_user }} group={{ bind_group }} mode=0600 backup=yes
+- name: setup config files
+  template: src={{ item }} dest={{ bind_config_basepath }}/{{ item }} owner={{ bind_user }} group={{ bind_group }} mode=0600 backup=yes
   with_items:
-  - master
-  - slave
-  - forward
-  notify: reload bind
-  tags: bindconf
-
-- name: configure bind options
-  template: src=named.conf.options.j2 dest={{ bind_config_basepath }}/named.conf.options owner={{ bind_user }} group={{ bind_group }} mode=0600 backup=yes
-  notify: restart bind
-  tags: bindconf
-
-- name: configure bind
-  copy: src=named.conf dest={{ bind_config_basepath }}/named.conf owner={{ bind_user }} group={{ bind_group }} mode=0600 validate='named-checkconf %s'
-  notify: restart bind
+  - named.conf.local.master
+  - named.conf.local.slave
+  - named.conf.local.forward
+  - named.conf.options
+  - named.conf.local
+  - named.conf
+  notify: check and restart bind
   tags: bindconf
 
 - name: start/stop bind service

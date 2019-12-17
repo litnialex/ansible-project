@@ -1,11 +1,18 @@
 #{{ ansible_managed }}
 
-{% for key, value in postfix_main_cf.items() %}
+{% for key, value in postfix_main_cf|dictsort %}
 {{ key }} = {{ value }}
 {% endfor %}
 
 smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
 biff = no
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+relayhost =
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = ipv4
 
 # appending .domain is the MUA's job.
 append_dot_mydomain = no
@@ -34,14 +41,6 @@ tls_random_source = dev:/dev/urandom
 
 smtp_tls_per_site = hash:/etc/postfix/tls_per_site
 
-
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
-mydestination =
-relayhost =
-recipient_delimiter = +
-inet_interfaces = all
-inet_protocols = ipv4
 
 smtp_always_send_ehlo = yes
 
@@ -99,9 +98,8 @@ smtpd_helo_required = yes
 smtpd_client_restrictions = 
 smtpd_helo_restrictions = 
 smtpd_sender_restrictions = 
-smtpd_relay_restrictions =
-  permit_mynetworks,
-  permit_sasl_authenticated,
+smtpd_relay_restrictions = permit_mynetworks
+  permit_sasl_authenticated
   check_policy_service unix:private/policy-spf
   reject_unauth_destination
 

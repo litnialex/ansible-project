@@ -7,29 +7,30 @@ postfix_db_user: postfix
 postfix_db_password: ChangeMe-CotDol3swo
 postfix_main_cf:
   myhostname: '{{ mail_server_name }}'
+  mydestination: $myhostname
   virtual_mailbox_base: '{{ mail_root }}'
   smtpd_tls_cert_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
   smtpd_tls_key_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
   smtpd_recipient_restrictions: >
-    permit_mynetworks,
-    permit_sasl_authenticated,
-    check_sender_access hash:/etc/postfix/sender_access,
-    check_recipient_access hash:/etc/postfix/recipient_access,
-    reject_unknown_client_hostname,
-    reject_rbl_client zen.spamhaus.org,
-    reject_rbl_client bl.spamcop.net,
-    reject_invalid_helo_hostname,
-    reject_non_fqdn_helo_hostname,
-    reject_unknown_helo_hostname,
-    reject_non_fqdn_sender,
-    reject_unknown_sender_domain,
-    reject_unverified_sender,
-    reject_unknown_recipient_domain,
-    reject_non_fqdn_recipient,
-    reject_unauth_pipelining,
-    reject_unauth_destination,
-    reject_unlisted_recipient,
-    check_policy_service inet:localhost:10023
+    permit_mynetworks
+      permit_sasl_authenticated
+      check_sender_access hash:/etc/postfix/sender_access
+      check_recipient_access hash:/etc/postfix/recipient_access
+      reject_unknown_client_hostname
+      reject_rbl_client zen.spamhaus.org
+      reject_rbl_client bl.spamcop.net
+      reject_invalid_helo_hostname
+      reject_non_fqdn_helo_hostname
+      reject_unknown_helo_hostname
+      reject_non_fqdn_sender
+      reject_unknown_sender_domain
+      reject_unverified_sender
+      reject_unknown_recipient_domain
+      reject_non_fqdn_recipient
+      reject_unauth_pipelining
+      reject_unauth_destination
+      reject_unlisted_recipient
+      check_policy_service inet:localhost:10023
 
 roundcube_update: yes
 roundcube_version: 1.3

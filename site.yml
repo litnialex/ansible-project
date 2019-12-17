@@ -118,5 +118,5 @@
 - hosts: all_servers
   strategy: free
   roles:
-  - { role: backup, become: no, tags: backup  }
+  - { role: backup, become: no, tags: backup }
 

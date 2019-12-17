@@ -1,2 +1,6 @@
-18 23 * * * root doveadm  expunge -A  mailbox Trash savedbefore 30d
+SHELL=/bin/bash
+
+# dovecote above 2.2.22 is configured with autoexpunge  enabled
+#18 23 * * * root doveadm  expunge -A  mailbox Trash savedbefore 30d
+
 @weekly root sleep 2m && systemctl reload dovecot

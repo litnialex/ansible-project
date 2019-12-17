@@ -1,0 +1,9 @@
+// {{ ansible_managed }}
+
+include "{{ bind_config_basepath }}/named.conf.local.master";
+include "{{ bind_config_basepath }}/named.conf.local.slave";
+include "{{ bind_config_basepath }}/named.conf.local.forward";
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";

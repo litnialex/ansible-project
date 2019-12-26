@@ -14,7 +14,7 @@
   - ram: 1024
   - cpu: 1
   - os: debian
-  - os_version: stretch
+  - os_version: buster
   - vlan: 400
   - ip: dhcp
   #- ip: 192.168.78.90/24

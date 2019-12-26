@@ -21,6 +21,12 @@
   file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
   tags: common_timezone
 
+- name: Configure NTP daemon
+  lineinfile: dest=/etc/ntp.conf line={{ item }}
+  loop: "{{ common_ntp_lines }}"
+  notify: restart ntp
+  tags: common_ntp
+
 - name: Update resolv.conf
   template: dest=/etc/ src=resolv.conf
   when:
@@ -59,7 +65,7 @@
   template: dest=/etc/screenrc src=screenrc
 
 - template: dest=/etc/ src=tmux.conf
-  tags: common_tmuxconf
+  tags: common_tmux
 
 - name: Vim Config Directory
   file: dest=/etc/vim/ state=directory
@@ -80,6 +86,7 @@
 - name: Copy /etc/modules-load.d/90-ansible-common.conf
   template: dest=/etc/modules-load.d/ src=modules-load.d/90-ansible-common.conf
   ignore_errors: yes
+  tags: common_modules
 
 - name: Copy /etc/modprobe.d/ansible-common.conf
   template: dest=/etc/modprobe.d/ src=modprobe.d/ansible-common.conf

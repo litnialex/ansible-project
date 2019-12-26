@@ -2,3 +2,4 @@
 inet_protocols = ipv4
 inet_interfaces = 127.0.0.1
 append_at_myorigin = yes
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, defer_unauth_destination

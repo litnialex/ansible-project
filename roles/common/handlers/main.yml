@@ -24,3 +24,5 @@
 - name: restart rsyslog
   service: name=rsyslog state=restarted
 
+- name: restart ntp
+  service: name=ntp state=restarted

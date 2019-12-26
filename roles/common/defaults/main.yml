@@ -30,6 +30,8 @@ common_modprobe_conf:
 
 common_netlog_omit: False
 
+common_ntp_lines: "[]"
+
 common_install_pkgs_groups: "{}"
 common_install_pkgs_host: "{}"
 common_install_pkgs_distribution: "[]"

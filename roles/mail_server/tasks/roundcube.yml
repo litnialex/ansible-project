@@ -23,4 +23,6 @@
 - patch: basedir={{ roundcube_path }} src=templates/roundcube/patch1.patch strip=0
 
 - lineinfile: dest={{ php_fpm_path }} regexp='^upload_max_filesize.*' line='upload_max_filesize = 21M'
+  tags: phpfpm
 - lineinfile: dest={{ php_fpm_path }} regexp='^post_max_size.*' line='post_max_size = 21M'
+  tags: phpfpm

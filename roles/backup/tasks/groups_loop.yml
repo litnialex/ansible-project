@@ -7,6 +7,6 @@
     copy_links: no
     rsync_path: "sudo rsync"
     rsync_opts: '{{ backup_rsync_opts }}'
-  loop: "{{backup_src_groups[this] }}"
-  when: this in backup_src_groups
+  loop: "{{backup_src_groups[group_name] }}"
+  when: group_name in backup_src_groups
   ignore_errors: True

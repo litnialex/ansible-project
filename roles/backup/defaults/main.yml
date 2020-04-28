@@ -45,6 +45,8 @@ backup_src_groups:
   - /etc/odoo
   caddy_servers:
   - /etc/caddy
+  nagios_servers:
+  - "{{ nagios_object_dir | d('/usr/local/nagios/etc/objects') }}" 
 
 backup_src_hosts:
   somehostnameinventoryname:

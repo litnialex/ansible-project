@@ -1,4 +1,6 @@
 ---
+nagios_cfg:
+  enable_environment_macros: 1
 # defaults file for nagios
 nrpe_plugin_dir: /usr/lib/nagios/plugins
 
@@ -89,8 +91,8 @@ nagios_group_service:
 
 nagios_commands:
   - {name: 'check_nrpe', command: '$USER1$/check_nrpe -H $HOSTADDRESS$ $ARG1$'}
-  - {name: 'service_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTNAME$, service $SERVICEDESC$, status $SERVICESTATE$ - $SERVICEOUTPUT$"'}
-  - {name: 'host_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTALIAS$, status $HOSTSTATE$ - $HOSTOUTPUT$"'}
+  - {name: 'service_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTNAME$, service $SERVICEDESC$, status $SERVICESTATE$"'}
+  - {name: 'host_notify_by_phone', command: '$USER1$/notify_by_phone "$CONTACTPAGER$ $NOTIFICATIONTYPE$, host $HOSTALIAS$, status $HOSTSTATE$"'}
 
 nagios_cgi_show_context_help: 1
 nagios_cgi_authorized_for_system_information: '*'
@@ -126,7 +128,7 @@ nrpe_checks:
     command: "{{nrpe_plugin_dir}}/check_disk"
     warning_condition: '20%'
     critical_condition: '10%'
-    parameters: "-A -i '.gvfs' -i /run/user -i /run/lxcfs"
+    parameters: "-A -i '.gvfs' -i /run/user -i /run/lxcfs -i ^overlay -i ^shm -i ^nsfs -i ^none"
   check_swap:
     command: "{{nrpe_plugin_dir}}/check_swap"
     warning_condition: '30%'

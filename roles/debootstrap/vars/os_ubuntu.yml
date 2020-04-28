@@ -1,5 +1,7 @@
 ---
 debootstrap_specific_pkgs:
 - linux-generic
+- initramfs-tools
 
 debootstrap_pkgs: '{{ debootstrap_common_pkgs + debootstrap_specific_pkgs }}'
+debootstrap_args: '--components=main,universe'

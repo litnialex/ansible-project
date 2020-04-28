@@ -3,10 +3,10 @@
   file: dest='{{ backup_dest }}/{{ inventory_hostname }}' state=directory
   delegate_to: localhost
 
-- include_tasks: sync.yml
+- include_tasks: groups_loop.yml
   loop: "{{ group_names }}"
   loop_control:
-    loop_var: this
+    loop_var: group_name
   when: backup_skip is not defined
 
 - synchronize:

@@ -7,7 +7,7 @@
 - stat: path="{{ debootstrap_path }}/etc"
   register: debootstrap_etc
 
-- shell: "debootstrap --arch {{ debootstrap_arch }} --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ {{ preffered_mirror }}/{{ debootstrap_os }}"
+- shell: "debootstrap {{debootstrap_args}} --arch {{ debootstrap_arch }} --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ {{ preffered_mirror }}/{{ debootstrap_os }}"
   when: not debootstrap_etc.stat.exists
 
 - name: setting hostname

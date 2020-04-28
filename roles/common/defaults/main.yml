@@ -7,6 +7,7 @@ ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
 common_sshd_options:
   LogLevel: ERROR
   AcceptEnv: EDITOR
+custom_env: "{}"
 
 common_root_alias: 'root@{{ domain }}'
 

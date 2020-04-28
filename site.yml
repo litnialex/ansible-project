@@ -2,12 +2,12 @@
 - hosts: all_servers
   tasks:
   - import_role:
-      name: sdarwin.nagios
+      name: nagios
     vars:
       ansible_become: true
       run_nagios_client: true
     tags: nrpe
-    when: "'monitoring_servers' in groups"
+    when: "'nagios_servers' in groups"
   roles:
   - { role: common, become: true, tags: common }
 
@@ -81,9 +81,9 @@
   roles:
   - { role: squid, become: true, tags: squid}
 
-- hosts: monitoring_servers
+- hosts: nagios_servers
   roles:
-  - { role: 'sdarwin.nagios', become: true, run_nagios_server: true, tags: nagios}
+  - { role: 'nagios', become: true, run_nagios_server: true, tags: nagios}
 
 - hosts: quagga_servers
   roles:
@@ -114,6 +114,14 @@
   - { role: syslog-ng, become: true, tags: syslog-ng }
   - { role: logstash, become: true, tags: logstash }
   - { role: curator, become: true, tags: curator }
+
+- hosts: prometheus_servers
+  roles:
+  - { role: prometheus, become: true, tags: prom }
+
+- hosts: docker_servers
+  roles:
+  - { role: docker, become: true, tags: docker }
 
 - hosts: all_servers
   strategy: free

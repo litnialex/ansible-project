@@ -1,7 +1,7 @@
 ---
 - name: Include Distribution version specific variables
   include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml"
-  tags: [postfix, dovecot, roundcube, pfa, fail2ban]
+  tags: [postfix, dovecot, roundcube, pfa, fail2ban, phpfpm]
 
 - apt: state=present pkg={{ item }}
   with_items: '{{ mail_server_pkgs }}'

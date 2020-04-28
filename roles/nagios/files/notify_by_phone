@@ -1,0 +1,7 @@
+#!/bin/bash
+data=$@
+
+if [[ "$NAGIOS_NOTIFICATIONTYPE" == PROBLEM && -n $NAGIOS_CONTACTPAGER ]]; then
+  logger -t nagios "notify $(basename $0) ${data}"
+  echo "${data}" | ssh breeze.niisa.ru
+fi

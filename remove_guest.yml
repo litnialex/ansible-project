@@ -1,14 +1,18 @@
 ---
 - hosts: kvm_servers
   vars:
-    - ansible_become: true
-    - name: newguestname
+  - ansible_become: true
+  - name: newguestname
+  - vg: vg0
 
   tasks:
+  - block:
     - virt: name="{{ name }}" state=destroyed
-      ignore_errors: True
     - virt: name="{{ name }}" command=undefine
-      ignore_errors: True
+      tags: undefine
     - mount: name="/mnt/{{ name }}" state=unmounted
     - mount: name="/mnt/{{ name }}" state=absent
-    - lvol: vg='vg0' lv='{{ name }}' state=absent force=yes
+    - shell: kpartx -d /dev/mapper/{{ vg }}-{{ name }}
+    - lvol: vg='{{ vg }}' lv='{{ name }}' state=absent force=yes
+    ignore_errors: True
+

@@ -2,6 +2,7 @@
 preffered_mirror: http://mirror.yandex.ru
 debootstrap_arch: amd64
 debootstrap_hostname: debootstrapped
+debootstrap_domain: "{{ domain }}"
 debootstrap_path: /mnt/newroot
 debootstrap_os: debian
 debootstrap_os_version: buster

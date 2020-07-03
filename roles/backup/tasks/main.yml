@@ -2,12 +2,13 @@
 - name: Creating directory for host backup
   file: dest='{{ backup_dest }}/{{ inventory_hostname }}' state=directory
   delegate_to: localhost
+  when: not backup_skip
 
 - include_tasks: groups_loop.yml
   loop: "{{ group_names }}"
   loop_control:
     loop_var: group_name
-  when: backup_skip is not defined
+  when: not backup_skip
 
 - synchronize:
     src: '{{ item }}'

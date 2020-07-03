@@ -15,9 +15,8 @@
   loop: "{{ group_names }}"
   when: item in common_install_pkgs_groups
 - name: Install Server Basics host-specific
-  apt: name="{{ common_install_pkgs_host[inventory_hostname] }}"
-  when: inventory_hostname in common_install_pkgs_host
-  tags: this
+  apt: name="{{ common_install_pkgs_host }}"
+  when: common_install_pkgs_host is defined
 
 #- name: Add Periodic Configuration
 #  copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic owner=root group=root

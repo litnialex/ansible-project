@@ -1,47 +1,55 @@
-- name: install debootstrap
+- name: Install debootstrap
   apt: state=present name=debootstrap
 
-- name: include os specific variables
+- name: Include os specific variables
   include_vars: 'os_{{ debootstrap_os }}.yml'
 
 - stat: path="{{ debootstrap_path }}/etc"
   register: debootstrap_etc
 
-- shell: "debootstrap {{debootstrap_args}} --arch {{ debootstrap_arch }} --include={{ debootstrap_pkgs | join(',') }} {{ debootstrap_os_version }} {{ debootstrap_path }}/ {{ preffered_mirror }}/{{ debootstrap_os }}"
+- name: "Debootstrap {{ debootstrap_os }} {{ debootstrap_os_version }} into {{ debootstrap_path }}"
+  shell: >
+    debootstrap {{debootstrap_args}} --arch {{ debootstrap_arch }} --include={{ debootstrap_pkgs | join(',') }}
+    {{ debootstrap_os_version }} {{ debootstrap_path }}/ {{ preffered_mirror }}/{{ debootstrap_os }}
   when: not debootstrap_etc.stat.exists
 
-- name: setting hostname
-  copy: dest="{{ debootstrap_path }}/etc/hostname" content="{{ debootstrap_hostname }}.{{ domain }}"
+- name: Set hostname
+  copy:
+    dest: "{{ debootstrap_path }}/etc/hostname"
+    content: "{{ debootstrap_hostname }}.{{ debootstrap_domain }}"
 
-- name: generating network/interfaces
-  template: src="interfaces" dest="{{ debootstrap_path }}/etc/network/interfaces"
+- name: Generate network/interfaces
+  template:
+    src: interfaces
+    dest: "{{ debootstrap_path }}/etc/network/interfaces"
 
-- name: setting root password
+- name: Set root password
   lineinfile:
     dest: "{{ debootstrap_path }}/etc/shadow"
     state: present
     regexp: '^root.*'
     line: 'root:{{ root_password }}:16570:0:99999:7:::'
 
-- name: set ssh PermitRootLogin yes
+- name: Set ssh PermitRootLogin yes
   lineinfile:
     dest: "{{ debootstrap_path }}/etc/ssh/sshd_config"
     state: present
     regexp: '^PermitRootLogin.*'
     line: 'PermitRootLogin yes'
 
-- name: set ssh Port
+- name: Set ssh Port
   lineinfile:
     dest: "{{ debootstrap_path }}/etc/ssh/sshd_config"
     state: present
     regexp: '^Port.*'
-    line: 'Port {{ ssh_listen_port | default("22") }}'
+    line: 'Port {{ ssh_listen_port }}'
+  when: ssh_listen_port is defined
 
 - name: Create SSH Keys Dir
   file: dest='{{ debootstrap_path }}/root/.ssh' state=directory mode=0600
 
 - name: SSH Copy Root Key
-  copy: dest='{{ debootstrap_path }}/root/.ssh/authorized_keys' content='{{ root_pubkey }}@{{ domain }}\n' mode=0600
+  copy: dest='{{ debootstrap_path }}/root/.ssh/authorized_keys' content='{{ root_pubkey }}\n' mode=0600
 
 - name: Create /etc/fstab
   copy: dest='{{ debootstrap_path }}/etc/fstab' content='/dev/root / auto defaults 0 1\n'

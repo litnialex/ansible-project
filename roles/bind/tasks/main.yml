@@ -1,6 +1,6 @@
 ---
 - name: install bind packages
-  apt: pkg={{ bind_pkgs }} state={{ bind_pkg_state }}
+  apt: pkg={{ bind_pkgs }} state={{ bind_pkg_state }} update_cache=yes
   tags: package
 
 - name: create slave zones path

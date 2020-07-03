@@ -1,35 +1,43 @@
 ---
 # VIRTUAL HOST LIVECYCLE 
-# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 disk=10G ram=2048'
-# add newguestname to DNS
-# ansible-playbook site.yml -t common -l newgestname -u root
+# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 disk=10G ram=2'
+# add newguestname to DNS / hosts
+# ansible-playbook site.yml -l newgestname -u root
 # ansible-playbook users.yml -l newgestname -u root
 # ansible-playbook remove_guest.yml -e name=newgestname
+
+# /!\ "name" must not end with digit!!!
 
 - hosts: kvm_servers
   vars:
   - ansible_become: true
   - name: newguestname
   - disk: 3G
-  - ram: 1024
+  - ram: 1
   - cpu: 1
   - os: debian
   - os_version: buster
-  - vlan: 400
+  - network: ovs-network
   - ip: dhcp
   #- ip: 192.168.78.90/24
   #- gateway: 192.168.78.1
+  #- vlan: 400
+  #- vg: vg0
 
   pre_tasks:
+  - set_fact: vg="{{ vg | d('vg0') }}"
+  - include_vars:
+      file: "{{ inventory_dir }}/host_vars/{{ name }}"
+    ignore_errors: true
   - stat: path="/mnt/{{ name }}/lost+found"
     register: guest_fs
   - block:
     - setup:
-    - lvol: vg=vg0 lv={{ name }} size={{ disk }}
-    - command: parted -s "/dev/mapper/vg0-{{ name }}" -- mklabel msdos mkpart primary 2048s -1s
-    - command: kpartx -a "/dev/mapper/vg0-{{ name }}"
-    - filesystem: dev="/dev/mapper/vg0-{{ name }}1" fstype=ext4 force=yes
-    - mount: src="/dev/mapper/vg0-{{ name }}1" name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
+    - lvol: vg={{ vg }} lv={{ name }} size={{ disk }}
+    - command: parted -s "/dev/mapper/{{ vg }}-{{ name }}" -- mklabel msdos mkpart primary 2048s -1s
+    - command: kpartx -a "/dev/mapper/{{ vg }}-{{ name }}"
+    - filesystem: dev="/dev/mapper/{{ vg }}-{{ name }}1" fstype=ext4 force=yes
+    - mount: src="/dev/mapper/{{ vg }}-{{ name }}1" name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
     when: not guest_fs.stat.exists
 
   - stat: path="/mnt/{{ name }}/etc"
@@ -46,16 +54,25 @@
   tasks:
   - shell: "ls -1 /mnt/{{ name }}/boot/vmlinuz-*"
     register: ls_vmlinuz
-  - set_fact: guest_kversion="{{ ls_vmlinuz.stdout_lines[0] | regex_replace('.*vmlinuz-(.*)$', '\\1') }}"
-  - command: grub-install --modules=part_msdos.mod --boot-directory="/mnt/{{ name }}/boot" "/dev/mapper/vg0-{{ name }}"
-  - template: dest='/mnt/{{ name }}/boot/grub/grub.cfg' src=templates/new_guest_grub.cfg
+  - set_fact:
+      guest_kversion: "{{ ls_vmlinuz.stdout_lines[0] | regex_replace('.*vmlinuz-(.*)$', '\\1') }}"
+  - template: dest='/mnt/{{ name }}/boot/grub/grub.cfg' src='templates/new_guest_grub.cfg'
+  - copy:  dest="/mnt/{{ name }}/boot/grub/device.map" content='(hd0) /dev/mapper/{{ vg }}-{{ name }}\n'
+  - command: grub-install --modules=part_msdos.mod --boot-directory="/mnt/{{ name }}/boot" "(hd0)"
   - mount: name=/mnt/{{ name }} state=unmounted
-  - command: kpartx -d "/dev/mapper/vg0-{{ name }}"
+  - command: kpartx -d "/dev/mapper/{{ vg }}-{{ name }}"
 
-#  - name: define new guest
-#    virt: name="{{ name }}" command=define xml="{{ lookup('template', 'templates/new_guest_template.xml') }}"
-  - name: define new guest
-    template: dest=/tmp/1.xml src=templates/new_guest_template.xml
+  - block:
+    - get_argv:
+    - name: define new guest
+      virt:
+        command: define
+        xml: "{{ lookup('template', 'templates/new_guest_template.xml') }}"
+      ignore_errors: true
+      register: define_res
+    - name: copy new guest config
+      template: dest=/tmp/{{ name }}.xml src=templates/new_guest_template.xml
+      when: define_res.failed
     tags: define
 
   - name: start new guest

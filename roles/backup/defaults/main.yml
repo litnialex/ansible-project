@@ -51,3 +51,5 @@ backup_src_groups:
 backup_src_hosts:
   somehostnameinventoryname:
   - /a/path/to/backup
+
+backup_skip: False

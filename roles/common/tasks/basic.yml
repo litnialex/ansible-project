@@ -14,7 +14,7 @@
 - name: Set Hostname
   hostname: name='{{inventory_hostname}}.{{domain }}'
 
-- name: Edit /etc/hosts
+- name: Modify /etc/hosts
   lineinfile: dest=/etc/hosts regexp='^127.0.1.1.*' line='127.0.1.1 {{inventory_hostname}}.{{domain}} {{inventory_hostname}}' insertafter='^127.0.0.1.*'
 
 - name: Set Timezone
@@ -57,7 +57,7 @@
 
 - name: Setup Server Environment
   lineinfile: dest='/etc/environment' line='{{ item.key }}={{ item.value }}' regexp='{{ item.key }}=.*' create=yes
-  with_dict: "{{ custom_env | default('{}') }}"
+  with_dict: "{{ common_env | default('{}') }}"
   when: item.value != None
   tags: common_env
 

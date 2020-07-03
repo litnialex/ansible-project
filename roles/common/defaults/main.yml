@@ -5,9 +5,9 @@ timezone: UTC
 preffered_mirror: 'http://mirror.yandex.ru'
 ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
 common_sshd_options:
-  LogLevel: ERROR
+  LogLevel: INFO
   AcceptEnv: EDITOR
-custom_env: "{}"
+common_env: "{}"
 
 common_root_alias: 'root@{{ domain }}'
 
@@ -33,8 +33,9 @@ common_netlog_omit: False
 
 common_ntp_lines: "[]"
 
+common_apt_backports: False
 common_install_pkgs_groups: "{}"
-common_install_pkgs_host: "{}"
+common_install_pkgs_host: "[]"
 common_install_pkgs_distribution: "[]"
 common_install_pkgs:
 - apg

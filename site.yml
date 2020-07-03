@@ -71,7 +71,7 @@
 
 - hosts: nginx_servers
   roles:
-  - { role: debops.nginx, become: true, tags: nginx }
+  - { role: ansible-role-nginx, become: true, tags: nginx }
 
 - hosts: mail_servers
   roles:

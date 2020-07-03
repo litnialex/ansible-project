@@ -1,4 +1,6 @@
 - hosts: all
+  vars:
+    role: debootstrap
   pre_tasks:
   - setup:
   roles:

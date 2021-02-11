@@ -2,11 +2,9 @@
 - hosts: all_servers
   vars:
     - ansible_become: no
-#    - xxx: playbook_hosts_vars
   tasks:
-  - debug: var=xxx
   - fail:
-#  - template: src=/tmp/test.yml dest=/tmp
+  - template: src=/tmp/test.yml dest=/tmp
   - debug: var=testvar
   - debug: msg={{testvar}}
     ignore_errors: True

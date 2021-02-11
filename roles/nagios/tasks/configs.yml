@@ -13,7 +13,6 @@
     - { src: hostgroups.cfg, dest: hostgroups.cfg }
     - { src: services.cfg, dest: services.cfg }
     - { src: commands.cfg, dest: additional_commands.cfg }
-  tags: this
 
 - name: Install contacts.cfg
   become: true

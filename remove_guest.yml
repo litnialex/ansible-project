@@ -7,12 +7,24 @@
 
   tasks:
   - block:
-    - virt: name="{{ name }}" state=destroyed
-    - virt: name="{{ name }}" command=undefine
+    - virt:
+        name: "{{ name }}" 
+        state: destroyed
+    - virt:
+        name: "{{ name }}"
+        command: undefine
       tags: undefine
-    - mount: name="/mnt/{{ name }}" state=unmounted
-    - mount: name="/mnt/{{ name }}" state=absent
+    - mount: 
+        name: "/mnt/{{ name }}"
+        state: unmounted
+    - mount:
+        name: "/mnt/{{ name }}"
+        state: absent
     - shell: kpartx -d /dev/mapper/{{ vg }}-{{ name }}
-    - lvol: vg='{{ vg }}' lv='{{ name }}' state=absent force=yes
+    - lvol:
+        vg: '{{ vg }}'
+        lv: '{{ name }}'
+        state: absent
+        force: yes
+    - local_action: command rm "{{ inventory_dir }}/host_vars/{{ name }}"
     ignore_errors: True
-

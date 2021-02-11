@@ -1,5 +1,6 @@
 ansible.cfg
 galaxy-roles/
+private/
 
 # Commonly excluded files
 *.pyc

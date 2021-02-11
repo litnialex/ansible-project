@@ -26,10 +26,8 @@ debootstrap_common_pkgs:
 - parted
 - pciutils
 - psmisc
-- python-apt
-- python-simplejson
+- python3
 - rsync
-- screen
 - sudo
 - systemd
 - tmux

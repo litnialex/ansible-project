@@ -1,19 +1,17 @@
 ---
 # VIRTUAL HOST LIVECYCLE 
-# ansible-playbook new_guest.xml -l kvm2 -e 'name=newgestname vlan=27 ip=10.55.66.77/16 gateway=10.55.1.1 disk=10G ram=2'
-# add newguestname to DNS / hosts
+# create host_vars/newguestname with specific vars like disk,ram,cpu...
+# ansible-playbook new_guest.xml -l kvm2 -e name=newgestname
 # ansible-playbook site.yml -l newgestname -u root
 # ansible-playbook users.yml -l newgestname -u root
 # ansible-playbook remove_guest.yml -e name=newgestname
-
-# /!\ "name" must not end with digit!!!
 
 - hosts: kvm_servers
   vars:
   - ansible_become: true
   - name: newguestname
-  - disk: 3G
-  - ram: 1
+  - disk: 5 #GiB
+  - ram: 1 #GiB
   - cpu: 1
   - os: debian
   - os_version: buster
@@ -25,19 +23,23 @@
   #- vg: vg0
 
   pre_tasks:
-  - set_fact: vg="{{ vg | d('vg0') }}"
+  - set_fact:
+      vg: "{{ vg | d('vg0') }}"
+    tags: always
   - include_vars:
       file: "{{ inventory_dir }}/host_vars/{{ name }}"
     ignore_errors: true
+    tags: always
   - stat: path="/mnt/{{ name }}/lost+found"
     register: guest_fs
   - block:
     - setup:
-    - lvol: vg={{ vg }} lv={{ name }} size={{ disk }}
+    - lvol: vg={{ vg }} lv={{ name }} size={{ disk }}G
     - command: parted -s "/dev/mapper/{{ vg }}-{{ name }}" -- mklabel msdos mkpart primary 2048s -1s
-    - command: kpartx -a "/dev/mapper/{{ vg }}-{{ name }}"
-    - filesystem: dev="/dev/mapper/{{ vg }}-{{ name }}1" fstype=ext4 force=yes
-    - mount: src="/dev/mapper/{{ vg }}-{{ name }}1" name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
+    - command: kpartx -av "/dev/mapper/{{ vg }}-{{ name }}"
+      register: kpartx_a
+    - filesystem: dev="/dev/mapper/{{ kpartx_a.stdout_lines[0].split()[2] }}" fstype=ext4 force=yes
+    - mount: src="/dev/mapper/{{ kpartx_a.stdout_lines[0].split()[2] }}" name=/mnt/{{ name }} fstype=auto opts=noauto,defaults state=mounted
     when: not guest_fs.stat.exists
 
   - stat: path="/mnt/{{ name }}/etc"
@@ -73,9 +75,23 @@
     - name: copy new guest config
       template: dest=/tmp/{{ name }}.xml src=templates/new_guest_template.xml
       when: define_res.failed
+    - name: start new guest
+      virt:
+        name: "{{ name }}"
+        state: running
+      when: define_res.changed
     tags: define
 
-  - name: start new guest
-    virt: name="{{ name }}" state=running
-    tags: start
+  - local_action:
+      module: ini_file
+      path: "{{ inventory_dir }}/inventory"
+      section: all_servers
+      option: "{{ name }} domain"
+      value: "{{ debootstrap_domain | d(domain) }}"
+      no_extra_spaces: yes
+      state: present
+  - debug:
+      msg:
+        - DONE. you may want to run
+        - "sudo echo '{{ ip.split('/')[0] }} {{ name }}.{{ debootstrap_domain | d(domain) }}' >> /etc/hosts"
 

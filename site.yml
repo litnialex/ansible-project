@@ -1,6 +1,8 @@
 ---
 - hosts: all_servers
   tasks:
+  - ansible.builtin.group_by: key={{ domain | replace('.','_') }}
+    tags: always
   - import_role:
       name: nagios
     vars:
@@ -64,10 +66,6 @@
 - hosts: kvm_servers
   roles:
   - { role: kvm, become: true, tags: kvm }
-
-- hosts: debootstrap_servers
-  roles:
-  - { role: debootstrap, become: true, tags: debootstrap }
 
 - hosts: nginx_servers
   roles:

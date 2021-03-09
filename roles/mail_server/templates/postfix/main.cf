@@ -58,7 +58,6 @@ mailbox_size_limit = 0
 message_size_limit = 204800000
 
 ### MILTERS
-smtpd_milters = unix:/spamass/spamass.sock unix:/opendkim/opendkim.sock
 non_smtpd_milters=unix:/opendkim/opendkim.sock
 milter_default_action = accept
 

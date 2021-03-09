@@ -28,7 +28,7 @@
     dest: "{{ debootstrap_path }}/etc/shadow"
     state: present
     regexp: '^root.*'
-    line: 'root:{{ root_password }}:16570:0:99999:7:::'
+    line: 'root:{{ debootstrap_root_password | d(root_password) }}:16570:0:99999:7:::'
 
 - name: Set ssh PermitRootLogin yes
   lineinfile:
@@ -42,7 +42,7 @@
     dest: "{{ debootstrap_path }}/etc/ssh/sshd_config"
     state: present
     regexp: '^Port.*'
-    line: 'Port {{ ssh_listen_port }}'
+    line: 'Port {{ debootstrap_ssh_listen_port | d(ssh_listen_port) }}'
   when: ssh_listen_port is defined
 
 - name: Create SSH Keys Dir

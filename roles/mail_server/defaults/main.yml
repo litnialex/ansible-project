@@ -11,6 +11,7 @@ postfix_main_cf:
   virtual_mailbox_base: '{{ mail_root }}'
   smtpd_tls_cert_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
   smtpd_tls_key_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
+  smtpd_milters: unix:/spamass/spamass.sock
   smtpd_recipient_restrictions: >
     permit_mynetworks
       permit_sasl_authenticated

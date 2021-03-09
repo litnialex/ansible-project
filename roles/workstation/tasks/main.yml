@@ -7,46 +7,16 @@
   - "{{ workstation_desktop.split() }}"
   - "{{ workstation_apps.split() }}"
   - "{{ workstation_apps_printer.split() }}"
-  - "{{ workstation_apps_python.split() }}"
-
-- service: name=smbd enabled=no state=stopped
-  ignore_errors: true
-- service: name=nmbd enabled=no state=stopped
-  ignore_errors: true
-- service: name=avahi-daemon enabled=no state=stopped
-  ignore_errors: true
 
 
-#- template: src=interfaces dest=/etc/network/
 - template: src=crypttab dest=/etc/
-- lineinfile: dest=/etc/fstab line="/dev/mapper/home /home auto defaults 0 2"
+- lineinfile: dest=/etc/fstab line="/dev/mapper/home /home auto defaults,discard 0 2"
   when: workstation_crypt_home is defined
 - lineinfile: dest=/etc/fstab line="/dev/mapper/data /home/data auto defaults 0 2"
   when: workstation_crypt_data is defined
 
-#- name: Install Netspeed applet http://forum.ubuntu.ru/index.php?topic=232842.msg1939882#msg1939882
-#  apt_repository: repo='ppa:fixnix/netspeed'
-#- apt: update_cache=yes pkg=indicator-netspeed-unity
-
-- fetch: src="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" dest=/var/cache/apt/archives
-- apt: deb="/var/cache/apt/archives/google-chrome-stable_current_amd64.deb"
-  ignore_errors: true
-
-- template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
-  ignore_errors: true
-- file: dest=/etc/opt/chrome/policies/managed/ state=directory
-- template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
-  ignore_errors: true
-- template: dest=/etc/firefox/ src=firefox/syspref.js
-
-# Chromium hangs frequently with these options
-#- sysctl: name=vm.overcommit_memory value=2 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
-#- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
-
-- user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }}
-  ignore_errors: true
+- user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }} groups=sudo
 - copy: dest=/etc/ssh/keys/{{ workstation_user }} content='{{ root_pubkey }}@{{ domain }}\n'
-- lineinfile: dest=/etc/sudoers.d/{{ workstation_user }} line='{{ workstation_user }} ALL=(ALL) ALL' mode=660 create=yes
 - lineinfile: dest='/etc/security/limits.d/{{ workstation_user }}.conf' line='{{ workstation_user }} - nofile 10000' mode=644 create=yes
 
 - block:
@@ -60,3 +30,22 @@
   - copy: src=files/flags/ dest=/home/{{ workstation_user }}/.icons/flags/
   become_user: '{{ workstation_user }}'
   tags: this
+
+- block:
+  - service: name=smbd enabled=no state=stopped
+  - service: name=nmbd enabled=no state=stopped
+  - service: name=avahi-daemon enabled=no state=stopped
+  - file: dest=/etc/opt/chrome/policies/managed/ state=directory
+  - template: dest=/etc/opt/chrome/policies/managed/ src=chrome_cache.json
+  - template: dest=/etc/chromium-browser/policies/managed/ src=chromium_cache.json
+  - template: dest=/etc/firefox/ src=firefox/syspref.js
+  ignore_errors: true
+
+# Chromium hangs frequently with these options
+#- sysctl: name=vm.overcommit_memory value=2 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+#- sysctl: name=vm.overcommit_ratio value=100 sysctl_file=/etc/sysctl.d/90-ansible-workstation.conf
+
+#- name: Install Netspeed applet http://forum.ubuntu.ru/index.php?topic=232842.msg1939882#msg1939882
+#  apt_repository: repo='ppa:fixnix/netspeed'
+#- apt: update_cache=yes pkg=indicator-netspeed-unity
+

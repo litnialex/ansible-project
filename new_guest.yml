@@ -20,15 +20,13 @@
   #- ip: 192.168.78.90/24
   #- gateway: 192.168.78.1
   #- vlan: 400
-  #- vg: vg0
 
   pre_tasks:
   - set_fact:
       vg: "{{ vg | d('vg0') }}"
     tags: always
   - include_vars:
-      file: "{{ inventory_dir }}/host_vars/{{ name }}"
-    ignore_errors: true
+      file: "vars/{{ debootstrap_domain | d(domain) | replace('.', '_') }}"
     tags: always
   - stat: path="/mnt/{{ name }}/lost+found"
     register: guest_fs

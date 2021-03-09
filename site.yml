@@ -1,8 +1,9 @@
 ---
 - hosts: all_servers
-  tasks:
+  pre_tasks:
   - ansible.builtin.group_by: key={{ domain | replace('.','_') }}
     tags: always
+  tasks:
   - import_role:
       name: nagios
     vars:

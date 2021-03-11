@@ -1,9 +1,0 @@
----
-- name: Copy /etc/sudoers.d/admin 
-  template: dest=/etc/sudoers.d/ src=sudoers.d/ansible_sudoers mode=0440 validate='visudo -cf %s'
-
-- name: Copy /etc/sudoers
-  template: dest=/etc/ src=sudoers mode=440 validate='visudo -cf %s'
-
-- name: Copy /etc/pam.d/sudo
-  template: dest=/etc/pam.d/ src=pam.d/sudo

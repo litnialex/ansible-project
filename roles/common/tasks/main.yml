@@ -1,5 +1,5 @@
 ---
-# switched to gathering = smart inansible.cfg
+# switched to gathering = smart in ansible.cfg
 #- name: Gather Facts
 #  setup:
 #  tags: [install, basic, ssh, grub, rsyslog, pki]
@@ -18,9 +18,6 @@
 
 - import_tasks: basic.yml
   tags: common_basic
-
-- import_tasks: sudo.yml
-  tags: common_sudo
 
 - import_tasks: ssh.yml
   tags: common_ssh

@@ -1,1 +1,1 @@
-kvm_install_pkgs: "qemu-kvm qemu-utils libvirt-daemon libguestfs-tools virt-manager virt-top kpartx python-libvirt python3-libvirt"
+kvm_install_pkgs: "qemu-kvm qemu-utils libvirt-daemon libguestfs-tools virt-manager virt-top kpartx python3-libvirt"

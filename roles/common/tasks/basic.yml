@@ -101,3 +101,7 @@
   - not common_netlog_omit 
   tags: common_rsyslog
   notify: restart rsyslog
+
+- name: Copy /etc/sudoers.d/ansible_sudoers
+  template: dest=/etc/sudoers.d/ src=sudoers.d/ansible_sudoers mode=0440 validate='visudo -cf %s'
+  tags: common_sudo

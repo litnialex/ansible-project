@@ -1,0 +1,14 @@
+# vim: ft=yaml
+---
+debootstrap_ssh_listen_port: 8822
+debootstrap_domain: example.com
+
+# new_guest.yml vars
+disk: 20
+ram: 4
+cpu: 2
+os: ubuntu
+os_version: focal
+vlan: 28
+ip: 10.5.5.2/24
+gateway: 10.5.5.1

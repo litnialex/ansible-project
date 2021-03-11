@@ -1,0 +1,5 @@
+site_name: 'litnialex/ansible-project: Ansible Playbooks and Roles'
+theme: readthedocs
+pages:
+- Home: README.md
+- Test: test.md

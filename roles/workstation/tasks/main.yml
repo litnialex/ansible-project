@@ -29,9 +29,11 @@
   - file: dest=/home/{{ workstation_user }}/.icons/flags state=directory
   - copy: src=files/flags/ dest=/home/{{ workstation_user }}/.icons/flags/
   become_user: '{{ workstation_user }}'
-  tags: this
 
 - block:
+  - service: name=rpcbind.socket enabled=no state=stopped
+  - service: name=rpcbind enabled=no state=stopped
+  - service: name=rsync enabled=no state=stopped
   - service: name=smbd enabled=no state=stopped
   - service: name=nmbd enabled=no state=stopped
   - service: name=avahi-daemon enabled=no state=stopped

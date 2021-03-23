@@ -1,6 +1,7 @@
 ansible.cfg
 galaxy-roles/
 private/
+vars/
 
 # Commonly excluded files
 *.pyc
@@ -11,4 +12,3 @@ Session.vim
 *~
 .placeholder
 .git
-vars/

@@ -3,6 +3,7 @@
   pre_tasks:
   - ansible.builtin.group_by: key={{ domain | replace('.','_') }}
     tags: always
+    changed_when: False
   tasks:
   - import_role:
       name: nagios

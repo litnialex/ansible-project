@@ -8,7 +8,6 @@
   - "{{ workstation_apps.split() }}"
   - "{{ workstation_apps_printer.split() }}"
 
-
 - template: src=crypttab dest=/etc/
 - lineinfile: dest=/etc/fstab line="/dev/mapper/home /home auto defaults,discard 0 2"
   when: workstation_crypt_home is defined
@@ -18,6 +17,21 @@
 - user: name={{ workstation_user }} uid=1000 home=/home/{{ workstation_user }} shell=/bin/bash password={{ root_password }} groups=sudo
 - copy: dest=/etc/ssh/keys/{{ workstation_user }} content='{{ root_pubkey }}@{{ domain }}\n'
 - lineinfile: dest='/etc/security/limits.d/{{ workstation_user }}.conf' line='{{ workstation_user }} - nofile 10000' mode=644 create=yes
+- lineinfile:
+    dest: /etc/pulse/default.pa
+    line: "load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1"
+- lineinfile:
+    dest: /etc/pulse/daemon.conf
+    line: "{{ item }}"
+  loop:
+    - "high-priority = yes"
+    - "nice-level = -11"
+    - "realtime-scheduling = yes"
+    - "realtime-priority = 5"
+    - "flat-volumes = no"
+    - "resample-method = speex-float-1"
+    - "default-sample-rate = 48000"
+  tags: workstation_pulse
 
 - block:
   - command: gsettings set org.mate.peripherals-keyboard-xkb.indicator show-flags "true"

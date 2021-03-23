@@ -88,6 +88,9 @@
       value: "{{ debootstrap_domain | d(domain) }}"
       no_extra_spaces: yes
       state: present
+    vars:
+      ansible_become: false
+
   - debug:
       msg:
         - DONE. you may want to run

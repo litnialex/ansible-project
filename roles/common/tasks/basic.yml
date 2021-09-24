@@ -77,6 +77,10 @@
 
 - name: Copy Rsync Config
   template: src=rsyncd.conf dest=/etc/
+- name: Manage rsync daemon start-up
+  service:
+    name: rsync
+    enabled: "{{ common_rsync_enabled }}"
 
 - name: Copy /etc/sysctl.d/90-ansible-common.conf 
   template: dest=/etc/sysctl.d/ src=sysctl.d/90-ansible-common.conf

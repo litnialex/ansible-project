@@ -26,6 +26,9 @@ options {
   zone-statistics yes;
   allow-query { any; };   // This is the default
   recursion {{ bind_config_recursion }};
+{% for key, value in bind_config_options|dictsort %}
+  {{ key }} {{ value }};
+{% endfor %}
 
   allow-recursion {
     private_nets;

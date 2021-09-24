@@ -47,7 +47,6 @@
 - block:
   - service: name=rpcbind.socket enabled=no state=stopped
   - service: name=rpcbind enabled=no state=stopped
-  - service: name=rsync enabled=no state=stopped
   - service: name=smbd enabled=no state=stopped
   - service: name=nmbd enabled=no state=stopped
   - service: name=avahi-daemon enabled=no state=stopped

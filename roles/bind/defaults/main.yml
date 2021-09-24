@@ -15,3 +15,4 @@ bind_log_path: '/var/log/named'
 bind_masterzones_path: '{{ bind_config_basepath }}/masters'
 bind_slavezones_path: '{{ bind_workdir }}/slaves'
 bind_config_listen_on: ['any']
+bind_config_options: {}

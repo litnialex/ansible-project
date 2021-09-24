@@ -77,9 +77,6 @@ nagios_group_service:
       check_command: 'check_nrpe!-c check_load'
   - RAM:
       check_command: 'check_nrpe!-c check_mem'
-  quagga_servers:
-  - OSPF:
-      check_command: 'check_nrpe!-c check_ospf'
   squid_servers:
   - Squid:
       check_command: 'check_http!-H ya.ru'

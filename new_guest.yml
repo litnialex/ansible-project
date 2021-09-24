@@ -94,5 +94,5 @@
   - debug:
       msg:
         - DONE. you may want to run
-        - "sudo echo '{{ ip.split('/')[0] }} {{ name }}.{{ debootstrap_domain | d(domain) }}' >> /etc/hosts"
+        - "sudo sed -i  '$ a\\{{ ip.split('/')[0] }} {{ name }}.{{ debootstrap_domain | d(domain) }}' /etc/hosts"
 

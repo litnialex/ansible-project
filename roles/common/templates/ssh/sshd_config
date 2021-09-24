@@ -16,8 +16,7 @@ X11Forwarding yes
 HostbasedAuthentication yes
 HostbasedUsesNameFromPacketOnly yes
 IgnoreRhosts no
-ClientAliveInterval 10
-ClientAliveCountMax 2
+ClientAliveInterval 0
 {% for key, value in common_sshd_options.items() %}{% if value != 'None' %}
 {{ key }} {{ value }}
 {% endif %}{% endfor %}

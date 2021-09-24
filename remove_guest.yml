@@ -1,7 +1,6 @@
 ---
 - hosts: kvm_servers
   vars:
-  - ansible_become: true
   - name: newguestname
   - vg: vg0
 
@@ -17,10 +16,13 @@
     - mount: 
         name: "/mnt/{{ name }}"
         state: unmounted
+      become: true
     - mount:
         name: "/mnt/{{ name }}"
         state: absent
+      become: true
     - shell: kpartx -d /dev/mapper/{{ vg }}-{{ name }}
+      become: true
     - lvol:
         vg: '{{ vg }}'
         lv: '{{ name }}'

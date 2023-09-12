@@ -125,7 +125,7 @@ nrpe_checks:
     command: "{{nrpe_plugin_dir}}/check_disk"
     warning_condition: '20%'
     critical_condition: '10%'
-    parameters: "-A -i '.gvfs' -i /run/user -i /run/lxcfs -i ^overlay -i ^shm -i ^nsfs -i ^none -i ^tracefs"
+    parameters: "-A -i '.gvfs' -i /run/user -i /run/lxcfs -i ^overlay -i ^shm -i ^nsfs -i ^none -i ^tracefs -i /snap"
   check_swap:
     command: "{{nrpe_plugin_dir}}/check_swap"
     warning_condition: '30%'

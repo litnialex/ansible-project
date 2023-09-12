@@ -17,6 +17,6 @@ common_install_pkgs_distribution:
 - man
 - net-tools
 - procps
-- python-apt
+- python3-apt
 - sshfs
 - mount

@@ -71,7 +71,7 @@
 
 - hosts: nginx_servers
   roles:
-  - { role: ansible-role-nginx, become: true, tags: nginx }
+  - { role: nginx, become: true, tags: nginx }
 
 - hosts: mail_servers
   roles:
@@ -104,6 +104,10 @@
 - hosts: caddy_servers
   roles:
   - { role: caddy, become: true, tags: caddy }
+
+- hosts: certbot_servers
+  roles:
+  - { role: certbot, become: true, tags: certbot}
 
 - hosts: log_servers
   tags: elk

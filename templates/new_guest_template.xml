@@ -1,6 +1,7 @@
 <domain type='kvm'>
   <name>{{ name }}</name>
-  <title>{{ argv | join(" ")}}</title>
+  <description>Created with command:
+{{ argv | join(" ")}}</description>
   <memory unit='GiB'>{{ ram }}</memory>
   <vcpu placement='static'>{{ cpu }}</vcpu>
   <os>

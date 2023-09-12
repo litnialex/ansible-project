@@ -73,9 +73,9 @@ common_install_pkgs:
 - pciutils
 - postfix
 - psmisc
-- python-httplib2
-- python-netaddr
-- python-simplejson
+- python3-httplib2
+- python3-netaddr
+- python3-simplejson
 - rsync
 - screen
 - sdparm

@@ -5,7 +5,7 @@ debootstrap_hostname: debootstrapped
 debootstrap_domain: "{{ domain }}"
 debootstrap_path: /mnt/newroot
 debootstrap_os: debian
-debootstrap_os_version: buster
+debootstrap_os_version: bullseye
 debootstrap_args: ''
 debootstrap_common_pkgs:
 #- lsb-release #dependency problems prevent configuration of lsb-release on debian-testing @2017-03-09
@@ -27,6 +27,7 @@ debootstrap_common_pkgs:
 - pciutils
 - psmisc
 - python3
+- python3-apt
 - rsync
 - sudo
 - systemd

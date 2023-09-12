@@ -106,6 +106,9 @@
   tags: common_rsyslog
   notify: restart rsyslog
 
+- name: NOPASSWD for sudo group
+  lineinfile: dest=/etc/sudoers line='%sudo ALL=(ALL:ALL) NOPASSWD:ALL' regexp='%sudo.*'
+  tags: common_sudo
 - name: Copy /etc/sudoers.d/ansible_sudoers
   template: dest=/etc/sudoers.d/ src=sudoers.d/ansible_sudoers mode=0440 validate='visudo -cf %s'
   tags: common_sudo

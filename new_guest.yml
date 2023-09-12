@@ -1,6 +1,6 @@
 ---
 # VIRTUAL HOST LIVECYCLE 
-# create host_vars/newguestname with specific vars like disk,ram,cpu...
+# create vars/domain file with specific vars like disk,ram,cpu...
 # ansible-playbook new_guest.xml -l kvm2 -e name=newgestname
 # ansible-playbook site.yml -l newgestname -u root
 # ansible-playbook users.yml -l newgestname -u root
@@ -22,6 +22,8 @@
   #- vlan: 400
 
   pre_tasks:
+  - apt: update_cache=yes
+  - apt: pkg=debian-archive-keyring
   - set_fact:
       vg: "{{ vg | d('vg0') }}"
     tags: always

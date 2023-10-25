@@ -15,10 +15,11 @@ postfix_main_cf:
   smtpd_client_message_rate_limit: 3
   smtpd_client_event_limit_exceptions:
   smtpd_recipient_restrictions: >
-    permit_mynetworks
-      permit_sasl_authenticated
+    permit_sasl_authenticated
+      reject_unauth_destination
       check_sender_access hash:/etc/postfix/sender_access
       check_recipient_access hash:/etc/postfix/recipient_access
+      permit_mynetworks
       reject_unknown_client_hostname
       reject_rbl_client zen.spamhaus.org
       reject_rbl_client bl.spamcop.net
@@ -31,7 +32,6 @@ postfix_main_cf:
       reject_unknown_recipient_domain
       reject_non_fqdn_recipient
       reject_unauth_pipelining
-      reject_unauth_destination
       reject_unlisted_recipient
       check_policy_service inet:localhost:10023
 

@@ -14,15 +14,15 @@ postfix_main_cf:
   smtpd_milters: unix:/spamass/spamass.sock
   smtpd_client_message_rate_limit: 3
   smtpd_client_event_limit_exceptions:
-  smtpd_recipient_restrictions: >
-    permit_sasl_authenticated
-      reject_unauth_destination
+  smtpd_recipient_restrictions: >-
+    permit_mynetworks
+      permit_sasl_authenticated
       check_sender_access hash:/etc/postfix/sender_access
       check_recipient_access hash:/etc/postfix/recipient_access
-      permit_mynetworks
-      reject_unknown_client_hostname
+      reject_unauth_destination
       reject_rbl_client zen.spamhaus.org
       reject_rbl_client bl.spamcop.net
+      reject_unknown_client_hostname
       reject_invalid_helo_hostname
       reject_non_fqdn_helo_hostname
       reject_unknown_helo_hostname
@@ -34,6 +34,16 @@ postfix_main_cf:
       reject_unauth_pipelining
       reject_unlisted_recipient
       check_policy_service inet:localhost:10023
+  smtpd_relay_restrictions: >-
+    permit_mynetworks
+      permit_sasl_authenticated
+      reject_unauth_destination
+      check_sender_access hash:/etc/postfix/sender_access
+      check_recipient_access hash:/etc/postfix/recipient_access
+      check_policy_service unix:private/policy-spf
+  smtp_destination_concurrency_limit: 2
+  smtp_destination_rate_delay: 1s
+  smtp_extra_recipient_limit: 10
 
 roundcube_update: yes
 roundcube_version: 1.3

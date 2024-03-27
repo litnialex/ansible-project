@@ -7,20 +7,6 @@
   - name: Make sure group sudo exists (Hello CentOS)
     group: name=sudo gid=27
 
-  - name: Create Alitnitskiy User
-    user:
-      name: alitnitskiy
-      uid: 2001
-      home: /home/alitnitskiy
-      password: '{{ root_password }}'
-      update_password: on_create
-      group: adm
-      groups: sudo
-    tags: alitnitskiy
-  - copy: src="{{ inventory_dir }}/credentials/ssh_pubkeys/alitnitskiy" dest=/etc/ssh/keys/
-    tags: alitnitskiy
-
-- hosts: all:!litnitskiy_servers
   tasks:
     - name: Create Vasiliy Pupkin
       user:
@@ -57,13 +43,13 @@
 ########## Server specific rules ###############
 - hosts: quagga_servers
   tasks:
-  - user: name=alitnitskiy groups=quagga append=yes
+  - user: name=exampleuser groups=quagga append=yes
     tags: quagga
 
 - hosts: main
   tasks:
   - user: name={{ item }} groups=openvpn append=yes
-    with_items: [alitnitskiy,vpupkin,svoronin]
+    with_items: [exampleuser,vpupkin,svoronin]
     tags: openvpn
 
 - hosts: breeze

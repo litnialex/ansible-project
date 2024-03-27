@@ -16,7 +16,6 @@ nagios_host_groups:
 nagios_hosts_ignore:
 - sandbox
 nagios_groups_ignore:
-- litnitskiy_servers
 - trac_servers
 
 users:

@@ -18,5 +18,5 @@
     copy_links: no
     rsync_path: "sudo rsync"
     rsync_opts: '{{ backup_rsync_opts }}'
-  loop: "{{backup_src_hosts[inventory_hostname] }}"
-  when: inventory_hostname in backup_src_hosts
+  loop: "{{ backup_folders }}"
+  when: backup_folders is defined

@@ -4,6 +4,7 @@ lang: C.UTF-8
 timezone: UTC
 preffered_mirror: 'http://mirror.yandex.ru'
 ssh_listen_port: '{{ ansible_ssh_port | d("22") }}'
+apt_download_limit: 10000
 common_sshd_options:
   LogLevel: INFO
   AcceptEnv: EDITOR
@@ -68,6 +69,7 @@ common_install_pkgs:
 - ngrep
 - nmap
 - ntpdate
+- neovim
 - openssh-server
 - p7zip
 - pciutils

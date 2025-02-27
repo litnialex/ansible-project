@@ -4,8 +4,8 @@
   tags: common_grub
 
 - name: Setup Grub Environment
-  lineinfile: dest=/etc/default/grub line='{{ item.key }}="{{ item.value }}"' regexp='^{{ item.key }}=.*' create=no
-  with_dict: "{{ common_grub_defaults }}"
+  lineinfile: dest=/etc/default/grub line='{{item.key}}="{{item.value}}"' regexp='^{{ item.key }}=.*' create=no
+  with_dict: "{{common_grub_defaults}}"
   when: item.value != None
   notify: update grub
   tags: common_grub
@@ -104,7 +104,7 @@
   - "'log_servers' not in group_names"
   - not common_netlog_omit 
   tags: common_rsyslog
-  notify: restart rsyslog
+# notify: restart rsyslog
 
 - name: NOPASSWD for sudo group
   lineinfile: dest=/etc/sudoers line='%sudo ALL=(ALL:ALL) NOPASSWD:ALL' regexp='%sudo.*'

@@ -1,7 +1,6 @@
 set nocompatible        " Use Vim defaults (much better!)
 set ai                  " Always set auto-indenting on
 set history=50          " keep 50 lines of command history
-"set encoding=utf-8
 set nowrap
 set hlsearch
 set ignorecase
@@ -10,11 +9,10 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 syntax on
-"set formatoptions=ro
 set mouse-=a
 set confirm
-
-"NETRW management
+set colorcolumn=80
+highlight ColorColumn ctermbg=235 guibg=#262626
 let g:netrw_liststyle = 3 "3: tree style listing
 let g:netrw_banner = 0 "0: suppress the banner
 let g:netrw_winsize = 20 "specify initial size of new windows in percent
@@ -22,5 +20,73 @@ let g:netrw_preview = 1 "1: preview window shown in a vertically split window.
 let g:netrw_browse_split = 4 "act like P when opening file by <cr>
 let g:netrw_fastbrowse = 0
 let g:netrw_list_hide='.*\.swp$'
-"let g:netrw_altv = 0 "0: open at left 1: open at right (with 'v')
-"let g:netrw_alto = 1 "0: open at top; 1: open at bottom (with 'o')" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+autocmd TabNew * tabmove
+
+map й q
+map ц w
+map у e
+map к r
+map е t
+map н y
+map г u
+map ш i
+map щ o
+map з p
+map х [
+map ъ ]
+map ф a
+map ы s
+map в d
+map а f
+map п g
+map р h
+map о j
+map л k
+map д l
+map ж ;
+map э '
+map я z
+map ч x
+map с c
+map м v
+map и b
+map т n
+map ь m
+map Й Q
+map Ц W
+map У E
+map К R
+map Е T
+map Н Y
+map Г U
+map Ш I
+map Щ O
+map З P
+map Х {
+map Ъ }
+map Ф A
+map Ы S
+map В D
+map А F
+map П G
+map Р H
+map О J
+map Л K
+map Д L
+map Ж :
+map Э "
+map Я Z
+map Ч X
+map С C
+map М V
+map И B
+map Т N
+map Ь M
+map Б <
+map Ю >
+" эти две пары конфликтуют
+" можно оставить либо одну, либо другую
+map б ,
+map ю .
+"map . /
+"map , ?

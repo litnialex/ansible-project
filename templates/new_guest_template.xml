@@ -3,9 +3,10 @@
   <description>Created with command:
 {{ argv | join(" ")}}</description>
   <memory unit='GiB'>{{ ram }}</memory>
+  <cpu mode='host-passthrough' check='none' migratable='off'/>
   <vcpu placement='static'>{{ cpu }}</vcpu>
   <os>
-    <type arch='x86_64' machine='pc-i440fx-2.1'>hvm</type>
+    <type arch='x86_64' machine='pc-i440fx-3.1'>hvm</type>
     <boot dev='hd'/>
   </os>
   <features>
@@ -28,11 +29,19 @@
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
     </disk>
+{%- if iface == "ovs" %}
     <interface type='network'>
       <source network='ovs-network' portgroup='vlan-{{ vlan }}'/>
       <target dev='{{ name }}-0'/>
       <model type='virtio'/>
     </interface>
+{%- elif iface == "direct" %}
+    <interface type='direct'>
+      <source dev='vlan{{vlan}}' mod='bridge'/>
+      <target dev='{{name}}0'/>
+      <model type='virtio'/>
+    </interface>
+{%- endif %}
     <serial type='pty'>
       <target port='0'/>
     </serial>

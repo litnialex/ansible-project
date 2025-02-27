@@ -13,10 +13,12 @@ Subsystem sftp internal-sftp
 GatewayPorts clientspecified
 PermitTunnel yes
 X11Forwarding yes
-HostbasedAuthentication yes
-HostbasedUsesNameFromPacketOnly yes
-IgnoreRhosts no
+#HostbasedAuthentication yes
+#HostbasedUsesNameFromPacketOnly yes
+#IgnoreRhosts no
 ClientAliveInterval 0
+PubkeyAcceptedAlgorithms +ssh-rsa
+
 {% for key, value in common_sshd_options.items() %}{% if value != 'None' %}
 {{ key }} {{ value }}
 {% endif %}{% endfor %}

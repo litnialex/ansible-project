@@ -14,8 +14,8 @@
   - ram: 1 #GiB
   - cpu: 1
   - os: debian
-  - os_version: buster
-  - network: ovs-network
+  - os_version: bullseye
+  - iface: ovs
   - ip: dhcp
   #- ip: 192.168.78.90/24
   #- gateway: 192.168.78.1
@@ -24,11 +24,11 @@
   pre_tasks:
   - apt: update_cache=yes
   - apt: pkg=debian-archive-keyring
-  - set_fact:
-      vg: "{{ vg | d('vg0') }}"
-    tags: always
   - include_vars:
       file: "vars/{{ debootstrap_domain | d(domain) | replace('.', '_') }}"
+    tags: always
+  - set_fact:
+      vg: "{{ vg | d('vg0') }}"
     tags: always
   - stat: path="/mnt/{{ name }}/lost+found"
     register: guest_fs
@@ -73,7 +73,7 @@
       ignore_errors: true
       register: define_res
     - name: copy new guest config
-      template: dest=/tmp/{{ name }}.xml src=templates/new_guest_template.xml
+      template: dest=/tmp/{{ name }}.xml src="templates/new_guest_template.xml"
       when: define_res.failed
     - name: start new guest
       virt:

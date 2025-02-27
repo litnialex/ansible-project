@@ -1,6 +1,10 @@
 ---
 - name: Configure sources
-  template: src='apt/sources.list.{{ ansible_distribution }}' dest=/etc/apt/sources.list backup=yes
+  template: src='apt/sources.list.{{ansible_distribution}}' dest=/etc/apt/sources.list backup=yes
+
+- name: APT Configuration
+  template: src=apt/conf dest=/etc/apt/apt.conf.d/99ansible owner=root group=root
+
 
 - name: APT Cache Update
   apt: update_cache=yes
@@ -8,6 +12,7 @@
 
 - name: Install Server Basics common
   apt: pkg="{{ common_install_pkgs }}"
+
 - name: Install Server Basics distrib
   apt: pkg="{{ common_install_pkgs_distribution }}"
 - name: Install Server Basics groups
@@ -17,9 +22,6 @@
 - name: Install Server Basics host-specific
   apt: name="{{ common_install_pkgs_host }}"
   when: common_install_pkgs_host is defined
-
-#- name: Add Periodic Configuration
-#  copy: src=10periodic dest=/etc/apt/apt.conf.d/10periodic owner=root group=root
 
 #- name: Add Unattended Upgrade Configuration
 #  copy: src=50unattended-upgrades dest=/etc/apt/apt.conf.d/50unattended-upgrades owner=root group=root

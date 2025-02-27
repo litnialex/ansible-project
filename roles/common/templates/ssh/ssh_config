@@ -16,5 +16,5 @@ Host *
   StrictHostKeyChecking no
   ServerAliveInterval 15
   ServerAliveCountMax 2
-  HostbasedAuthentication yes
+  #HostbasedAuthentication yes
   EnableSSHKeysign yes

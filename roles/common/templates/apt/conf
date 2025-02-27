@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+Dpkg::Options {
+   "--force-confold";
+}
+
+Acquire
+{
+   Queue-mode "access";
+   http
+   {
+      Dl-Limit "{{ apt_download_limit }}";
+   };
+};

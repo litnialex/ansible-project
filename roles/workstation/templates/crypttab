@@ -1,7 +1,7 @@
 {%if workstation_crypt_home is defined %}
-home {{ workstation_crypt_home }} none luks,tries=3,discard
+home {{ workstation_crypt_home }} none luks,tries=3,discard,check,quiet
 {%endif%}
 {%if workstation_crypt_data is defined %}
-data {{workstation_crypt_data }} /home/.data.key luks,noearly
+data {{workstation_crypt_data }} /home/.data.key luks,noearly,check,quiet
 {%endif%}
 

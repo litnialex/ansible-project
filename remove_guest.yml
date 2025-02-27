@@ -28,5 +28,7 @@
         lv: '{{ name }}'
         state: absent
         force: yes
+      become: true
+      tags: this
     - local_action: command rm "{{ inventory_dir }}/host_vars/{{ name }}"
     ignore_errors: True

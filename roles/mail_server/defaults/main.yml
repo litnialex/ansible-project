@@ -12,8 +12,6 @@ postfix_main_cf:
   smtpd_tls_cert_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
   smtpd_tls_key_file: '/etc/pki/realms/{{ mail_server_name }}/default.pem'
   smtpd_milters: unix:/spamass/spamass.sock
-  smtpd_client_message_rate_limit: 3
-  smtpd_client_event_limit_exceptions:
   smtpd_recipient_restrictions: >-
     permit_mynetworks
       permit_sasl_authenticated

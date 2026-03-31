@@ -1,0 +1,3 @@
+[submodule "galaxy-roles/caddy"]
+	path = galaxy-roles/caddy
+	url = https://github.com/caddy-ansible/caddy-ansible.git

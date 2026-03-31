@@ -40,8 +40,14 @@
     </interface>
 {%- elif iface == "direct" %}
     <interface type='direct'>
-      <source dev='vlan{{vlan}}' mod='bridge'/>
+      <source dev='vlan{{vlan}}' mode='bridge'/>
       <target dev='{{name}}0'/>
+      <model type='virtio'/>
+    </interface>
+{%- elif iface == "bridge" %}
+    <interface type='bridge'>
+      <source bridge='br{{vlan}}'/>
+      <target dev='{{name}}-0'/>
       <model type='virtio'/>
     </interface>
 {%- endif %}

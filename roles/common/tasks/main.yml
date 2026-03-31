@@ -3,6 +3,14 @@
 #- name: Gather Facts
 #  setup:
 #  tags: [install, basic, ssh, grub, rsyslog, pki]
+#
+
+- name: Update resolv.conf
+  template: dest=/etc/ src=resolv.conf
+  when:
+  - nameservers is defined
+  - "'bind_servers' not in group_names"
+  tags: common_basic
 
 - name: Include OS-specific variables
   include_vars: 'os_{{ ansible_os_family }}.yml'

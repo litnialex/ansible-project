@@ -15,9 +15,10 @@ postfix_main_cf:
   smtpd_recipient_restrictions: >-
     permit_mynetworks
       permit_sasl_authenticated
+      reject_unauth_destination
       check_sender_access hash:/etc/postfix/sender_access
       check_recipient_access hash:/etc/postfix/recipient_access
-      reject_unauth_destination
+      check_client_access hash:/etc/postfix/client_access
       reject_rbl_client zen.spamhaus.org
       reject_rbl_client bl.spamcop.net
       reject_unknown_client_hostname

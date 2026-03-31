@@ -14,7 +14,7 @@
   - ram: 1 #GiB
   - cpu: 1
   - os: debian
-  - os_version: bullseye
+  - os_version: trixie
   - iface: ovs
   - ip: dhcp
   #- ip: 192.168.78.90/24

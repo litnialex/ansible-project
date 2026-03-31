@@ -5,6 +5,9 @@
   <memory unit='GiB'>{{ ram }}</memory>
   <cpu mode='host-passthrough' check='none' migratable='off'/>
   <vcpu placement='static'>{{ cpu }}</vcpu>
+  <blkiotune>
+    <weight>500</weight>
+  </blkiotune>
   <os>
     <type arch='x86_64' machine='pc-i440fx-3.1'>hvm</type>
     <boot dev='hd'/>

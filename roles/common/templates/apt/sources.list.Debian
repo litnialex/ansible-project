@@ -9,6 +9,11 @@ deb {{ preffered_mirror }}/debian {{ ansible_distribution_release }} main contri
 deb {{ preffered_mirror }}/debian {{ ansible_distribution_release }}-updates main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib non-free non-free-firmware
 {% endif %}
+{% if ansible_distribution_release in ['trixie'] %}
+deb {{ preffered_mirror }}/debian {{ ansible_distribution_release }} main contrib non-free non-free-firmware
+deb {{ preffered_mirror }}/debian {{ ansible_distribution_release }}-updates main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib non-free non-free-firmware
+{% endif %}
 {% if common_apt_backports %}
 deb {{ preffered_mirror }}/debian {{ ansible_distribution_release }}-backports main contrib non-free
 {% endif %}

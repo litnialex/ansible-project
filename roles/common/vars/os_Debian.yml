@@ -13,7 +13,7 @@ common_install_pkgs_distribution:
 - isc-dhcp-client
 - locales
 - lsb-release
-- makedev
+  #- makedev # not available in Debian 13
 - man
 - net-tools
 - procps

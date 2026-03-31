@@ -68,7 +68,7 @@ common_install_pkgs:
 - nano
 - ngrep
 - nmap
-- ntpdate
+  #- ntpdate # doesn't exist in Debian 13
 - neovim
 - openssh-server
 - p7zip

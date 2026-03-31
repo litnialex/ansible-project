@@ -4,7 +4,7 @@
   tags: common_grub
 
 - name: Setup Grub Environment
-  lineinfile: dest=/etc/default/grub line='{{item.key}}="{{item.value}}"' regexp='^{{ item.key }}=.*' create=no
+  lineinfile: dest=/etc/default/grub line='{{item.key}}="{{item.value}}"' regexp='^{{ item.key }}=.*' create=no backup=yes
   with_dict: "{{common_grub_defaults}}"
   when: item.value != None
   notify: update grub
@@ -22,16 +22,10 @@
   tags: common_timezone
 
 - name: Configure NTP daemon
-  lineinfile: dest=/etc/ntp.conf line={{ item }}
+  lineinfile: dest=/etc/ntpsec/ntp.conf line={{ item }}
   loop: "{{ common_ntp_lines }}"
   notify: restart ntp
   tags: common_ntp
-
-- name: Update resolv.conf
-  template: dest=/etc/ src=resolv.conf
-  when:
-  - nameservers is defined
-  - "'bind_servers' not in group_names"
 
 - name: Copy locale.gen
   template: src=locale.gen dest=/etc/

@@ -1,7 +1,7 @@
 [defaults]
 interpreter_python = auto
 playbook_dir = ~/ansible-project
-roles_path = ~/ansible-project/roles:/opt/galaxy-roles
+roles_path = ~/ansible-project/roles:~/ansible-project/galaxy-roles
 inventory = {{CWD}}/inventory
 forks = 50
 gathering = smart
@@ -9,7 +9,6 @@ fact_caching = jsonfile
 fact_caching_connection = ~/.cache/ansible
 fact_caching_timeout = 60
 hash_behaviour = merge
-ansible_managed = ANSIBLE MANAGED FILE. DO NOT EDIT BY HAND. CHANGES WILL BE DISCARDED.
 display_skipped_hosts = False
 retry_files_enabled = False
 pipelining = True
